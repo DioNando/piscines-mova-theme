@@ -145,14 +145,19 @@
   color: #fff;
   width: 24px;
   height: 24px;
-  border-radius: 50%;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: bold;
   flex-shrink: 0;
-  padding-top: 3px;
+}
+
+.mova-sl-number span {
+  transform: rotate(45deg);
+  line-height: 1;
 }
 
 .mova-sl-item h5 {
@@ -232,32 +237,52 @@
   z-index: 1;
 }
 
-/* --- Design des marqueurs numérotés sur la carte --- */
+/* --- Design des marqueurs pin sur la carte --- */
 .custom-div-icon {
   background: transparent;
   border: none;
 }
 .mova-marker-pin {
+  position: relative;
   background: #1a4759;
   color: #fff;
-  border: 2px solid #fff;
-  border-radius: 50%;
   width: 30px;
   height: 30px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  font-size: 14px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
   transition:
     transform 0.2s ease,
     background 0.2s ease;
 }
+.mova-marker-pin span {
+  transform: rotate(45deg);
+  font-family: "AcuminPro", sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+}
+.mova-marker-pin::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 8px;
+  height: 8px;
+  background: #1a4759;
+  opacity: 0;
+}
 .mova-marker-pin:hover {
-  transform: scale(1.2);
+  transform: rotate(-45deg) scale(1.15);
   background: #0b1e26;
   z-index: 1000;
+}
+.mova-marker-pin:hover::after {
+  background: #0b1e26;
 }
 
 /* --- Clusters de marqueurs --- */
@@ -266,24 +291,33 @@
 }
 
 .mova-cluster-icon {
-  background: #e8913a;
+  background: #9C6D61;
   color: #fff;
-  border: 3px solid #fff;
+  border: none;
   border-radius: 50%;
   width: 40px;
   height: 40px;
+  padding-top: 4px;
+  padding-left: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: "AcuminPro", sans-serif;
   font-weight: 700;
   font-size: 14px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
-  transition: transform 0.2s ease;
+  box-shadow:
+    0 0 0 4px rgba(156, 109, 97, 0.4),
+    0 0 0 8px rgba(156, 109, 97, 0.15),
+    0 3px 10px rgba(0, 0, 0, 0.35);
+  transition: box-shadow 0.3s ease;
 }
 
 .mova-cluster-icon:hover {
-  transform: scale(1.15);
+  box-shadow:
+    0 0 0 6px rgba(156, 109, 97, 0.5),
+    0 0 0 12px rgba(156, 109, 97, 0.25),
+    0 0 0 18px rgba(156, 109, 97, 0.1),
+    0 3px 10px rgba(0, 0, 0, 0.35);
 }
 
 /* --- Style de la bulle d'info (Popup Leaflet) --- */

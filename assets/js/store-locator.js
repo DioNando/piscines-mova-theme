@@ -95,9 +95,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const numberedIcon = L.divIcon({
         className: "custom-div-icon",
-        html: `<div class="mova-marker-pin">${num}</div>`,
-        iconSize: [30, 30],
-        iconAnchor: [15, 15],
+        html: `<div class="mova-marker-pin"><span>${num}</span></div>`,
+        iconSize: [30, 42],
+        iconAnchor: [15, 42],
+        popupAnchor: [0, -42],
         popupAnchor: [0, -15],
       });
 
@@ -153,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
       listItem.className = "mova-sl-item";
       listItem.innerHTML = `
         <div class="mova-sl-item-header">
-            <span class="mova-sl-number">${num}</span>
+            <span class="mova-sl-number"><span>${num}</span></span>
             <h5>${store.nom}</h5>
         </div>
         <p> ${store.adresse}, ${store.ville}</p>

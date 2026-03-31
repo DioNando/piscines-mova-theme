@@ -80,7 +80,7 @@ Quand l'utilisateur tape **3 caractères ou plus**, un géocodage est lancé via
 
 ### 5. Cartes de détaillant (sidebar)
 Chaque carte affiche :
-- Numéro (correspondant au marqueur sur la carte)
+- Icône pin numérotée (forme goutte, même style que le marqueur sur la carte)
 - Nom du détaillant
 - Adresse et ville
 - Téléphone (si renseigné)
@@ -96,8 +96,10 @@ Cliquer sur une carte dans la sidebar :
 - Centre la carte et ouvre la popup
 - Sur mobile : scroll automatique vers la carte
 
-### 7. Marqueurs numérotés et regroupement (MarkerCluster)
-Les marqueurs sur la carte sont des cercles numérotés (`1, 2, 3...`) correspondant à l'ordre dans la liste. Quand la carte est dézoomée, les marqueurs proches sont automatiquement regroupés en **clusters** affichant le nombre de points contenus. Un clic sur le cluster zoome pour les séparer. Au zoom maximum, les points se déploient en « spiderfy ».
+### 7. Marqueurs pin et regroupement (MarkerCluster)
+Les marqueurs sur la carte sont des **icônes pin en forme de goutte** (`border-radius: 50% 50% 50% 0`) avec le numéro à l'intérieur, en couleur primaire `#1a4759`. Quand la carte est dézoomée, les marqueurs proches sont automatiquement regroupés en **clusters circulaires** (`#9C6D61`) avec un effet de halo dégradé (deux anneaux `box-shadow` en opacité décroissante). Un clic sur le cluster zoome pour séparer les points. Au zoom maximum, les points se déploient en « spiderfy ».
+
+La distinction visuelle est claire : **pins** = détaillants individuels, **cercles avec halo** = clusters.
 
 Dépendance : `leaflet.markercluster@1.5.3` (CSS + JS chargés depuis unpkg CDN).
 
@@ -119,7 +121,12 @@ Chaque marqueur a une popup affichant : nom, adresse, téléphone et un bouton �
 ## Personnalisation CSS
 
 ### Couleurs principales
-La couleur primaire utilisée partout est `#1a4759`. Pour changer le thème de couleur, remplacer toutes les occurrences de cette valeur dans `store-locator.css` et `store-locator.js` (couleur des marqueurs et clusters).
+| Couleur | Hex | Usage |
+|---|---|---|
+| Primaire | `#1a4759` | Marqueurs pin, titres, badges, fond actif |
+| Clusters | `#9C6D61` | Fond des clusters + halo dégradé |
+
+Pour changer le thème, remplacer les occurrences dans `store-locator.css` et `store-locator.js`.
 
 ### Polices
 - Titres filtres : `AcuminPro`
