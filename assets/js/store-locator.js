@@ -64,14 +64,21 @@ document.addEventListener("DOMContentLoaded", function () {
   map.addLayer(clusterGroup);
 
   let currentMarkers = [];
+  let lastFilteredStores = [];
+  let lastRenderMode = "province";
+  let skipMoveEnd = false;
+  const storeMarkerMap = new Map(); // store.id → { marker, num }
 
-  // Fonction d'affichage dynamique (Liste + Carte)
-  // mode: "province" (groupé) ou "proximity" (liste plate triée par distance)
+  // --- Créer les marqueurs sur la carte (sans toucher à la liste) ---
   function renderStores(storesToRender, mode) {
-    // Nettoyage de la vue précédente
+    lastFilteredStores = storesToRender;
+    lastRenderMode = mode;
+
+    // Nettoyage
     listElement.innerHTML = "";
     clusterGroup.clearLayers();
     currentMarkers = [];
+    storeMarkerMap.clear();
 
     if (storesToRender.length === 0) {
       listElement.innerHTML =
@@ -80,9 +87,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     let bounds = L.latLngBounds();
+    let num = 0;
 
-    // Fonction interne pour créer une carte de magasin
-    function createStoreCard(store, num, container) {
+    storesToRender.forEach((store) => {
+      num++;
+      store._num = num;
+
       const numberedIcon = L.divIcon({
         className: "custom-div-icon",
         html: `<div class="mova-marker-pin">${num}</div>`,
@@ -92,13 +102,13 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       const popupHTML = `
-                <div class="mova-map-popup">
-                    <h5>${store.nom}</h5>
-                    <p>${store.adresse}<br>${store.ville}, ${store.cp}</p>
-                    ${store.tel ? `<p style="font-weight:bold; margin-top:-5px;">${store.tel}</p>` : ""}
-                    <a href="https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}" target="_blank" class="btn-itineraire">Y aller</a>
-                </div>
-            `;
+        <div class="mova-map-popup">
+            <h5>${store.nom}</h5>
+            <p>${store.adresse}<br>${store.ville}, ${store.cp}</p>
+            ${store.tel ? `<p style="font-weight:bold; margin-top:-5px;">${store.tel}</p>` : ""}
+            <a href="https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}" target="_blank" class="btn-itineraire">Y aller</a>
+        </div>
+      `;
 
       const marker = L.marker([store.lat, store.lng], { icon: numberedIcon })
         .bindPopup(popupHTML);
@@ -106,21 +116,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
       bounds.extend([store.lat, store.lng]);
       currentMarkers.push(marker);
+      storeMarkerMap.set(store.id, { marker, num });
+    });
+
+    // Ajuster le zoom — bloquer le moveend pendant l'animation
+    skipMoveEnd = true;
+    map.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 });
+    setTimeout(() => {
+      skipMoveEnd = false;
+      syncListWithMap();
+    }, 400);
+  }
+
+  // --- Synchroniser la liste avec la zone visible de la carte ---
+  function syncListWithMap() {
+    const bounds = map.getBounds();
+    const visibleStores = lastFilteredStores.filter((s) =>
+      bounds.contains([s.lat, s.lng]),
+    );
+
+    listElement.innerHTML = "";
+
+    if (visibleStores.length === 0) {
+      listElement.innerHTML =
+        '<div style="padding:20px; text-align:center; color:#666;">Aucun détaillant dans cette zone. Dézoomez pour en voir plus.</div>';
+      return;
+    }
+
+    // Fonction interne pour créer une carte dans la liste
+    function createListCard(store, container) {
+      const entry = storeMarkerMap.get(store.id);
+      if (!entry) return;
+      const { marker, num } = entry;
 
       const listItem = document.createElement("div");
       listItem.className = "mova-sl-item";
       listItem.innerHTML = `
-                <div class="mova-sl-item-header">
-                    <span class="mova-sl-number">${num}</span>
-                    <h5>${store.nom}</h5>
-                </div>
-                <p> ${store.adresse}, ${store.ville}</p>
-                ${store.tel ? `<p class="store-tel"> ${store.tel}</p>` : ""}
-                ${store.email ? `<p class="store-email"><a href="mailto:${store.email}">${store.email}</a></p>` : ""}
-                <p class="store-direction"><a href="https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}" target="_blank">Direction</a></p>
-                ${store.site ? `<p class="store-site"><a href="${store.site}" target="_blank">Site web</a></p>` : ""}
-                ${store.distance != null ? `<p class="store-distance">${store.distance.toFixed(1)} km</p>` : ""}
-            `;
+        <div class="mova-sl-item-header">
+            <span class="mova-sl-number">${num}</span>
+            <h5>${store.nom}</h5>
+        </div>
+        <p> ${store.adresse}, ${store.ville}</p>
+        ${store.tel ? `<p class="store-tel"> ${store.tel}</p>` : ""}
+        ${store.email ? `<p class="store-email"><a href="mailto:${store.email}">${store.email}</a></p>` : ""}
+        <p class="store-direction"><a href="https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}" target="_blank">Direction</a></p>
+        ${store.site ? `<p class="store-site"><a href="${store.site}" target="_blank">Site web</a></p>` : ""}
+        ${store.distance != null ? `<p class="store-distance">${store.distance.toFixed(1)} km</p>` : ""}
+      `;
 
       listItem.addEventListener("click", () => {
         document
@@ -131,10 +173,14 @@ document.addEventListener("DOMContentLoaded", function () {
           .forEach((pin) => (pin.style.background = "#707070"));
 
         listItem.classList.add("active");
-        marker._icon.querySelector(".mova-marker-pin").style.background =
-          "#1a4759";
+        if (marker._icon) {
+          marker._icon.querySelector(".mova-marker-pin").style.background =
+            "#1a4759";
+        }
 
+        skipMoveEnd = true;
         map.setView([store.lat, store.lng], 13);
+        setTimeout(() => { skipMoveEnd = false; }, 400);
         marker.openPopup();
 
         if (window.innerWidth <= 992) {
@@ -147,52 +193,47 @@ document.addEventListener("DOMContentLoaded", function () {
       container.appendChild(listItem);
     }
 
-    if (mode === "proximity") {
-      // Mode proximité : liste plate triée par distance, sans sections province
+    if (lastRenderMode === "proximity") {
+      // Mode proximité : liste plate triée par distance
       const grid = document.createElement("div");
       grid.className = "mova-sl-province-grid";
       listElement.appendChild(grid);
-
-      storesToRender.forEach((store, index) => {
-        createStoreCard(store, index + 1, grid);
-      });
+      visibleStores.forEach((store) => createListCard(store, grid));
     } else {
       // Mode province : groupé par province
       const grouped = {};
-      storesToRender.forEach((store) => {
+      visibleStores.forEach((store) => {
         const prov = store.province || "Autre";
         if (!grouped[prov]) grouped[prov] = [];
         grouped[prov].push(store);
       });
 
-      const sortedProvinces = Object.keys(grouped).sort();
-      let globalIndex = 0;
+      Object.keys(grouped)
+        .sort()
+        .forEach((province) => {
+          const section = document.createElement("div");
+          section.className = "mova-sl-province-section";
 
-      sortedProvinces.forEach((province) => {
-        const section = document.createElement("div");
-        section.className = "mova-sl-province-section";
+          const title = document.createElement("h4");
+          title.className = "mova-sl-province-title";
+          title.textContent = province;
+          section.appendChild(title);
 
-        const title = document.createElement("h4");
-        title.className = "mova-sl-province-title";
-        title.textContent = province;
-        section.appendChild(title);
+          const grid = document.createElement("div");
+          grid.className = "mova-sl-province-grid";
+          section.appendChild(grid);
 
-        const grid = document.createElement("div");
-        grid.className = "mova-sl-province-grid";
-        section.appendChild(grid);
-
-        grouped[province].forEach((store) => {
-          globalIndex++;
-          createStoreCard(store, globalIndex, grid);
+          grouped[province].forEach((store) => createListCard(store, grid));
+          listElement.appendChild(section);
         });
-
-        listElement.appendChild(section);
-      });
     }
-
-    // Ajuster le zoom pour inclure tous les points affichés
-    map.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 });
   }
+
+  // --- Écouter les mouvements de la carte (zoom / pan) ---
+  map.on("moveend", () => {
+    if (skipMoveEnd) return;
+    syncListWithMap();
+  });
 
   // Premier affichage : on charge tout (mode province)
   renderStores(allStores, "province");
