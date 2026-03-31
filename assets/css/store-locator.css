@@ -13,7 +13,6 @@
   display: flex;
   flex-direction: column;
   background: #fcfcfc;
-  overflow: hidden;
 }
 
 /* Zone de filtres */
@@ -21,6 +20,9 @@
   padding: 25px 20px;
   background: #f8f9fa;
   border-bottom: 1px solid #eaeaea;
+  position: sticky;
+  top: 135px;
+  z-index: 10;
 }
 
 .mova-sl-filters h3 {
