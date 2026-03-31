@@ -9,9 +9,14 @@ function mova_custom_store_locator_shortcode() {
     wp_enqueue_style( 'leaflet-css', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css', array(), '1.9.4' );
     wp_enqueue_script( 'leaflet-js', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', array(), '1.9.4', true );
 
+    // 1b. Charger le plugin MarkerCluster
+    wp_enqueue_style( 'leaflet-markercluster-css', 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css', array('leaflet-css'), '1.5.3' );
+    wp_enqueue_style( 'leaflet-markercluster-default-css', 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css', array('leaflet-css'), '1.5.3' );
+    wp_enqueue_script( 'leaflet-markercluster-js', 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js', array('leaflet-js'), '1.5.3', true );
+
     // 2. Charger nos fichiers locaux CSS et JS
-    wp_enqueue_style( 'mova-store-locator-style', get_stylesheet_directory_uri() . '/assets/css/store-locator.css', array(), '1.0.0' );
-    wp_enqueue_script( 'mova-store-locator-script', get_stylesheet_directory_uri() . '/assets/js/store-locator.js', array('leaflet-js'), '1.0.0', true );
+    wp_enqueue_style( 'mova-store-locator-style', get_stylesheet_directory_uri() . '/assets/css/store-locator.css', array(), '1.1.0' );
+    wp_enqueue_script( 'mova-store-locator-script', get_stylesheet_directory_uri() . '/assets/js/store-locator.js', array('leaflet-js', 'leaflet-markercluster-js'), '1.1.0', true );
 
     // 3. Récupérer les détaillants depuis la base de données
     $args = array(

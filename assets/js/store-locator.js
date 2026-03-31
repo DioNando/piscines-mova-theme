@@ -46,6 +46,23 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   ).addTo(map);
 
+  // Groupe de clusters pour regrouper les marqueurs proches
+  const clusterGroup = L.markerClusterGroup({
+    maxClusterRadius: 45,
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: true,
+    iconCreateFunction: function (cluster) {
+      const count = cluster.getChildCount();
+      return L.divIcon({
+        html: '<div class="mova-cluster-icon">' + count + '</div>',
+        className: 'mova-cluster',
+        iconSize: [40, 40],
+      });
+    },
+  });
+  map.addLayer(clusterGroup);
+
   let currentMarkers = [];
 
   // Fonction d'affichage dynamique (Liste + Carte)
@@ -53,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function renderStores(storesToRender, mode) {
     // Nettoyage de la vue précédente
     listElement.innerHTML = "";
-    currentMarkers.forEach((m) => map.removeLayer(m));
+    clusterGroup.clearLayers();
     currentMarkers = [];
 
     if (storesToRender.length === 0) {
@@ -84,8 +101,8 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
 
       const marker = L.marker([store.lat, store.lng], { icon: numberedIcon })
-        .bindPopup(popupHTML)
-        .addTo(map);
+        .bindPopup(popupHTML);
+      clusterGroup.addLayer(marker);
 
       bounds.extend([store.lat, store.lng]);
       currentMarkers.push(marker);

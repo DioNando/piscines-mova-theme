@@ -259,6 +259,32 @@
   z-index: 1000;
 }
 
+/* --- Clusters de marqueurs --- */
+.mova-cluster {
+  background: transparent;
+}
+
+.mova-cluster-icon {
+  background: #1a4759;
+  color: #fff;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "AcuminPro", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease;
+}
+
+.mova-cluster-icon:hover {
+  transform: scale(1.15);
+}
+
 /* --- Style de la bulle d'info (Popup Leaflet) --- */
 .leaflet-popup-content-wrapper {
   border-radius: 0px !important;
