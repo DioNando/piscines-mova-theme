@@ -1,0 +1,30 @@
+{
+  "key": "group_tapis_settings",
+  "title": "Réglages du Modèle de Tapis",
+  "fields": [
+    {
+      "key": "field_tapis_swatch",
+      "label": "Pastille de texture",
+      "name": "swatch_tapis",
+      "type": "image",
+      "return_format": "id",
+      "preview_size": "thumbnail"
+    },
+    {
+      "key": "field_tapis_preview",
+      "label": "Image de démonstration",
+      "name": "image_preview_tapis",
+      "type": "image",
+      "return_format": "id"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "taxonomy",
+        "operator": "==",
+        "value": "modele_tapis"
+      }
+    ]
+  ]
+}

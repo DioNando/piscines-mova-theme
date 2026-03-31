@@ -1,0 +1,65 @@
+/* 
+Theme Name: Piscines Mova
+Theme URI: https://github.com/elementor/hello-theme-child/
+Description: Piscines Mova is a child theme of Hello Elementor, created by SFROY
+Author: SFROY
+Author URI: https://sfroy.com/
+Template: hello-elementor
+Version: 2.0.0
+Text Domain: piscines-mova
+License: GNU General Public License v3 or later.
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Tags: flexible-header, custom-colors, custom-menu, custom-logo, editor-style, featured-images, rtl-language-support, threaded-comments, translation-ready
+*/
+
+/* Add your custom styles here */
+
+/* ===== 1850 → 1800 (fixe 11%) ===== */
+@media (max-width: 1850px) and (min-width: 1801px) {
+  .pad-left {
+    padding-left: 11%;
+  }
+  .pad-right {
+    padding-right: 11%;
+  }
+}
+
+/* ===== 1800 → 1750 (10.5 → 9) ===== */
+@media (max-width: 1800px) and (min-width: 1751px) {
+  .pad-left {
+    padding-left: calc(10.5% - ((1800px - 100vw) * 0.03));
+  }
+  .pad-right {
+    padding-right: calc(10.5% - ((1800px - 100vw) * 0.03));
+  }
+}
+
+/* ===== 1750 → 1650 (9 → 6.5) ===== */
+@media (max-width: 1750px) and (min-width: 1651px) {
+  .pad-left {
+    padding-left: calc(9% - ((1750px - 100vw) * 0.025));
+  }
+  .pad-right {
+    padding-right: calc(9% - ((1750px - 100vw) * 0.025));
+  }
+}
+
+/* ===== 1650 → 1550 (6.5 → 3.5) ===== */
+@media (max-width: 1650px) and (min-width: 1551px) {
+  .pad-left {
+    padding-left: calc(6.5% - ((1650px - 100vw) * 0.03));
+  }
+  .pad-right {
+    padding-right: calc(6.5% - ((1650px - 100vw) * 0.03));
+  }
+}
+
+/* ===== 1550 → 1440 (3.5 → 2.5) ===== */
+@media (max-width: 1550px) and (min-width: 1440px) {
+  .pad-left {
+    padding-left: calc(3.5% - ((1550px - 100vw) * 0.00909));
+  }
+  .pad-right {
+    padding-right: calc(3.5% - ((1550px - 100vw) * 0.00909));
+  }
+}

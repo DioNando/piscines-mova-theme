@@ -1,0 +1,285 @@
+/* ===========================
+   Pool Catalog — [mova_pool_catalog]
+   =========================== */
+
+/* --- Layout principal --- */
+.mova-pc-container {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* --- Sidebar filtres --- */
+.mova-pc-sidebar {
+  width: 320px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 135px;
+  padding: 25px;
+  border: 1px solid #e5e5e5;
+  background: #fff;
+}
+
+.mova-pc-sidebar-title {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #1a4759;
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.mova-pc-sidebar-title:not(:first-child) {
+  margin-top: 20px;
+}
+
+/* --- Checkboxes --- */
+.mova-pc-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mova-pc-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.875rem;
+  color: #333;
+  transition: color 0.2s;
+}
+
+.mova-pc-checkbox:hover {
+  color: #1a4759;
+}
+
+.mova-pc-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #1a4759;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* --- Contenu principal --- */
+.mova-pc-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.mova-pc-count {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0 0 15px 0;
+}
+
+/* --- Grille de cartes --- */
+.mova-pc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* --- Carte --- */
+.mova-pc-card {
+  background: #e9edf0;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s ease;
+}
+
+.mova-pc-card:hover {
+  /* box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); */
+}
+
+.mova-pc-card-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #dde3e7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mova-pc-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.mova-pc-card:hover .mova-pc-card-img img {
+  transform: scale(1.03);
+}
+
+.mova-pc-card-placeholder {
+  width: 60px;
+  height: 60px;
+  background: #c5cdd3;
+  border-radius: 4px;
+}
+
+.mova-pc-card-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  gap: 10px;
+}
+
+.mova-pc-card-info {
+  min-width: 0;
+}
+
+.mova-pc-card-title {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a4759;
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mova-pc-card-subtitle {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.8rem;
+  color: inherit;
+  display: block;
+  margin-top: 2px;
+}
+
+.mova-pc-card-arrow {
+  flex-shrink: 0;
+  color: inherit;
+  display: flex;
+  align-items: center;
+}
+
+/* --- Bouton Charger plus --- */
+.mova-pc-load-more-wrap {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.mova-pc-load-more {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: inherit;
+  background: #1a4759;
+  border: none;
+  padding: 12px 30px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mova-pc-load-more:hover {
+  background: #0b1e26;
+}
+
+/* --- Bouton toggle filtres (masqué en desktop) --- */
+.mova-pc-filter-toggle {
+  display: none;
+}
+
+/* --- Loader AJAX --- */
+.mova-pc-loader {
+  display: block;
+  width: 36px;
+  height: 36px;
+  margin: 60px auto;
+  border: 3px solid #e5e5e5;
+  border-top-color: #1a4759;
+  border-radius: 50%;
+  animation: mova-spin 0.7s linear infinite;
+}
+
+@keyframes mova-spin {
+  to { transform: rotate(360deg); }
+}
+
+.mova-pc-error {
+  text-align: center;
+  color: #b00;
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.9rem;
+  padding: 40px 0;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+  .mova-pc-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .mova-pc-container {
+    flex-direction: column;
+  }
+
+  .mova-pc-sidebar {
+    width: 100%;
+    position: relative;
+    top: 0;
+    padding: 0;
+    border: 1px solid #e5e5e5;
+  }
+
+  .mova-pc-filter-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 20px;
+    background: #fff;
+    border: none;
+    font-family: "AcuminPro", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #1a4759;
+    cursor: pointer;
+  }
+
+  .mova-pc-filter-toggle svg {
+    transition: transform 0.3s ease;
+  }
+
+  .mova-pc-filter-toggle.open svg {
+    transform: rotate(180deg);
+  }
+
+  .mova-pc-sidebar-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    padding: 0 20px;
+  }
+
+  .mova-pc-sidebar-content.open {
+    max-height: 600px;
+    padding: 0 20px 20px;
+  }
+
+  .mova-pc-grid {
+    grid-template-columns: 1fr;
+  }
+}

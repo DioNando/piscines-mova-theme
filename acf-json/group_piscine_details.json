@@ -1,0 +1,180 @@
+{
+  "key": "group_piscine_details",
+  "title": "Détails et Configuration Piscine",
+  "fields": [
+    {
+      "key": "field_tab_technique",
+      "label": "Spécifications Techniques",
+      "name": "",
+      "type": "tab",
+      "placement": "top"
+    },
+    {
+      "key": "field_piscine_dimensions",
+      "label": "Dimensions",
+      "name": "dimensions",
+      "type": "text",
+      "instructions": "Ex: 12' x 34'"
+    },
+    {
+      "key": "field_piscine_profondeur",
+      "label": "Profondeur",
+      "name": "profondeur",
+      "type": "text",
+      "instructions": "Ex: 4' 6\" constante"
+    },
+    {
+      "key": "field_piscine_volume",
+      "label": "Volume d'eau",
+      "name": "volume_eau",
+      "type": "text",
+      "instructions": "Ex: 12 500 gallons"
+    },
+    {
+      "key": "field_piscine_poids",
+      "label": "Poids de la coque",
+      "name": "poids_coque",
+      "type": "text",
+      "instructions": "Ex: 2 800 lbs"
+    },
+    {
+      "key": "field_piscine_galerie",
+      "label": "Galerie Photos",
+      "name": "galerie",
+      "type": "gallery",
+      "return_format": "id"
+    },
+    {
+      "key": "field_tab_configurateur",
+      "label": "Configurateur & Options",
+      "name": "",
+      "type": "tab",
+      "placement": "top"
+    },
+    {
+      "key": "field_piscine_couleurs_taxo",
+      "label": "Couleurs disponibles",
+      "name": "couleurs_disponibles",
+      "type": "taxonomy",
+      "instructions": "Cochez les couleurs compatibles avec ce modèle.",
+      "taxonomy": "couleur_piscine",
+      "field_type": "checkbox",
+      "save_terms": 1,
+      "load_terms": 1,
+      "return_format": "object"
+    },
+    {
+      "key": "field_piscine_config_aquacove",
+      "label": "Compatible AquaCove",
+      "name": "opt_aquacove",
+      "type": "true_false",
+      "ui": 1
+    },
+    {
+      "key": "field_piscine_config_jets",
+      "label": "Compatible Jets de massage",
+      "name": "opt_jets",
+      "type": "true_false",
+      "ui": 1
+    },
+    {
+      "key": "field_piscine_config_badujet",
+      "label": "Compatible BaduJet Turbo",
+      "name": "opt_badujet",
+      "type": "true_false",
+      "ui": 1
+    },
+    {
+      "key": "field_tab_documents",
+      "label": "Documents PDF",
+      "name": "",
+      "type": "tab",
+      "placement": "top"
+    },
+    {
+      "key": "field_piscine_fiches_techniques",
+      "label": "Fiches Techniques (PDF)",
+      "name": "fiches_techniques",
+      "type": "repeater",
+      "instructions": "Ajoutez les différentes versions linguistiques (FR, EN-CA, EN-US).",
+      "layout": "table",
+      "button_label": "Ajouter un PDF",
+      "sub_fields": [
+        {
+          "key": "field_pdf_label",
+          "label": "Libellé du document",
+          "name": "nom_document",
+          "type": "text",
+          "instructions": "Ex: Mova - 12x34 - Français",
+          "wrapper": { "width": "50" }
+        },
+        {
+          "key": "field_pdf_file",
+          "label": "Fichier PDF",
+          "name": "fichier_pdf",
+          "type": "file",
+          "return_format": "url",
+          "mime_types": "pdf",
+          "wrapper": { "width": "50" }
+        }
+      ]
+    },
+    {
+      "key": "field_tab_contenus",
+      "label": "Contenus des Onglets (Textes)",
+      "name": "",
+      "type": "tab",
+      "placement": "top"
+    },
+    {
+      "key": "field_piscine_description",
+      "label": "Description du modèle",
+      "name": "description_modele",
+      "type": "wysiwyg",
+      "instructions": "Texte de présentation global du modèle.",
+      "tabs": "all",
+      "toolbar": "basic",
+      "media_upload": 0
+    },
+    {
+      "key": "field_piscine_caracteristiques",
+      "label": "Caractéristiques",
+      "name": "caracteristiques_modele",
+      "type": "wysiwyg",
+      "instructions": "Utilisez une liste à puces pour lister les attributs (rebord, bancs, etc.).",
+      "tabs": "visual",
+      "toolbar": "basic",
+      "media_upload": 0
+    },
+    {
+      "key": "field_piscine_finitions",
+      "label": "Finitions et options (Optionnel)",
+      "name": "finitions_options",
+      "type": "wysiwyg",
+      "instructions": "Laissez vide pour utiliser le texte global, ou remplissez pour écraser avec un texte spécifique à ce modèle.",
+      "tabs": "visual",
+      "toolbar": "basic",
+      "media_upload": 0
+    },
+    {
+      "key": "field_piscine_technologies",
+      "label": "Technologies (Optionnel)",
+      "name": "technologies_modele",
+      "type": "wysiwyg",
+      "instructions": "Laissez vide pour utiliser le texte global MovaMax, ou remplissez pour une spécificité.",
+      "tabs": "visual",
+      "toolbar": "basic",
+      "media_upload": 0
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "piscine"
+      }
+    ]
+  ],
+  "active": true
+}

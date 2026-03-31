@@ -1,0 +1,31 @@
+/* Conteneur pour espacer les boutons */
+.mova-pdf-container {
+  display: flex;
+  flex-direction: row; /* Les boutons seront alignés horizontalement */
+  flex-wrap: wrap; /* Permet aux boutons de passer à la ligne si nécessaire */
+  gap: 1rem; /* Espace entre chaque bouton */
+  align-items: flex-start; /* Aligne les boutons à gauche */
+}
+
+/* Style individuel du bouton */
+.mova-btn-pdf {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #ffffff00; 
+  color: #1a4759;
+  padding: 6px 14px 4px 14px;
+  border: 1px solid #1a4759;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Effet au survol (Hover) */
+.mova-btn-pdf:hover {
+  background-color: #1a4759; /* Bleu plus foncé */
+  color: #ffffff;
+}

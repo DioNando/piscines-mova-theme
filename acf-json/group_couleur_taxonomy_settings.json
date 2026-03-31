@@ -1,0 +1,41 @@
+{
+  "key": "group_couleur_taxonomy_settings",
+  "title": "Réglages de la Couleur",
+  "fields": [
+    {
+      "key": "field_couleur_swatch",
+      "label": "Pastille de couleur (Swatch)",
+      "name": "swatch_couleur",
+      "type": "image",
+      "instructions": "Petit échantillon rond utilisé dans le configurateur.",
+      "return_format": "id",
+      "preview_size": "thumbnail"
+    },
+    {
+      "key": "field_couleur_image_ambiance",
+      "label": "Image d'ambiance",
+      "name": "image_ambiance",
+      "type": "image",
+      "instructions": "Photo d'une piscine réelle avec cette couleur.",
+      "return_format": "id",
+      "preview_size": "medium"
+    },
+    {
+      "key": "field_couleur_description",
+      "label": "Description Marketing",
+      "name": "description_couleur",
+      "type": "textarea",
+      "instructions": "Texte court décrivant l'inspiration de la couleur."
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "taxonomy",
+        "operator": "==",
+        "value": "couleur_piscine"
+      }
+    ]
+  ],
+  "active": true
+}

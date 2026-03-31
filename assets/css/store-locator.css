@@ -1,0 +1,319 @@
+/* --- Conteneur principal --- */
+.mova-sl-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  /* CRUCIAL : On retire la hauteur fixe et on permet aux enfants de s'aligner en haut pour que le "sticky" fonctionne */
+  align-items: flex-start;
+}
+
+/* --- Colonne de gauche (Sidebar qui défile naturellement) --- */
+.mova-sl-sidebar {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  background: #fcfcfc;
+  overflow: hidden;
+}
+
+/* Zone de filtres */
+.mova-sl-filters {
+  padding: 25px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.mova-sl-filters h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.25rem;
+  font-family: "AcuminPro", sans-serif;
+}
+
+.mova-sl-input-group {
+  margin-bottom: 12px;
+}
+
+.mova-sl-input-group input,
+.mova-sl-input-group select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 0px;
+  font-size: 0.875rem;
+  font-family: "AcuminPro", sans-serif;
+  line-height: 1.2;
+  outline: none;
+  transition: border-color 0.3s;
+  color: #1a4759;
+}
+
+.mova-sl-input-group input:focus,
+.mova-sl-input-group select:focus {
+  border-color: #1a4759;
+}
+
+.mova-sl-input-group select {
+  appearance: none;
+  background: url('../images/chevron-down-solid-full.svg') no-repeat right 16px center;
+  background-size: 16px;
+}
+
+/* La liste (Conteneur des sections par province) */
+.mova-sl-list {
+  padding: 15px;
+  background: #fcfcfc;
+}
+
+/* Section par province */
+.mova-sl-province-section {
+  margin-bottom: 20px;
+}
+
+.mova-sl-province-title {
+  font-family: "AcuminPro";
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a4759;
+  margin: 0 0 10px 0;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #ddd;
+}
+
+.mova-sl-province-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.mova-sl-item {
+  font-family: "AcuminPro", sans-serif;
+  background: #f1f5f7;
+  color: #1a4759;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+}
+
+.mova-sl-item:hover {
+  /* transform: translateY(-4px); */
+  outline: 1px solid #1a4759;
+}
+
+.mova-sl-item.active {
+  /* border: 2px solid #1a4759; */
+  background: #1a4759;
+  box-shadow: 0 4px 15px rgba(0, 86, 179, 0.15);
+  color: #fff;
+}
+
+.mova-sl-item.active h5 {
+  color: #fff;
+}
+
+.mova-sl-item.active p {
+  color: #ddd;
+}
+
+.mova-sl-item.active i {
+  color: #fff;
+}
+
+.mova-sl-item.active .mova-sl-number {
+  background: #fff;
+  color: #1a4759;
+}
+
+.mova-sl-item-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.mova-sl-item h5 {
+  font-family: "AcuminPro", sans-serif;
+}
+
+.mova-sl-number {
+  font-family: "AcuminPro", sans-serif;
+  background: #1a4759;
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  flex-shrink: 0;
+  padding-top: 3px;
+}
+
+.mova-sl-item h5 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.mova-sl-item a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.mova-sl-item .store-tel {
+  font-weight: 600;
+}
+
+.mova-sl-item .store-site a {
+  font-size: 0.825rem;
+  text-decoration: underline;
+}
+
+.mova-sl-item .store-direction a {
+  font-size: 0.825rem;
+  text-decoration: underline;
+}
+
+.mova-sl-item p {
+  margin: 0 0 6px 0;
+  font-size: 0.85rem;
+  /* color: #555; */
+}
+
+.mova-sl-item i {
+  color: #1a4759;
+  width: 16px;
+  text-align: center;
+  margin-right: 5px;
+}
+
+.mova-sl-item .store-distance {
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1a4759;
+  opacity: 0.7;
+}
+
+.mova-sl-item.active .store-distance {
+  color: #fff;
+  opacity: 0.85;
+}
+
+/* --- Colonne de droite (La Carte Fixée) --- */
+.mova-sl-map-wrap {
+  width: calc(60% - 20px);
+
+  /* La Magie est ici : Fixe la carte à l'écran */
+  position: sticky;
+  top: 135px; /* Laisse un espace de 20px en haut de l'écran lors du scroll */
+  height: calc(
+    75vh - 40px
+  ); /* La carte prend la hauteur de l'écran moins les marges */
+  min-height: 500px; /* Sécurité pour les tout petits écrans */
+
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e5e5;
+}
+
+#mova-sl-map {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* --- Design des marqueurs numérotés sur la carte --- */
+.custom-div-icon {
+  background: transparent;
+  border: none;
+}
+.mova-marker-pin {
+  background: #1a4759;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+.mova-marker-pin:hover {
+  transform: scale(1.2);
+  background: #0b1e26;
+  z-index: 1000;
+}
+
+/* --- Style de la bulle d'info (Popup Leaflet) --- */
+.leaflet-popup-content-wrapper {
+  border-radius: 0px !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  font-family: "AcuminPro", sans-serif;
+  padding: 0.75rem 0.25rem;
+  color: #1a4759;
+}
+.leaflet-popup-close-button {
+  display: none;
+}
+.mova-map-popup h5 {
+  margin: 0 0 8px 0;
+  font-family: "AcuminPro", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a4759;
+}
+.mova-map-popup p {
+  margin: 0 0 12px 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.mova-map-popup a.btn-itineraire {
+  display: block;
+  text-align: center;
+  background: #ffffff00;
+  border: 1px solid #1a4759;
+  color: #1a4759;
+  padding: 8px 12px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+.mova-map-popup a.btn-itineraire:hover {
+  background: #1a4759;
+  color: #fff;
+}
+
+/* --- Responsive --- */
+@media (max-width: 992px) {
+  /* Sur mobile, on inverse l'ordre pour avoir la carte en haut */
+  .mova-sl-container {
+    flex-direction: column-reverse;
+  }
+  .mova-sl-sidebar {
+    width: 100%;
+  }
+
+  .mova-sl-map-wrap {
+    width: 100%;
+    height: 50vh; /* La carte prend la moitié de l'écran sur mobile */
+    position: relative; /* On désactive le sticky sur mobile car c'est gênant */
+    top: 0;
+  }
+  .mova-sl-province-grid {
+    grid-template-columns: 1fr;
+  }
+}
