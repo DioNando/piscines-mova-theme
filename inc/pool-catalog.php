@@ -104,7 +104,7 @@ function mova_pool_catalog_shortcode( $atts ) {
 
     $filter_dimensions = get_terms( array(
         'taxonomy'   => 'dimension_piscine',
-        'hide_empty' => false,
+        'hide_empty' => true,
     ) );
 
     // 3. Passer les paramètres AJAX au JS (pas de données piscines)
