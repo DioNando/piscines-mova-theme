@@ -30,9 +30,22 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isLoading) return;
     isLoading = true;
 
-    // Afficher le loader
+    // Afficher les skeletons
     if (!append) {
-      gridElement.innerHTML = '<div class="mova-pc-loader"></div>';
+      let skeletons = "";
+      for (let i = 0; i < perPage; i++) {
+        skeletons += `
+          <div class="mova-pc-card mova-pc-skeleton">
+            <div class="mova-pc-card-img"></div>
+            <div class="mova-pc-card-body">
+              <div class="mova-pc-card-info">
+                <div class="mova-pc-skel-line mova-pc-skel-line--title"></div>
+                <div class="mova-pc-skel-line mova-pc-skel-line--short"></div>
+              </div>
+            </div>
+          </div>`;
+      }
+      gridElement.innerHTML = skeletons;
       countElement.textContent = "";
     }
     loadMoreBtn.style.display = "none";

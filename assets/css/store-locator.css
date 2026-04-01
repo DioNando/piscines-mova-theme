@@ -395,6 +395,33 @@
   color: #fff;
 }
 
+/* --- Skeleton loader --- */
+.mova-sl-skeleton {
+  pointer-events: none;
+  cursor: default;
+}
+.mova-skel-circle {
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50% 50% 50% 0;
+  background: #dfe3e6;
+  flex-shrink: 0;
+  animation: movaSkeletonPulse 1.2s ease-in-out infinite;
+}
+.mova-skel-line {
+  display: block;
+  height: 12px;
+  border-radius: 4px;
+  background: #dfe3e6;
+  margin-bottom: 8px;
+  animation: movaSkeletonPulse 1.2s ease-in-out infinite;
+}
+@keyframes movaSkeletonPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
 /* --- Responsive --- */
 @media (max-width: 992px) {
   /* Sur mobile, on inverse l'ordre pour avoir la carte en haut */

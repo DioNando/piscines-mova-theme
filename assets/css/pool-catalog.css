@@ -126,7 +126,7 @@
 }
 
 .mova-pc-card:hover .mova-pc-card-body {
-  background: #f1f5f76e;
+  background: #1a475936;
   color: #1a4759;
 }
 
@@ -143,7 +143,8 @@
   justify-content: space-between;
   padding: 1.5rem 1rem;
   gap: 10px;
-  background: #f1f5f7;
+  background: #1a4759;
+  color: #fff;
   position: absolute;
   bottom: 1rem;
   left: 0;
@@ -159,7 +160,7 @@
   font-family: "AcuminPro", sans-serif;
   font-size: 1rem;
   font-weight: 600;
-  color: #1a4759;
+  color: inherit;
   margin: 0;
   line-height: 1.2;
   white-space: nowrap;
@@ -212,22 +213,49 @@
   display: none;
 }
 
-/* --- Loader AJAX --- */
-.mova-pc-loader {
-  display: block;
-  width: 36px;
-  height: 36px;
-  margin: 60px auto;
-  border: 3px solid #e5e5e5;
-  border-top-color: #1a4759;
-  border-radius: 50%;
-  animation: mova-spin 0.7s linear infinite;
+/* --- Skeleton loader --- */
+.mova-pc-skeleton {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: none;
 }
 
-@keyframes mova-spin {
-  to {
-    transform: rotate(360deg);
-  }
+.mova-pc-skeleton .mova-pc-card-img {
+  background: #e9edf0;
+}
+
+.mova-pc-skeleton .mova-pc-card-body {
+  background: #d6dce0;
+}
+
+.mova-pc-skeleton .mova-pc-skel-line {
+  height: 12px;
+  border-radius: 4px;
+  background: #c0c8ce;
+}
+
+.mova-pc-skeleton .mova-pc-skel-line--short {
+  width: 50%;
+  height: 10px;
+  margin-top: 6px;
+}
+
+.mova-pc-skeleton .mova-pc-skel-line--title {
+  width: 70%;
+}
+
+.mova-pc-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+  animation: mova-skeleton-shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes mova-skeleton-shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 .mova-pc-error {

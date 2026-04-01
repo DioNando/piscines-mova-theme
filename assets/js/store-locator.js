@@ -69,13 +69,36 @@ document.addEventListener("DOMContentLoaded", function () {
   let skipMoveEnd = false;
   const storeMarkerMap = new Map(); // store.id → { marker, num }
 
+  // --- Utilitaire : afficher un skeleton pendant le chargement ---
+  function showSkeleton(count) {
+    if (!count) count = 4;
+    const grid = document.createElement("div");
+    grid.className = "mova-sl-province-grid";
+    for (let i = 0; i < count; i++) {
+      const card = document.createElement("div");
+      card.className = "mova-sl-item mova-sl-skeleton";
+      card.innerHTML = `
+        <div class="mova-sl-item-header">
+            <span class="mova-skel-circle"></span>
+            <span class="mova-skel-line" style="width:60%"></span>
+        </div>
+        <span class="mova-skel-line" style="width:80%"></span>
+        <span class="mova-skel-line" style="width:45%"></span>
+        <span class="mova-skel-line" style="width:55%"></span>
+      `;
+      grid.appendChild(card);
+    }
+    listElement.innerHTML = "";
+    listElement.appendChild(grid);
+  }
+
   // --- Créer les marqueurs sur la carte (sans toucher à la liste) ---
   function renderStores(storesToRender, mode) {
     lastFilteredStores = storesToRender;
     lastRenderMode = mode;
 
-    // Nettoyage
-    listElement.innerHTML = "";
+    // Nettoyage (afficher skeleton pendant le chargement)
+    showSkeleton(Math.min(storesToRender.length, 6));
     clusterGroup.clearLayers();
     currentMarkers = [];
     storeMarkerMap.clear();
@@ -137,13 +160,14 @@ document.addEventListener("DOMContentLoaded", function () {
       bounds.contains([s.lat, s.lng]),
     );
 
-    listElement.innerHTML = "";
-
     if (visibleStores.length === 0) {
       listElement.innerHTML =
         '<div style="padding:20px; text-align:center; color:#666;">Aucun détaillant dans cette zone. Dézoomez pour en voir plus.</div>';
       return;
     }
+
+    // Remplacer le skeleton par le vrai contenu
+    listElement.innerHTML = "";
 
     // Fonction interne pour créer une carte dans la liste
     function createListCard(store, container) {
@@ -243,6 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
   renderStores(allStores, "province");
 
   let debounceTimer = null;
+  let textDebounceTimer = null;
 
   // Fonction de filtrage avec recherche de proximité
   function applyFilters() {
@@ -257,19 +282,22 @@ document.addEventListener("DOMContentLoaded", function () {
     // Champ vide : affichage par province
     if (term.length === 0) {
       clearTimeout(debounceTimer);
+      clearTimeout(textDebounceTimer);
       renderStores(stores, "province");
       return;
     }
 
-    // Filtrage texte immédiat (nom, ville, code postal)
-    const textMatch = stores.filter((s) =>
-      `${s.nom} ${s.ville} ${s.cp}`.toLowerCase().includes(term.toLowerCase()),
-    );
+    // Filtrage texte avec debounce (200ms) pour éviter les reconstructions à chaque frappe
+    clearTimeout(textDebounceTimer);
+    textDebounceTimer = setTimeout(() => {
+      const textMatch = stores.filter((s) =>
+        `${s.nom} ${s.ville} ${s.cp}`.toLowerCase().includes(term.toLowerCase()),
+      );
 
-    // Si on a des correspondances texte, les afficher tout de suite
-    if (textMatch.length > 0) {
-      renderStores(textMatch, "province");
-    }
+      if (textMatch.length > 0) {
+        renderStores(textMatch, "province");
+      }
+    }, 200);
 
     // Géocodage en arrière-plan avec debounce (500ms)
     if (term.length >= 3) {
