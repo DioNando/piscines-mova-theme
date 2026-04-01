@@ -55,8 +55,8 @@ document.addEventListener("DOMContentLoaded", function () {
     iconCreateFunction: function (cluster) {
       const count = cluster.getChildCount();
       return L.divIcon({
-        html: '<div class="mova-cluster-icon">' + count + '</div>',
-        className: 'mova-cluster',
+        html: '<div class="mova-cluster-icon">' + count + "</div>",
+        className: "mova-cluster",
         iconSize: [40, 40],
       });
     },
@@ -111,8 +111,9 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
       `;
 
-      const marker = L.marker([store.lat, store.lng], { icon: numberedIcon })
-        .bindPopup(popupHTML);
+      const marker = L.marker([store.lat, store.lng], {
+        icon: numberedIcon,
+      }).bindPopup(popupHTML);
       clusterGroup.addLayer(marker);
 
       bounds.extend([store.lat, store.lng]);
@@ -169,9 +170,9 @@ document.addEventListener("DOMContentLoaded", function () {
         document
           .querySelectorAll(".mova-sl-item")
           .forEach((el) => el.classList.remove("active"));
-        document
-          .querySelectorAll(".mova-marker-pin")
-          .forEach((pin) => (pin.style.background = "#707070"));
+        // document
+        //   .querySelectorAll(".mova-marker-pin")
+        //   .forEach((pin) => (pin.style.background = "#707070"));
 
         listItem.classList.add("active");
         if (marker._icon) {
@@ -181,7 +182,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         skipMoveEnd = true;
         map.setView([store.lat, store.lng], 13);
-        setTimeout(() => { skipMoveEnd = false; }, 400);
+        setTimeout(() => {
+          skipMoveEnd = false;
+        }, 400);
         marker.openPopup();
 
         if (window.innerWidth <= 992) {
