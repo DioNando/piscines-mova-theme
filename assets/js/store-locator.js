@@ -10,6 +10,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!mapElement || typeof L === "undefined") return;
 
+  const filtersElement = document.querySelector(".mova-sl-filters");
+
+  // --- Ancrer le scroll sur la zone des filtres après une mise à jour ---
+  function anchorScroll() {
+    if (!filtersElement) return;
+    const rect = filtersElement.getBoundingClientRect();
+    // Ne re-scroller que si les filtres sont hors du viewport (au-dessus ou en-dessous)
+    if (rect.top < 0 || rect.top > window.innerHeight) {
+      filtersElement.scrollIntoView({ behavior: "instant", block: "start" });
+    }
+  }
+
   // --- Calcul de distance Haversine (en km) ---
   function haversineKm(lat1, lng1, lat2, lng2) {
     const R = 6371;
@@ -150,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
       skipMoveEnd = false;
       syncListWithMap();
+      anchorScroll();
     }, 400);
   }
 
@@ -160,14 +173,17 @@ document.addEventListener("DOMContentLoaded", function () {
       bounds.contains([s.lat, s.lng]),
     );
 
+    // Construire tout le contenu hors-DOM dans un fragment
+    const fragment = document.createDocumentFragment();
+
     if (visibleStores.length === 0) {
-      listElement.innerHTML =
-        '<div style="padding:20px; text-align:center; color:#666;">Aucun détaillant dans cette zone. Dézoomez pour en voir plus.</div>';
+      const empty = document.createElement("div");
+      empty.style.cssText = "padding:20px; text-align:center; color:#666;";
+      empty.textContent = "Aucun détaillant dans cette zone. Dézoomez pour en voir plus.";
+      fragment.appendChild(empty);
+      listElement.replaceChildren(fragment);
       return;
     }
-
-    // Remplacer le skeleton par le vrai contenu
-    listElement.innerHTML = "";
 
     // Fonction interne pour créer une carte dans la liste
     function createListCard(store, container) {
@@ -194,9 +210,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document
           .querySelectorAll(".mova-sl-item")
           .forEach((el) => el.classList.remove("active"));
-        // document
-        //   .querySelectorAll(".mova-marker-pin")
-        //   .forEach((pin) => (pin.style.background = "#707070"));
 
         listItem.classList.add("active");
         if (marker._icon) {
@@ -222,13 +235,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (lastRenderMode === "proximity") {
-      // Mode proximité : liste plate triée par distance
       const grid = document.createElement("div");
       grid.className = "mova-sl-province-grid";
-      listElement.appendChild(grid);
       visibleStores.forEach((store) => createListCard(store, grid));
+      fragment.appendChild(grid);
     } else {
-      // Mode province : groupé par province
       const grouped = {};
       visibleStores.forEach((store) => {
         const prov = store.province || "Autre";
@@ -252,9 +263,13 @@ document.addEventListener("DOMContentLoaded", function () {
           section.appendChild(grid);
 
           grouped[province].forEach((store) => createListCard(store, grid));
-          listElement.appendChild(section);
+          fragment.appendChild(section);
         });
     }
+
+    // Swap atomique : ancien contenu remplacé en une seule opération
+    listElement.replaceChildren(fragment);
+    anchorScroll();
   }
 
   // --- Écouter les mouvements de la carte (zoom / pan) ---
