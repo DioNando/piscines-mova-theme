@@ -40,7 +40,7 @@
 .mova-pc-filter-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .mova-pc-checkbox {
@@ -192,11 +192,12 @@
 .mova-pc-load-more {
   font-family: "AcuminPro", sans-serif;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 600 !important;
   color: inherit;
-  background: #1a4759;
-  border: none;
-  padding: 12px 30px;
+  background: #ffffff00;
+  border: 1px solid #1a4759;
+  border-radius: 0;
+  padding: 12px 24px;
   cursor: pointer;
   transition: background 0.2s ease;
   display: inline-flex;
@@ -205,7 +206,8 @@
 }
 
 .mova-pc-load-more:hover {
-  background: #0b1e26;
+  background: #1a4759;
+  color: #fff;
 }
 
 /* --- Bouton toggle filtres (masqué en desktop) --- */
