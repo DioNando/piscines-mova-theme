@@ -1,0 +1,157 @@
+/* ===========================
+   Nearby Dealers — [mova_nearby_dealers]
+   =========================== */
+
+/* --- Conteneur --- */
+.mova-nd-container {
+  margin: 40px 0;
+}
+
+.mova-nd-title {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a4759;
+  margin: 0 0 20px 0;
+}
+
+/* --- Carousel wrapper --- */
+.mova-nd-carousel-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* --- Carousel scroll --- */
+.mova-nd-carousel {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding: 4px 0;
+}
+
+.mova-nd-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- Flèches --- */
+.mova-nd-arrow {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #1a4759;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.mova-nd-arrow:hover {
+  background: #1a4759;
+  color: #fff;
+  border-color: #1a4759;
+}
+
+.mova-nd-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* --- Card --- */
+.mova-nd-card {
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+  background: #f1f5f7;
+  padding: 20px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.mova-nd-card:hover {
+  border-color: #1a4759;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.mova-nd-card-icon {
+  margin-bottom: 12px;
+}
+
+.mova-nd-card-name {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a4759;
+  margin: 0 0 6px 0;
+  line-height: 1.2;
+}
+
+.mova-nd-card-location {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.85rem;
+  color: #555;
+  margin: 0 0 4px 0;
+}
+
+.mova-nd-card-tel {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.mova-nd-card-distance {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1a4759;
+  opacity: 0.7;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.mova-nd-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1a4759;
+  margin-top: 10px;
+  transition: gap 0.2s ease;
+}
+
+.mova-nd-card:hover .mova-nd-card-cta {
+  gap: 8px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .mova-nd-arrow {
+    display: none;
+  }
+
+  .mova-nd-card {
+    flex: 0 0 260px;
+  }
+
+  .mova-nd-title {
+    font-size: 1.2rem;
+  }
+}

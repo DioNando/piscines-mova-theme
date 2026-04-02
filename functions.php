@@ -57,6 +57,8 @@ function custom_yoast_breadcrumb_separator( $separator ) {
 require_once get_stylesheet_directory() . '/inc/pdf-buttons.php';
 require_once get_stylesheet_directory() . '/inc/store-locator.php';
 require_once get_stylesheet_directory() . '/inc/pool-catalog.php';
+require_once get_stylesheet_directory() . '/inc/dealer-detail.php';
+require_once get_stylesheet_directory() . '/inc/nearby-dealers.php';
 
 
 

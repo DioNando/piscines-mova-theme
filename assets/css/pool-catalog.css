@@ -251,13 +251,22 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
   animation: mova-skeleton-shimmer 1.2s ease-in-out infinite;
 }
 
 @keyframes mova-skeleton-shimmer {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .mova-pc-error {
@@ -278,6 +287,7 @@
 @media (max-width: 768px) {
   .mova-pc-container {
     flex-direction: column;
+    align-items: center;
   }
 
   .mova-pc-sidebar {

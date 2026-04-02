@@ -27,6 +27,27 @@
             "mime_types": "",
             "allow_in_bindings": 1,
             "preview_size": "medium"
+        },
+        {
+            "key": "field_69cd4bb1d739c",
+            "label": "Description de la catégorie",
+            "name": "description_categorie",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": "",
+            "placeholder": "",
+            "new_lines": ""
         }
     ],
     "location": [
@@ -48,5 +69,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774347556
+    "modified": 1775061968
 }

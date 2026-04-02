@@ -56,6 +56,7 @@ function mova_custom_store_locator_shortcode() {
                     'tel'      => get_field('telephone') ?: '',
                     'email'    => get_field('email_contact') ?: '',
                     'site'     => get_field('site_web_url') ?: '',
+                    'permalink'=> get_permalink(),
                     'province' => $province,
                     'lat'      => (float) $lat,
                     'lng'      => (float) $lng,

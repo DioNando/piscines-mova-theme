@@ -216,6 +216,29 @@
   opacity: 0.85;
 }
 
+/* Bouton "Voir la fiche" */
+.store-detail-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+  padding-top: 10px;
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1a4759;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.store-detail-btn:hover {
+  text-decoration: underline;
+}
+
+.mova-sl-item.active .store-detail-btn {
+  color: #fff;
+}
+
 /* --- Colonne de droite (La Carte Fixée) --- */
 .mova-sl-map-wrap {
   width: calc(60% - 20px);

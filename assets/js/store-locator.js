@@ -204,6 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <p class="store-direction"><a href="https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}" target="_blank">Direction</a></p>
         ${store.site ? `<p class="store-site"><a href="${store.site}" target="_blank">Site web</a></p>` : ""}
         ${store.distance != null ? `<p class="store-distance">${store.distance.toFixed(1)} km</p>` : ""}
+        ${store.permalink ? `<a href="${store.permalink}" class="store-detail-btn" onclick="event.stopPropagation();">Voir la fiche <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>` : ""}
       `;
 
       listItem.addEventListener("click", () => {
