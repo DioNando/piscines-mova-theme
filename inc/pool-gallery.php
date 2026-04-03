@@ -124,6 +124,26 @@ function mova_pool_gallery_shortcode( $atts ) {
 
     </div>
 
+    <!-- Lightbox -->
+    <div class="mova-pg-lightbox" id="<?php echo esc_attr( $gallery_id ); ?>-lightbox">
+        <button class="mova-pg-lb-close" aria-label="Fermer">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <?php if ( count( $medias ) > 1 ) : ?>
+        <button class="mova-pg-lb-nav mova-pg-lb-prev" aria-label="Précédent">
+            <svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="mova-pg-lb-nav mova-pg-lb-next" aria-label="Suivant">
+            <svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <?php endif; ?>
+        <div class="mova-pg-lb-content">
+            <img src="" alt="" id="<?php echo esc_attr( $gallery_id ); ?>-lb-img" />
+            <video controls id="<?php echo esc_attr( $gallery_id ); ?>-lb-video" style="display:none"></video>
+        </div>
+        <div class="mova-pg-lb-counter" id="<?php echo esc_attr( $gallery_id ); ?>-lb-counter"></div>
+    </div>
+
     <?php
     return ob_get_clean();
 }

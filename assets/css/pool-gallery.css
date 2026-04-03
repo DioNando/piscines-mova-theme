@@ -13,7 +13,6 @@
     position: relative;
     width: 100%;
     background: #f7f7f7;
-    border-radius: 8px;
     overflow: hidden;
 }
 
@@ -42,13 +41,13 @@
 .mova-pg-slide img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .mova-pg-slide video {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     background: #000;
 }
 
@@ -108,7 +107,6 @@
 
 .mova-pg-thumbs-track::-webkit-scrollbar-thumb {
     background: #ccc;
-    border-radius: 4px;
 }
 
 .mova-pg-thumb {
@@ -116,7 +114,6 @@
     width: 100px;
     height: 68px;
     border: 2px solid transparent;
-    border-radius: 6px;
     overflow: hidden;
     cursor: pointer;
     padding: 0;
@@ -156,6 +153,127 @@
     pointer-events: none;
 }
 
+/* --- Curseur zoom sur images --- */
+.mova-pg-slide img {
+    cursor: default;
+}
+
+/* --- Bouton Zoom --- */
+.mova-pg-zoom {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.85);
+    color: #1a4759;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transition: background 0.2s, transform 0.2s;
+}
+
+.mova-pg-zoom:hover {
+    background: #fff;
+    transform: scale(1.08);
+}
+
+/* --- Lightbox --- */
+.mova-pg-lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.92);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.mova-pg-lightbox.open {
+    display: flex;
+}
+
+.mova-pg-lb-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px;
+    transition: opacity 0.2s;
+    z-index: 10;
+}
+
+.mova-pg-lb-close:hover {
+    opacity: 0.7;
+}
+
+.mova-pg-lb-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: #fff;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 10;
+}
+
+.mova-pg-lb-nav:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.mova-pg-lb-prev {
+    left: 20px;
+}
+
+.mova-pg-lb-next {
+    right: 20px;
+}
+
+.mova-pg-lb-content {
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mova-pg-lb-content img {
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: cover;
+    cursor: zoom-out;
+}
+
+.mova-pg-lb-content video {
+    max-width: 100%;
+    max-height: 85vh;
+    background: #000;
+}
+
+.mova-pg-lb-counter {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    margin-top: 14px;
+    text-align: center;
+}
+
 /* --- Responsive --- */
 @media (max-width: 767px) {
     .mova-pg-thumb {
@@ -174,5 +292,18 @@
 
     .mova-pg-arrow-next {
         right: 6px;
+    }
+
+    .mova-pg-lb-nav {
+        width: 36px;
+        height: 36px;
+    }
+
+    .mova-pg-lb-prev {
+        left: 10px;
+    }
+
+    .mova-pg-lb-next {
+        right: 10px;
     }
 }
