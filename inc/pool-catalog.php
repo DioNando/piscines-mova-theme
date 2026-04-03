@@ -13,6 +13,7 @@ function mova_pool_catalog_ajax()
 
     $categories = isset($_POST['categories']) ? array_map('sanitize_text_field', (array) $_POST['categories']) : array();
     $dimensions = isset($_POST['dimensions']) ? array_map('sanitize_text_field', (array) $_POST['dimensions']) : array();
+    $besoins    = isset($_POST['besoins'])    ? array_map('sanitize_text_field', (array) $_POST['besoins'])    : array();
     $page       = isset($_POST['page'])     ? max(1, intval($_POST['page']))     : 1;
     $per_page   = isset($_POST['per_page']) ? max(1, intval($_POST['per_page'])) : 9;
 
@@ -32,6 +33,14 @@ function mova_pool_catalog_ajax()
             'taxonomy' => 'dimension_piscine',
             'field'    => 'slug',
             'terms'    => $dimensions,
+        );
+    }
+
+    if (! empty($besoins)) {
+        $tax_query[] = array(
+            'taxonomy' => 'besoin_piscine',
+            'field'    => 'slug',
+            'terms'    => $besoins,
         );
     }
 
@@ -109,6 +118,11 @@ function mova_pool_catalog_shortcode($atts)
         'hide_empty' => true,
     ));
 
+    $filter_besoins = get_terms(array(
+        'taxonomy'   => 'besoin_piscine',
+        'hide_empty' => true,
+    ));
+
     // 3. Passer les paramètres AJAX au JS (pas de données piscines)
     wp_localize_script('mova-pool-catalog-script', 'movaPoolData', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
@@ -157,6 +171,19 @@ function mova_pool_catalog_shortcode($atts)
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
+
+                <?php if (! is_wp_error($filter_besoins) && ! empty($filter_besoins)) : ?>
+                <div class="mova-pc-sidebar-title">Quel est votre besoin ?</div>
+
+                <div class="mova-pc-filter-group" data-filter="besoin">
+                    <?php foreach ($filter_besoins as $besoin) : ?>
+                        <label class="mova-pc-checkbox">
+                            <input type="checkbox" value="<?php echo esc_attr($besoin->slug); ?>">
+                            <span><?php echo esc_html($besoin->name); ?></span>
+                        </label>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
             </div>
         </aside>
 

@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const catFilters = getActiveFilters("categorie");
     const dimFilters = getActiveFilters("dimension");
+    const besoinFilters = getActiveFilters("besoin");
 
     const body = new FormData();
     body.append("action", "mova_pool_catalog_filter");
@@ -60,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
     body.append("per_page", perPage);
     catFilters.forEach((s) => body.append("categories[]", s));
     dimFilters.forEach((s) => body.append("dimensions[]", s));
+    besoinFilters.forEach((s) => body.append("besoins[]", s));
 
     fetch(ajaxUrl, { method: "POST", body })
       .then((res) => res.json())

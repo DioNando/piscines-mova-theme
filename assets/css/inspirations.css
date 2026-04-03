@@ -1,0 +1,300 @@
+/* =============================================
+   Inspirations — Grille & Lightbox
+   ============================================= */
+
+/* --- Filtres --- */
+.mova-insp-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 32px;
+  justify-content: center;
+}
+
+.mova-insp-filter {
+  background: transparent;
+  border: 1.5px solid #1a4759;
+  color: #1a4759;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.mova-insp-filter:hover,
+.mova-insp-filter.active {
+  background: #1a4759;
+  color: #fff;
+}
+
+/* --- Grille CSS Grid 2 colonnes --- */
+.mova-insp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 450px;
+  gap: 18px;
+}
+
+/* Tailles dynamiques */
+.mova-insp-item--wide {
+  grid-column: span 2;
+}
+
+.mova-insp-item--tall {
+  grid-row: span 2;
+}
+
+/* --- Carte --- */
+.mova-insp-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.mova-insp-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.mova-insp-item:hover img {
+  transform: scale(1.04);
+}
+
+/* --- Overlay --- */
+.mova-insp-overlay {
+  width: fit-content;
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+  padding: 20px 24px;
+  /* background: linear-gradient(transparent, rgba(0, 0, 0, 0.6)); */
+  background: #f1f5f797;
+  color: #484848;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.mova-insp-item:hover .mova-insp-overlay {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.mova-insp-legende {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.mova-insp-credit {
+  font-size: 12px;
+  opacity: 0.8;
+  margin: 0 0 8px;
+}
+
+.mova-insp-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.mova-insp-link:hover {
+  opacity: 0.8;
+}
+
+/* --- Load More --- */
+.mova-insp-loadmore-wrap {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.mova-insp-loadmore {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600 !important;
+  color: inherit;
+  background: #ffffff00;
+  border: 1px solid #1a4759;
+  border-radius: 0;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mova-insp-loadmore:hover {
+  background: #1a4759;
+  color: #fff;
+}
+
+.mova-insp-loadmore:focus {
+  background: #1a4759;
+  color: #fff;
+}
+
+.mova-insp-loadmore.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* --- Lightbox --- */
+.mova-insp-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0, 0, 0, 0.92);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.mova-insp-lightbox.open {
+  display: flex;
+}
+
+.mova-insp-lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px;
+  transition: opacity 0.2s;
+}
+
+.mova-insp-lightbox-close:hover {
+  opacity: 0.7;
+  background: none;
+}
+
+.mova-insp-lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.mova-insp-lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.mova-insp-lightbox-nav:focus {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.mova-insp-lightbox-prev {
+  left: 20px;
+}
+
+.mova-insp-lightbox-next {
+  right: 20px;
+}
+
+.mova-insp-lightbox-content {
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#mova-insp-lightbox-img {
+  max-width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+}
+
+.mova-insp-lightbox-caption {
+  font-family: "AcuminPro", sans-serif;
+  color: #fff;
+  text-align: center;
+  margin-top: 14px;
+  font-size: 15px;
+  line-height: 1.4;
+  max-width: 600px;
+}
+
+.mova-insp-lightbox-caption .credit {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 4px;
+}
+
+/* --- Animation entrée items --- */
+.mova-insp-item {
+  animation: movaInspFadeIn 0.4s ease both;
+}
+
+@keyframes movaInspFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Responsive --- */
+@media (max-width: 767px) {
+  .mova-insp-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 260px;
+  }
+
+  .mova-insp-item--wide {
+    grid-column: span 1;
+  }
+
+  .mova-insp-item--tall {
+    grid-row: span 1;
+  }
+
+  /* Overlay toujours visible sur mobile */
+  .mova-insp-overlay {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .mova-insp-lightbox-nav {
+    width: 36px;
+    height: 36px;
+  }
+
+  .mova-insp-lightbox-prev {
+    left: 10px;
+  }
+
+  .mova-insp-lightbox-next {
+    right: 10px;
+  }
+}
