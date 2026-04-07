@@ -37,7 +37,7 @@
         "item_link": "Lien Région",
         "item_link_description": "Un lien vers un région"
     },
-    "description": "",
+    "description": "Régions administratives pour affiner la localisation des détaillants.",
     "capabilities": {
         "manage_terms": "manage_categories",
         "edit_terms": "manage_categories",

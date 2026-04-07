@@ -37,5 +37,6 @@
       }
     ]
   ],
-  "active": true
+  "active": true,
+  "description": "Réglages visuels et marketing associés à chaque couleur de piscine (pastille, image d'ambiance, description)."
 }

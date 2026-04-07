@@ -26,5 +26,7 @@
         "value": "modele_tapis"
       }
     ]
-  ]
+  ],
+  "active": true,
+  "description": "Images de pastille et de démonstration associées à chaque modèle de tapis AquaCove."
 }

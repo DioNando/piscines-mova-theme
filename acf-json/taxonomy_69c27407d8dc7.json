@@ -37,7 +37,7 @@
         "item_link": "Lien Couleur",
         "item_link_description": "Un lien vers un couleur"
     },
-    "description": "",
+    "description": "Palette de couleurs de gel-coat disponibles pour les coques de piscines Mova.",
     "capabilities": {
         "manage_terms": "manage_categories",
         "edit_terms": "manage_categories",

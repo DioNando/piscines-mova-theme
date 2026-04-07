@@ -37,7 +37,7 @@
         "item_link": "Lien Catégorie",
         "item_link_description": "Un lien vers une catégorie"
     },
-    "description": "",
+    "description": "Catégories thématiques pour organiser les photos d'inspiration (aménagement, moderne, familial, etc.).",
     "capabilities": {
         "manage_terms": "manage_categories",
         "edit_terms": "manage_categories",

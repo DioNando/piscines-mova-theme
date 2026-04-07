@@ -37,7 +37,7 @@
         "item_link": "Lien Pays",
         "item_link_description": "Un lien vers un pays"
     },
-    "description": "",
+    "description": "Pays de couverture du réseau de détaillants (Canada, États-Unis).",
     "capabilities": {
         "manage_terms": "manage_categories",
         "edit_terms": "manage_categories",

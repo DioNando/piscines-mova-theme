@@ -37,7 +37,7 @@
         "item_link": "Lien Modèle de tapis",
         "item_link_description": "Un lien vers un modèle de tapis"
     },
-    "description": "",
+    "description": "Modèles et textures de tapis AquaCove compatibles avec les piscines Mova.",
     "capabilities": {
         "manage_terms": "manage_categories",
         "edit_terms": "manage_categories",

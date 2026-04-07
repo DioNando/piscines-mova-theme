@@ -42,7 +42,7 @@
         "item_link": "Lien Inspiration",
         "item_link_description": "Un lien vers un inspiration."
     },
-    "description": "",
+    "description": "Galerie de photos d'inspiration mettant en valeur les réalisations et installations de piscines Mova.",
     "public": true,
     "hierarchical": true,
     "exclude_from_search": false,

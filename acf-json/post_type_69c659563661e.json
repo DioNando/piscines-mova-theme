@@ -42,7 +42,7 @@
         "item_link": "Lien Détaillant",
         "item_link_description": "Un lien vers un détaillant."
     },
-    "description": "",
+    "description": "Réseau de détaillants et revendeurs autorisés de Piscines Mova à travers le Canada et les États-Unis.",
     "public": true,
     "hierarchical": false,
     "exclude_from_search": false,

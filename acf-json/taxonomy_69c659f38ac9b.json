@@ -37,7 +37,7 @@
         "item_link": "Lien Province",
         "item_link_description": "Un lien vers un province"
     },
-    "description": "",
+    "description": "Provinces canadiennes et états américains pour classifier les détaillants.",
     "capabilities": {
         "manage_terms": "manage_categories",
         "edit_terms": "manage_categories",

@@ -37,7 +37,7 @@
         "item_link": "Lien Dimension",
         "item_link_description": "Un lien vers un dimension"
     },
-    "description": "",
+    "description": "Dimensions (largeur × longueur) des modèles de piscines disponibles.",
     "capabilities": {
         "manage_terms": "manage_categories",
         "edit_terms": "manage_categories",
