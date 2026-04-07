@@ -1,90 +1,86 @@
 {
-    "key": "group_inspiration_details",
-    "title": "Détails Inspiration",
-    "fields": [
-        {
-            "key": "field_inspiration_tab_photo",
-            "label": "Photo & Légende",
-            "name": "",
-            "type": "tab",
-            "placement": "top"
-        },
-        {
-            "key": "field_inspiration_legende",
-            "label": "Légende",
-            "name": "legende",
-            "type": "text",
-            "instructions": "Ex: Modèle 12x28 à fond plat - Loup gris"
-        },
-        {
-            "key": "field_inspiration_credit_photo",
-            "label": "Crédit photo",
-            "name": "credit_photo",
-            "type": "text",
-            "instructions": "Ex: © Vanessa Pilon - Photographe Guillaume St-Amand"
-        },
-        {
-            "key": "field_inspiration_tab_liens",
-            "label": "Liens & Associations",
-            "name": "",
-            "type": "tab",
-            "placement": "top"
-        },
-        {
-            "key": "field_inspiration_piscine",
-            "label": "Piscine associée",
-            "name": "piscine_associee",
-            "type": "relationship",
-            "instructions": "Associez le modèle de piscine correspondant.",
-            "post_type": [
-                "piscine"
-            ],
-            "filters": [
-                "search"
-            ],
-            "return_format": "object",
-            "min": 0,
-            "max": 1
-        },
-        {
-            "key": "field_inspiration_taille",
-            "label": "Taille d'affichage",
-            "name": "taille_affichage",
-            "type": "select",
-            "instructions": "Contrôle la taille de la carte dans la grille.",
-            "choices": {
-                "normal": "Normal (1 colonne)",
-                "wide": "Pleine largeur (2 colonnes)",
-                "tall": "Double hauteur (2 rangées)"
-            },
-            "default_value": "normal",
-            "return_format": "value",
-            "allow_null": 0
-        },
-        {
-            "key": "field_inspiration_ordre",
-            "label": "Ordre d'affichage",
-            "name": "ordre_affichage",
-            "type": "number",
-            "instructions": "Ordre de tri (plus petit = affiché en premier).",
-            "default_value": 0
-        }
-    ],
-    "location": [
-        [
-            {
-                "param": "post_type",
-                "operator": "==",
-                "value": "inspiration"
-            }
-        ]
-    ],
-    "menu_order": 0,
-    "position": "normal",
-    "style": "default",
-    "label_placement": "top",
-    "instruction_placement": "label",
-    "active": true,
-    "description": "Champs personnalisés pour les photos d'inspiration.",
-    "modified": 1775692801
+  "key": "group_inspiration_details",
+  "title": "Détails Inspiration",
+  "fields": [
+    {
+      "key": "field_inspiration_tab_photo",
+      "label": "Photo & Légende",
+      "name": "",
+      "type": "tab",
+      "placement": "top"
+    },
+    {
+      "key": "field_inspiration_legende",
+      "label": "Légende",
+      "name": "legende",
+      "type": "text",
+      "instructions": "Ex: Modèle 12x28 à fond plat - Loup gris"
+    },
+    {
+      "key": "field_inspiration_credit_photo",
+      "label": "Crédit photo",
+      "name": "credit_photo",
+      "type": "text",
+      "instructions": "Ex: © Vanessa Pilon - Photographe Guillaume St-Amand"
+    },
+    {
+      "key": "field_inspiration_tab_liens",
+      "label": "Liens & Associations",
+      "name": "",
+      "type": "tab",
+      "placement": "top"
+    },
+    {
+      "key": "field_inspiration_piscine",
+      "label": "Piscine associée",
+      "name": "piscine_associee",
+      "type": "relationship",
+      "instructions": "Associez le modèle de piscine correspondant.",
+      "post_type": ["piscine"],
+      "filters": ["search"],
+      "return_format": "object",
+      "min": 0,
+      "max": 1
+    },
+    {
+      "key": "field_inspiration_taille",
+      "label": "Taille d'affichage",
+      "name": "taille_affichage",
+      "type": "select",
+      "instructions": "Contrôle la taille de la carte dans la grille.",
+      "choices": {
+        "normal": "Normal (1 colonne)",
+        "wide": "Pleine largeur (2 colonnes)",
+        "tall": "Double hauteur (2 rangées)"
+      },
+      "default_value": "normal",
+      "return_format": "value",
+      "allow_null": 0
+    },
+    {
+      "key": "field_inspiration_ordre",
+      "label": "Ordre d'affichage",
+      "name": "ordre_affichage",
+      "type": "number",
+      "instructions": "Ordre de tri (plus petit = affiché en premier).",
+      "default_value": 0
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "inspiration"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "description": "Champs personnalisés pour les photos d'inspiration.",
+  "modified": 1775692801
 }
