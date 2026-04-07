@@ -1,0 +1,115 @@
+{
+    "key": "group_carriere_details",
+    "title": "Détails Carrière",
+    "fields": [
+        {
+            "key": "field_carriere_tab_poste",
+            "label": "Informations du poste",
+            "name": "",
+            "type": "tab",
+            "placement": "top"
+        },
+        {
+            "key": "field_carriere_salaire",
+            "label": "Salaire",
+            "name": "salaire",
+            "type": "text",
+            "instructions": "Ex: 30 $ de l'heure, Compétitif dès l'embauche"
+        },
+        {
+            "key": "field_carriere_type_poste",
+            "label": "Type de poste",
+            "name": "type_poste",
+            "type": "text",
+            "instructions": "Ex: Permanent · Temps plein"
+        },
+        {
+            "key": "field_carriere_horaire",
+            "label": "Quart de travail et horaire",
+            "name": "horaire",
+            "type": "text",
+            "instructions": "Ex: 8 Heures · Quart de jour"
+        },
+        {
+            "key": "field_carriere_tab_contenu",
+            "label": "Contenu & Médias",
+            "name": "",
+            "type": "tab",
+            "placement": "top"
+        },
+        {
+            "key": "field_carriere_description",
+            "label": "Description du poste",
+            "name": "description_poste",
+            "type": "wysiwyg",
+            "instructions": "Texte de présentation et détails de l'offre d'emploi.",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_carriere_image",
+            "label": "Image du poste",
+            "name": "image_poste",
+            "type": "image",
+            "instructions": "Image illustrant le poste ou l'environnement de travail.",
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all"
+        },
+        {
+            "key": "field_carriere_tab_formulaire",
+            "label": "Formulaire & Lien",
+            "name": "",
+            "type": "tab",
+            "placement": "top"
+        },
+        {
+            "key": "field_carriere_lien_formulaire",
+            "label": "Lien vers le formulaire",
+            "name": "lien_formulaire",
+            "type": "url",
+            "instructions": "URL du formulaire Zoho pour postuler. Ex: https://forms.zohopublic.ca/..."
+        },
+        {
+            "key": "field_carriere_tab_options",
+            "label": "Options",
+            "name": "",
+            "type": "tab",
+            "placement": "top"
+        },
+        {
+            "key": "field_carriere_ordre",
+            "label": "Ordre d'affichage",
+            "name": "ordre_affichage",
+            "type": "number",
+            "instructions": "Ordre de tri (plus petit = affiché en premier).",
+            "default_value": 0
+        },
+        {
+            "key": "field_carriere_actif",
+            "label": "Poste actif",
+            "name": "poste_actif",
+            "type": "true_false",
+            "instructions": "Désactiver pour masquer l'offre sans la supprimer.",
+            "default_value": 1,
+            "ui": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "carriere"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "description": "Champs personnalisés pour les offres de carrières."
+}
