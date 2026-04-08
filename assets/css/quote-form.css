@@ -1,0 +1,307 @@
+/* =============================================
+   Quote Form — Formulaire de demande de devis
+   ============================================= */
+
+.mova-qf {
+    /* max-width: 820px; */
+    margin: 0 auto;
+    /* padding: 0 20px; */
+}
+
+/* --- Formulaire --- */
+.mova-qf-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* --- Fieldset --- */
+.mova-qf-fieldset {
+    border: none;
+    margin: 0 0 32px;
+    padding: 0;
+}
+
+.mova-qf-fieldset--consent {
+    margin-bottom: 24px;
+}
+
+/* --- Legend --- */
+.mova-qf-legend {
+    font-family: "AcuminPro", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a4759;
+    margin: 0 0 20px;
+    padding: 0 0 10px;
+    border-bottom: 2px solid #1a4759;
+    width: 100%;
+    display: block;
+}
+
+/* --- Rows --- */
+.mova-qf-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 24px;
+    margin-bottom: 16px;
+}
+
+.mova-qf-row--3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* --- Field --- */
+.mova-qf-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.mova-qf-field--full {
+    margin-bottom: 16px;
+}
+
+/* --- Labels --- */
+.mova-qf-field > label,
+.mova-qf-field--full > label {
+    font-family: "AcuminPro", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a4759;
+    margin-bottom: 6px;
+}
+
+.mova-qf-req {
+    color: #c0392b;
+}
+
+/* --- Inputs & Selects --- */
+.mova-qf-field input[type="text"],
+.mova-qf-field input[type="email"],
+.mova-qf-field input[type="tel"],
+.mova-qf-field input[type="date"],
+.mova-qf-field select,
+.mova-qf-field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d0d5dd;
+    border-radius: 0px;
+    font-family: "AcuminPro", sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #1a4759;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.mova-qf-field input:focus,
+.mova-qf-field select:focus,
+.mova-qf-field textarea:focus {
+    border-color: #1a4759;
+    box-shadow: 0 0 0 3px rgba(26, 71, 89, 0.1);
+}
+
+.mova-qf-field input::placeholder {
+    color: #999;
+}
+
+.mova-qf-field select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231a4759' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 12px;
+    padding-right: 36px;
+    cursor: pointer;
+}
+
+.mova-qf-field textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* --- Validation error state --- */
+.mova-qf-field input.mova-qf-error,
+.mova-qf-field select.mova-qf-error,
+.mova-qf-field textarea.mova-qf-error {
+    border-color: #c0392b;
+}
+
+/* --- Checkboxes group (modèles) --- */
+.mova-qf-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.mova-qf-checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-family: "AcuminPro", sans-serif;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+.mova-qf-checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: #1a4759;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+/* --- Consent section --- */
+.mova-qf-fieldset--consent .mova-qf-checkbox-label {
+    margin-bottom: 12px;
+}
+
+.mova-qf-note {
+    font-family: "AcuminPro", sans-serif;
+    font-size: 13px;
+    color: #777;
+    margin: 8px 0 0;
+}
+
+/* --- Submit --- */
+.mova-qf-submit-wrap {
+    text-align: left;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.mova-qf-submit {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600 !important;
+  color: inherit;
+  background: #ffffff00;
+  border: 1px solid #1a4759;
+  border-radius: 0;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mova-qf-submit:hover {
+  background: #1a4759;
+  color: #fff;
+}
+
+.mova-qf-submit:focus {
+  background: #1a4759;
+  color: #fff;
+}
+
+.mova-qf-submit:active {
+  background: #15394a;
+  color: #fff;
+}
+
+.mova-qf-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #1a4759;
+  color: #fff;
+}
+
+/* --- Loading state --- */
+.mova-qf-submit.mova-qf-loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+}
+
+.mova-qf-submit.mova-qf-loading::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: mova-qf-spin 0.6s linear infinite;
+}
+
+@keyframes mova-qf-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- Message --- */
+.mova-qf-message {
+    padding: 0;
+    margin: 0;
+    font-family: "AcuminPro", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    border-radius: 0px;
+    display: none;
+}
+
+.mova-qf-message.mova-qf-message--success {
+    display: block;
+    background: #eafaf1;
+    border: 1px solid #27ae60;
+    color: #1e7e46;
+    padding: 16px 20px;
+}
+
+.mova-qf-message.mova-qf-message--error {
+    display: block;
+    background: #fdf0ef;
+    border: 1px solid #c0392b;
+    color: #a93226;
+    padding: 16px 20px;
+}
+
+/* =============================================
+   Responsive
+   ============================================= */
+@media (max-width: 767px) {
+    .mova-qf-row,
+    .mova-qf-row--3 {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .mova-qf-legend {
+        font-size: 18px;
+    }
+
+    .mova-qf-checkboxes {
+        grid-template-columns: 1fr;
+    }
+
+    .mova-qf-submit {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .mova-qf {
+        padding: 0 12px;
+    }
+
+    .mova-qf-field input[type="text"],
+    .mova-qf-field input[type="email"],
+    .mova-qf-field input[type="tel"],
+    .mova-qf-field input[type="date"],
+    .mova-qf-field select,
+    .mova-qf-field textarea {
+        padding: 10px 12px;
+        font-size: 16px; /* prevent iOS zoom */
+    }
+}
