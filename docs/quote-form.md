@@ -25,6 +25,8 @@ Le shortcode `[mova_quote_form]` affiche un formulaire de demande de devis pour 
 
 Le formulaire est dynamique : les modèles de piscines (CPT `piscine`), les couleurs (taxonomie `couleur_piscine`) et les provinces (taxonomie `province`) sont chargés automatiquement depuis la base de données WordPress. Il supporte le pré-remplissage depuis le configurateur de piscine via des query params ou des attributs de shortcode.
 
+Quand le formulaire est atteint depuis le configurateur AquaCove, les sélections de tapis par zone et d'options sont également affichées dans un bloc résumé « Sélections AquaCove » et incluses dans le courriel de devis.
+
 ---
 
 ## Fichiers du projet
@@ -382,6 +384,56 @@ window.location.href = url;
 ```
 
 Le formulaire lira automatiquement les paramètres `model` et `couleur` de l'URL pour pré-cocher le modèle et pré-sélectionner la couleur.
+
+---
+
+## Intégration avec le configurateur AquaCove
+
+Le configurateur `[mova_pool_configurator]` envoie des paramètres supplémentaires via l'URL :
+
+```
+?model=12x34&couleur=ciel-de-minuit&options=jets,badujet&tapis_marches=abysse&tapis_bancs=sable&tapis_terrasse=mova
+```
+
+| Param | Description |
+|---|---|
+| `model` | Slug du modèle de piscine (CPT `piscine`) |
+| `couleur` | WP slug du terme `couleur_piscine` |
+| `options` | Slugs d'options séparés par virgule (ex: `jets,badujet`) |
+| `tapis_marches` | WP slug du `modele_tapis` sélectionné pour la zone marches |
+| `tapis_bancs` | WP slug du `modele_tapis` sélectionné pour la zone bancs |
+| `tapis_terrasse` | WP slug du `modele_tapis` sélectionné pour la zone terrasse |
+
+### Bloc « Sélections AquaCove »
+
+Quand des tapis ou options sont présents dans l'URL, un bloc résumé `.mova-qf-aquacove-summary` s'affiche dans la section « Votre projet », après la couleur/installation, avec :
+
+- Le nom du tapis par zone (résolu depuis la taxonomie `modele_tapis`)
+- Les options sélectionnées (texte brut)
+- Des champs `<input type="hidden">` pour inclure ces valeurs dans la soumission AJAX
+
+### Dans le courriel
+
+Le handler AJAX ajoute au corps du courriel :
+
+```
+Tapis AquaCove :
+  Marches : abysse
+  Bancs : sable
+  Terrasse : mova
+Options AquaCove : jets, badujet
+```
+
+### Classes CSS du bloc AquaCove
+
+| Classe | Description |
+|---|---|
+| `.mova-qf-aquacove-summary` | Conteneur principal (background gris clair, bordure, border-radius) |
+| `.mova-qf-aquacove-title` | Titre « Sélections AquaCove » (uppercase, 600 weight) |
+| `.mova-qf-aquacove-items` | Conteneur flex pour les items |
+| `.mova-qf-aquacove-item` | Un item (zone + valeur) |
+| `.mova-qf-aquacove-zone` | Label de la zone (bold) |
+| `.mova-qf-aquacove-value` | Valeur sélectionnée |
 
 ---
 

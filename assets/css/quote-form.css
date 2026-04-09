@@ -168,6 +168,42 @@
     margin: 8px 0 0;
 }
 
+/* --- AquaCove Summary (pre-filled from configurator) --- */
+.mova-qf-aquacove-summary {
+    background: #f4f7f8;
+    border: 1px solid #d4dfe3;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin: 8px 0 16px;
+}
+
+.mova-qf-aquacove-title {
+    font-family: "AcuminPro", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #1a4759;
+    margin: 0 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mova-qf-aquacove-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+}
+
+.mova-qf-aquacove-item {
+    font-family: "AcuminPro", sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+.mova-qf-aquacove-zone {
+    font-weight: 600;
+    color: #555;
+}
+
 /* --- Submit --- */
 .mova-qf-submit-wrap {
     text-align: left;

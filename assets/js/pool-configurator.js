@@ -18,6 +18,14 @@
         couleurWpSlugMap[c.slug] = c.wpSlug || c.slug;
     });
 
+    // Map slug_fichier → wpSlug for tapis devis URL
+    var tapisWpSlugMap = {};
+    Object.keys(cfg.tapisParZone || {}).forEach(function (zone) {
+        cfg.tapisParZone[zone].forEach(function (t) {
+            tapisWpSlugMap[t.slug] = t.wpSlug || t.slug;
+        });
+    });
+
     // Tapis actif par zone
     var activeTapis = {};
     var activeZones = {};
@@ -169,6 +177,14 @@
                 checked.forEach(function (cb) { opts.push(cb.value); });
                 params.push('options=' + encodeURIComponent(opts.join(',')));
             }
+
+            // Tapis actifs par zone (WP slug for quote form)
+            cfg.zones.forEach(function (zone) {
+                if (activeZones[zone] && activeTapis[zone]) {
+                    var wpSlug = tapisWpSlugMap[activeTapis[zone]] || activeTapis[zone];
+                    params.push('tapis_' + zone + '=' + encodeURIComponent(wpSlug));
+                }
+            });
 
             var url = cfg.devisUrl + (params.length ? '?' + params.join('&') : '');
             window.location.href = url;

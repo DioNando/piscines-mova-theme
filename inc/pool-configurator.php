@@ -102,6 +102,7 @@ function mova_pool_configurator_shortcode( $atts ) {
 
                 $tapis_par_zone[ $zone ][] = array(
                     'slug'    => $slug_fichier,
+                    'wpSlug'  => $term_obj->slug,
                     'name'    => $term_obj->name,
                     'swatch'  => $swatch_id ? wp_get_attachment_image_url( $swatch_id, 'thumbnail' ) : '',
                 );

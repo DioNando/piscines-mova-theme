@@ -237,7 +237,7 @@ cfg.baseUrl + cfg.slugDimension + '-' + tapisSlug + '-' + zone + '.png'
 Le bouton « Obtenir un devis » redirige vers le formulaire `[mova_quote_form]` en passant des query params :
 
 ```
-https://piscinesmova.preprod.io/demandez-un-devis/?model=12x34&couleur=ciel-de-minuit&options=jets,badujet
+https://piscinesmova.preprod.io/demandez-un-devis/?model=12x34&couleur=ciel-de-minuit&options=jets,badujet&tapis_marches=abysse&tapis_bancs=sable&tapis_terrasse=mova
 ```
 
 | Param | Source | Description |
@@ -245,14 +245,17 @@ https://piscinesmova.preprod.io/demandez-un-devis/?model=12x34&couleur=ciel-de-m
 | `model` | `modelSlug` (post_name du CPT piscine) | Pré-coche le modèle dans le formulaire |
 | `couleur` | `wpSlug` du terme `couleur_piscine` actif | Pré-sélectionne la couleur dans le dropdown |
 | `options` | Checkboxes cochées (séparées par virgule) | Optionnel — slugs des options sélectionnées |
+| `tapis_{zone}` | `wpSlug` du terme `modele_tapis` actif dans la zone | Un param par zone active (marches, bancs, terrasse) |
+
+Les params `tapis_{zone}` ne sont envoyés que pour les zones activées (toggle on) ayant un tapis sélectionné.
 
 ### Distinction `slug` vs `wpSlug`
 
-Chaque couleur possède deux slugs :
+Chaque couleur et chaque tapis possèdent deux slugs :
 - **`slug`** (= `slug_fichier` ACF) : utilisé pour construire les URLs d'images (ex: `grislunaire`)
 - **`wpSlug`** (= `term->slug` WP) : utilisé pour les query params du devis (ex: `gris-lunaire`)
 
-Le JS maintient un mapping `couleurWpSlugMap` pour la conversion.
+Le JS maintient deux mappings : `couleurWpSlugMap` et `tapisWpSlugMap` pour la conversion.
 
 ### Ajouter des options
 

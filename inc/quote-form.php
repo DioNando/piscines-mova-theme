@@ -18,6 +18,39 @@ function mova_quote_form_shortcode( $atts ) {
     $preselect_model   = sanitize_text_field( $atts['model'] ?: ( $_GET['model'] ?? '' ) );
     $preselect_couleur = sanitize_text_field( $atts['couleur'] ?: ( $_GET['couleur'] ?? '' ) );
 
+    // Pré-remplissage options AquaCove (depuis le configurateur)
+    $preselect_options = sanitize_text_field( $_GET['options'] ?? '' );
+
+    // Pré-remplissage tapis AquaCove par zone (depuis le configurateur)
+    $zone_labels = array(
+        'marches'  => 'Marches',
+        'bancs'    => 'Bancs',
+        'terrasse' => 'Terrasse',
+    );
+    $preselect_tapis = array();
+    foreach ( $zone_labels as $zone_key => $zone_label ) {
+        $val = sanitize_text_field( $_GET[ 'tapis_' . $zone_key ] ?? '' );
+        if ( $val ) {
+            $preselect_tapis[ $zone_key ] = $val;
+        }
+    }
+
+    // Récupérer les modèles de tapis si au moins un est pré-sélectionné
+    $tapis_terms_map = array();
+    if ( ! empty( $preselect_tapis ) ) {
+        $all_tapis_slugs = array_values( $preselect_tapis );
+        $tapis_terms = get_terms( array(
+            'taxonomy'   => 'modele_tapis',
+            'slug'       => $all_tapis_slugs,
+            'hide_empty' => false,
+        ) );
+        if ( ! is_wp_error( $tapis_terms ) ) {
+            foreach ( $tapis_terms as $tt ) {
+                $tapis_terms_map[ $tt->slug ] = $tt->name;
+            }
+        }
+    }
+
     // Récupérer les modèles de piscines (CPT piscine)
     $piscines = get_posts( array(
         'post_type'      => 'piscine',
@@ -194,6 +227,38 @@ function mova_quote_form_shortcode( $atts ) {
                     </div>
                 </div>
 
+                <?php if ( ! empty( $preselect_tapis ) || $preselect_options ) : ?>
+                <!-- ====== Sélections AquaCove (depuis le configurateur) ====== -->
+                <div class="mova-qf-aquacove-summary">
+                    <p class="mova-qf-aquacove-title">Sélections AquaCove</p>
+
+                    <?php if ( ! empty( $preselect_tapis ) ) : ?>
+                    <div class="mova-qf-aquacove-items">
+                        <?php foreach ( $preselect_tapis as $zone_key => $tapis_slug ) :
+                            $tapis_name = isset( $tapis_terms_map[ $tapis_slug ] ) ? $tapis_terms_map[ $tapis_slug ] : $tapis_slug;
+                            $zone_name  = isset( $zone_labels[ $zone_key ] ) ? $zone_labels[ $zone_key ] : $zone_key;
+                        ?>
+                            <div class="mova-qf-aquacove-item">
+                                <span class="mova-qf-aquacove-zone"><?php echo esc_html( $zone_name ); ?> :</span>
+                                <span class="mova-qf-aquacove-value"><?php echo esc_html( $tapis_name ); ?></span>
+                                <input type="hidden" name="tapis_<?php echo esc_attr( $zone_key ); ?>" value="<?php echo esc_attr( $tapis_slug ); ?>" />
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php endif; ?>
+
+                    <?php if ( $preselect_options ) : ?>
+                    <div class="mova-qf-aquacove-items">
+                        <div class="mova-qf-aquacove-item">
+                            <span class="mova-qf-aquacove-zone">Options :</span>
+                            <span class="mova-qf-aquacove-value"><?php echo esc_html( str_replace( ',', ', ', $preselect_options ) ); ?></span>
+                            <input type="hidden" name="options_aquacove" value="<?php echo esc_attr( $preselect_options ); ?>" />
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                </div>
+                <?php endif; ?>
+
                 <div class="mova-qf-row">
                     <div class="mova-qf-field">
                         <label for="mova_qf_date">Date du projet</label>
@@ -287,6 +352,19 @@ function mova_handle_quote_submission() {
     $modeles_raw = isset( $_POST['modeles'] ) && is_array( $_POST['modeles'] ) ? $_POST['modeles'] : array();
     $modeles = array_map( 'sanitize_text_field', array_map( 'wp_unslash', $modeles_raw ) );
 
+    // Tapis AquaCove par zone
+    $tapis_zones = array( 'marches', 'bancs', 'terrasse' );
+    $tapis_selections = array();
+    foreach ( $tapis_zones as $tz ) {
+        $val = sanitize_text_field( wp_unslash( $_POST[ 'tapis_' . $tz ] ?? '' ) );
+        if ( $val ) {
+            $tapis_selections[ $tz ] = $val;
+        }
+    }
+
+    // Options AquaCove
+    $options_aquacove = sanitize_text_field( wp_unslash( $_POST['options_aquacove'] ?? '' ) );
+
     // Validation
     $errors = array();
     if ( empty( $prenom ) )   $errors[] = 'Le prénom est requis.';
@@ -317,6 +395,22 @@ function mova_handle_quote_submission() {
     $body .= "Modèle(s) : {$modeles_list}\n";
     $body .= "Couleur : {$couleur}\n";
     $body .= "Type d'installation : {$type_installation}\n";
+
+    // Tapis AquaCove
+    if ( ! empty( $tapis_selections ) ) {
+        $zone_labels_email = array( 'marches' => 'Marches', 'bancs' => 'Bancs', 'terrasse' => 'Terrasse' );
+        $body .= "\nTapis AquaCove :\n";
+        foreach ( $tapis_selections as $tz_key => $tz_slug ) {
+            $tz_label = isset( $zone_labels_email[ $tz_key ] ) ? $zone_labels_email[ $tz_key ] : $tz_key;
+            $body .= "  {$tz_label} : {$tz_slug}\n";
+        }
+    }
+
+    // Options AquaCove
+    if ( $options_aquacove ) {
+        $body .= "Options AquaCove : " . str_replace( ',', ', ', $options_aquacove ) . "\n";
+    }
+
     $body .= "Date du projet : {$date_projet}\n";
     $body .= "Source : {$source}\n\n";
     $body .= "Commentaires :\n{$commentaires}\n\n";
