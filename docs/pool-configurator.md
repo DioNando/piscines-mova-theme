@@ -303,7 +303,6 @@ Toutes les classes utilisent le préfixe `mova-cfg-`.
 | `.mova-cfg-option` | Label + checkbox | Option individuelle (Jets, BaduJet…) |
 | `.mova-cfg-section--cta` | Section bouton | Contient le bouton devis |
 | `.mova-cfg-devis-btn` | Bouton devis | Pleine largeur, fond #1a4759, border-radius 8px |
-| `.mova-cfg-devis-icon` | Icône « + » | Affiché à droite du texte |
 
 ---
 

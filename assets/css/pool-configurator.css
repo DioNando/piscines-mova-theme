@@ -148,7 +148,7 @@
 .mova-cfg-zone-toggle {
   width: 36px;
   height: 20px;
-  border-radius: 10px;
+  border-radius: 10px !important;
   border: none;
   background: #ccc;
   cursor: pointer;
@@ -156,6 +156,14 @@
   padding: 0;
   transition: background-color 0.2s;
   flex-shrink: 0;
+}
+
+.mova-cfg-zone-toggle:focus {
+  background-color: #bbb;
+}
+
+.mova-cfg-zone-toggle:hover {
+  background-color: #bbb;
 }
 
 .mova-cfg-zone-toggle.is-active {
@@ -214,32 +222,22 @@
 }
 
 .mova-cfg-devis-btn {
+  text-align: center;
+  font-weight: 600 !important;
+  color: inherit;
+  background: #ffffff00;
+  border: 1px solid #1a4759;
+  border-radius: 0;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background 0.2s ease;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 16px 32px;
-  background: #1a4759;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: background-color 0.2s, transform 0.15s;
-  text-align: center;
 }
 
 .mova-cfg-devis-btn:hover {
-  background: #143a4a;
-  transform: translateY(-1px);
-  color: #fff;
-}
-
-.mova-cfg-devis-icon {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1;
+  background: #1a4759;
+  color: #fff !important;
 }
 
 /* --- Responsive --- */

@@ -280,7 +280,7 @@ function mova_pool_configurator_shortcode( $atts ) {
             <!-- Bouton devis -->
             <div class="mova-cfg-section mova-cfg-section--cta">
                 <a href="#" class="mova-cfg-devis-btn" id="mova-cfg-devis-btn">
-                    Obtenir un devis <span class="mova-cfg-devis-icon">+</span>
+                    Obtenir un devis
                 </a>
             </div>
 
