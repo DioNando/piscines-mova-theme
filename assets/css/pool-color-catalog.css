@@ -1,0 +1,280 @@
+/* =============================================
+   Pool Color Catalog — Catalogue couleurs
+   ============================================= */
+
+.mova-ccc {
+  margin: 0 auto;
+}
+
+/* --- Sélecteur de modèles --- */
+.mova-ccc-models {
+  margin-bottom: 40px;
+}
+
+.mova-ccc-models-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1a4759;
+  margin: 0 0 24px;
+  line-height: 1.2;
+}
+
+.mova-ccc-models-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.mova-ccc-model-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    transform 0.15s;
+}
+
+.mova-ccc-model-card:hover {
+  border-color: #1a4759;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(26, 71, 89, 0.12);
+}
+
+.mova-ccc-model-card.active {
+  border-color: #1a4759;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 4px #1a4759;
+}
+
+.mova-ccc-model-thumb {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.mova-ccc-model-placeholder {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #f5f6f8;
+}
+
+.mova-ccc-model-name {
+  display: block;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a4759;
+  text-align: center;
+  width: 100%;
+}
+
+/* --- Zone détail --- */
+.mova-ccc-detail {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.mova-ccc-detail-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* --- Preview --- */
+.mova-ccc-preview {
+  position: sticky;
+  top: 120px;
+}
+
+.mova-ccc-preview-wrap {
+  background: #f5f6f8;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mova-ccc-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.3s ease;
+}
+
+.mova-ccc-preview-img.loading {
+  opacity: 0.4;
+}
+
+/* --- Panneau --- */
+.mova-ccc-panel {
+  padding: 10px 0;
+}
+
+.mova-ccc-model-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a4759;
+  margin: 0 0 24px;
+  line-height: 1.2;
+}
+
+/* --- Section --- */
+.mova-ccc-section {
+  margin-bottom: 32px;
+}
+
+.mova-ccc-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a4759;
+  margin: 0 0 4px;
+}
+
+.mova-ccc-section-subtitle {
+  font-size: 13px;
+  color: #777;
+  margin: 0 0 14px;
+}
+
+/* --- Swatches --- */
+.mova-ccc-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.mova-ccc-swatch {
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  background: #eee;
+  transition:
+    border-color 0.2s,
+    transform 0.15s;
+  position: relative;
+}
+
+.mova-ccc-swatch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mova-ccc-swatch:hover {
+  border-color: #1a4759;
+  background-color: transparent;
+  transform: scale(1.06);
+}
+
+.mova-ccc-swatch.active {
+  border-color: #1a4759;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 4px #1a4759;
+}
+
+.mova-ccc-swatch:focus {
+  background-color: transparent;
+}
+
+.mova-ccc-swatch-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+}
+
+/* --- Nom couleur --- */
+.mova-ccc-color-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a4759;
+  margin: 10px 0 0;
+  min-height: 20px;
+  transition: opacity 0.2s;
+}
+
+/* --- Pas de couleurs --- */
+.mova-ccc-no-colors {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+/* --- Lien fiche --- */
+.mova-ccc-link {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a4759;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.mova-ccc-link:hover {
+  border-bottom-color: #1a4759;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+  .mova-ccc-detail-inner {
+    gap: 24px;
+  }
+
+  .mova-ccc-model-title {
+    font-size: 20px;
+  }
+
+  .mova-ccc-models-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .mova-ccc-detail-inner {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .mova-ccc-preview {
+    position: static;
+  }
+
+  .mova-ccc-swatch {
+    width: 48px;
+    height: 48px;
+  }
+
+  .mova-ccc-models-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  .mova-ccc-models-title {
+    font-size: 22px;
+  }
+}
