@@ -71,6 +71,57 @@
       "ui": 1
     },
     {
+      "key": "field_piscine_slug_dimension",
+      "label": "Slug dimension (fichiers)",
+      "name": "slug_dimension",
+      "type": "text",
+      "instructions": "Slug utilisé dans les noms de fichiers images (ex: 12x34, pataugeuse, c-de-nage). Doit correspondre exactement au préfixe du nom de fichier."
+    },
+    {
+      "key": "field_piscine_zones_aquacove",
+      "label": "Zones AquaCove disponibles",
+      "name": "zones_aquacove",
+      "type": "checkbox",
+      "instructions": "Cochez les zones où le tapis AquaCove peut être appliqué pour ce modèle.",
+      "choices": {
+        "marches": "Marches",
+        "bancs": "Bancs",
+        "terrasse": "Terrasse",
+        "fond": "Fond"
+      },
+      "layout": "horizontal",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_piscine_config_aquacove",
+            "operator": "==",
+            "value": "1"
+          }
+        ]
+      ]
+    },
+    {
+      "key": "field_piscine_tapis_disponibles",
+      "label": "Tapis AquaCove disponibles",
+      "name": "tapis_disponibles",
+      "type": "taxonomy",
+      "instructions": "Sélectionnez les modèles de tapis compatibles avec cette piscine.",
+      "taxonomy": "modele_tapis",
+      "field_type": "checkbox",
+      "save_terms": 0,
+      "load_terms": 0,
+      "return_format": "object",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_piscine_config_aquacove",
+            "operator": "==",
+            "value": "1"
+          }
+        ]
+      ]
+    },
+    {
       "key": "field_piscine_config_jets",
       "label": "Compatible Jets de massage",
       "name": "opt_jets",

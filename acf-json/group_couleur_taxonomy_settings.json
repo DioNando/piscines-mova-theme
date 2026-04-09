@@ -26,6 +26,13 @@
       "name": "description_couleur",
       "type": "textarea",
       "instructions": "Texte court décrivant l'inspiration de la couleur."
+    },
+    {
+      "key": "field_couleur_slug_fichier",
+      "label": "Slug fichier",
+      "name": "slug_fichier",
+      "type": "text",
+      "instructions": "Slug utilisé dans les noms de fichiers couleur (ex: fondrocheux, blanccoton). Doit correspondre exactement au segment du nom de fichier."
     }
   ],
   "location": [

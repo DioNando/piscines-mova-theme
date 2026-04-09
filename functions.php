@@ -62,6 +62,7 @@ require_once get_stylesheet_directory() . '/inc/nearby-dealers.php';
 require_once get_stylesheet_directory() . '/inc/inspirations.php';
 require_once get_stylesheet_directory() . '/inc/pool-gallery.php';
 require_once get_stylesheet_directory() . '/inc/pool-color-preview.php';
+require_once get_stylesheet_directory() . '/inc/pool-configurator.php';
 require_once get_stylesheet_directory() . '/inc/quote-form.php';
 
 
