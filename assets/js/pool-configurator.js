@@ -12,6 +12,12 @@
 
     var activeCouleur = cfg.defaultCouleur;
 
+    // Map slug_fichier → wpSlug for devis URL
+    var couleurWpSlugMap = {};
+    cfg.couleurs.forEach(function (c) {
+        couleurWpSlugMap[c.slug] = c.wpSlug || c.slug;
+    });
+
     // Tapis actif par zone
     var activeTapis = {};
     var activeZones = {};
@@ -133,6 +139,40 @@
             if (onError) onError();
         };
         img.src = src;
+    }
+
+    /* ========================
+       Bouton Obtenir un devis
+       ======================== */
+    var devisBtn = document.getElementById('mova-cfg-devis-btn');
+    if (devisBtn && cfg.devisUrl) {
+        devisBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            var params = [];
+
+            // Modèle
+            if (cfg.modelSlug) {
+                params.push('model=' + encodeURIComponent(cfg.modelSlug));
+            }
+
+            // Couleur active (WP slug for quote form)
+            if (activeCouleur) {
+                var wpSlug = couleurWpSlugMap[activeCouleur] || activeCouleur;
+                params.push('couleur=' + encodeURIComponent(wpSlug));
+            }
+
+            // Options cochées
+            var checked = document.querySelectorAll('#mova-cfg-options input[type="checkbox"]:checked');
+            if (checked.length) {
+                var opts = [];
+                checked.forEach(function (cb) { opts.push(cb.value); });
+                params.push('options=' + encodeURIComponent(opts.join(',')));
+            }
+
+            var url = cfg.devisUrl + (params.length ? '?' + params.join('&') : '');
+            window.location.href = url;
+        });
     }
 
 })();

@@ -62,6 +62,7 @@ function mova_pool_configurator_shortcode( $atts ) {
 
             $couleurs[] = array(
                 'slug'    => $slug_fichier,
+                'wpSlug'  => $term_obj->slug,
                 'name'    => $term_obj->name,
                 'swatch'  => $swatch_id ? wp_get_attachment_image_url( $swatch_id, 'thumbnail' ) : '',
             );
@@ -131,6 +132,15 @@ function mova_pool_configurator_shortcode( $atts ) {
         $defaults_tapis[ $zone ] = $liste[0]['slug'];
     }
 
+    // --- Options compatibles ---
+    $options = array();
+    if ( get_field( 'opt_jets', $post_id ) ) {
+        $options[] = array( 'slug' => 'jets', 'label' => 'Jets de massage' );
+    }
+    if ( get_field( 'opt_badujet', $post_id ) ) {
+        $options[] = array( 'slug' => 'badujet', 'label' => 'BaduJet Turbo' );
+    }
+
     // Image fond par défaut
     $default_fond_url = $base_url . 'piscine-' . $slug_dimension . '-' . $default_couleur . '.png';
 
@@ -157,6 +167,9 @@ function mova_pool_configurator_shortcode( $atts ) {
         'defaultsTapis'  => $defaults_tapis,
         'couleurs'       => $couleurs,
         'tapisParZone'   => $tapis_par_zone,
+        'options'        => $options,
+        'devisUrl'       => 'https://piscinesmova.preprod.io/demandez-un-devis/',
+        'modelSlug'      => get_post_field( 'post_name', $post_id ),
     ) );
 
     ob_start(); ?>
@@ -247,6 +260,28 @@ function mova_pool_configurator_shortcode( $atts ) {
                 <p class="mova-cfg-active-label" data-zone-label="<?php echo esc_attr( $zone ); ?>"><?php echo esc_html( $zone_tapis[0]['name'] ); ?></p>
             </div>
             <?php endforeach; ?>
+
+            <!-- Options -->
+            <?php if ( ! empty( $options ) ) : ?>
+            <div class="mova-cfg-section">
+                <h4 class="mova-cfg-section-title">Options</h4>
+                <div class="mova-cfg-options" id="mova-cfg-options">
+                    <?php foreach ( $options as $opt ) : ?>
+                    <label class="mova-cfg-option">
+                        <input type="checkbox" value="<?php echo esc_attr( $opt['slug'] ); ?>" />
+                        <span><?php echo esc_html( $opt['label'] ); ?></span>
+                    </label>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <!-- Bouton devis -->
+            <div class="mova-cfg-section mova-cfg-section--cta">
+                <a href="#" class="mova-cfg-devis-btn" id="mova-cfg-devis-btn">
+                    Obtenir un devis <span class="mova-cfg-devis-icon">+</span>
+                </a>
+            </div>
 
         </div>
 

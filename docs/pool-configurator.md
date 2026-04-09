@@ -8,8 +8,9 @@
 5. [Utilisation du shortcode](#utilisation-du-shortcode)
 6. [Fonctionnement](#fonctionnement)
 7. [Variable JavaScript `movaConfigurator`](#variable-javascript-movaconfigurator)
-8. [Personnalisation CSS](#personnalisation-css)
-9. [Mode debug](#mode-debug)
+8. [Intégration avec le formulaire de devis](#intégration-avec-le-formulaire-de-devis)
+9. [Personnalisation CSS](#personnalisation-css)
+10. [Mode debug](#mode-debug)
 
 ---
 
@@ -20,6 +21,8 @@ Le shortcode `[mova_pool_configurator]` affiche un configurateur visuel AquaCove
 - **Zone de prévisualisation (sticky)** : empilement de layers PNG — un fond (couleur coque) + un overlay par zone (marches, bancs, terrasse, fond)
 - **Panneau Couleur de la coque** : swatches cliquables pour changer le fond
 - **Panneau Tapis par zone** : chaque zone a son propre sélecteur de tapis indépendant, avec un toggle on/off
+- **Section Options** : checkboxes dynamiques pour les options compatibles (Jets de massage, BaduJet Turbo, etc.)
+- **Bouton « Obtenir un devis »** : redirige vers le formulaire de devis avec pré-remplissage (modèle, couleur, options)
 
 Chaque zone peut avoir un modèle de tapis différent. Quand on change la couleur de la coque, les overlays tapis restent en place. Quand on désactive une zone, son overlay disparaît et ses swatches sont grisés.
 
@@ -59,6 +62,8 @@ Le composant est entièrement côté client (pas d'AJAX). Les URLs des images so
 | Zones AquaCove | `zones_aquacove` | Checkbox | Zones disponibles : marches, bancs, terrasse, fond. Visible si `opt_aquacove = true` |
 | Tapis disponibles | `tapis_disponibles` | Taxonomy multi (`modele_tapis`) | Modèles de tapis compatibles. Visible si `opt_aquacove = true` |
 | Couleurs disponibles | `couleurs_disponibles` | Taxonomy multi (`couleur_piscine`) | Couleurs de coque compatibles (partagé avec pool-color-preview) |
+| Compatible Jets | `opt_jets` | True/False | Affiche l'option « Jets de massage » dans le configurateur |
+| Compatible BaduJet | `opt_badujet` | True/False | Affiche l'option « BaduJet Turbo » dans le configurateur |
 
 ### Champs ACF sur la taxonomie `couleur_piscine`
 
@@ -167,6 +172,8 @@ Le fond est en `position: relative` avec `width: 100%; height: auto` — il dict
 | Clic swatch tapis (dans une zone) | Change l'overlay de cette zone uniquement |
 | Toggle zone off | Cache l'overlay + grise les swatches de la zone |
 | Toggle zone on | Réaffiche l'overlay avec le tapis actif de la zone |
+| Coche/décoche option | Met à jour les options envoyées au formulaire de devis |
+| Clic « Obtenir un devis » | Redirige vers le formulaire avec model, couleur WP slug, et options cochées en query params |
 
 ### Validation côté serveur
 
@@ -193,9 +200,15 @@ Passée via `wp_localize_script`, contient :
         terrasse: "abysse"
     },
     couleurs: [
-        { slug: "cieldeminuit", name: "Ciel de minuit", swatch: "https://…/thumb.jpg" },
+        { slug: "cieldeminuit", wpSlug: "ciel-de-minuit", name: "Ciel de minuit", swatch: "https://…/thumb.jpg" },
         // ...
     ],
+    options: [
+        { slug: "jets", label: "Jets de massage" },
+        { slug: "badujet", label: "BaduJet Turbo" }
+    ],
+    devisUrl: "https://piscinesmova.preprod.io/demandez-un-devis/",
+    modelSlug: "12x34",
     tapisParZone: {
         marches: [
             { slug: "abysse", name: "Abysse", swatch: "https://…/thumb.jpg" },
@@ -216,6 +229,43 @@ cfg.baseUrl + 'piscine-' + cfg.slugDimension + '-' + couleurSlug + '.png'
 // Overlay
 cfg.baseUrl + cfg.slugDimension + '-' + tapisSlug + '-' + zone + '.png'
 ```
+
+---
+
+## Intégration avec le formulaire de devis
+
+Le bouton « Obtenir un devis » redirige vers le formulaire `[mova_quote_form]` en passant des query params :
+
+```
+https://piscinesmova.preprod.io/demandez-un-devis/?model=12x34&couleur=ciel-de-minuit&options=jets,badujet
+```
+
+| Param | Source | Description |
+|---|---|---|
+| `model` | `modelSlug` (post_name du CPT piscine) | Pré-coche le modèle dans le formulaire |
+| `couleur` | `wpSlug` du terme `couleur_piscine` actif | Pré-sélectionne la couleur dans le dropdown |
+| `options` | Checkboxes cochées (séparées par virgule) | Optionnel — slugs des options sélectionnées |
+
+### Distinction `slug` vs `wpSlug`
+
+Chaque couleur possède deux slugs :
+- **`slug`** (= `slug_fichier` ACF) : utilisé pour construire les URLs d'images (ex: `grislunaire`)
+- **`wpSlug`** (= `term->slug` WP) : utilisé pour les query params du devis (ex: `gris-lunaire`)
+
+Le JS maintient un mapping `couleurWpSlugMap` pour la conversion.
+
+### Ajouter des options
+
+Pour ajouter une nouvelle option (ex: Éclairage) :
+
+1. **ACF** — Ajouter un champ `opt_eclairage` (True/False) dans `group_piscine_details.json`, onglet « Configurateur & Options »
+2. **PHP** — Ajouter dans le bloc options de `inc/pool-configurator.php` :
+   ```php
+   if ( get_field( 'opt_eclairage', $post_id ) ) {
+       $options[] = array( 'slug' => 'eclairage', 'label' => 'Éclairage' );
+   }
+   ```
+3. **Formulaire de devis** — Si besoin, adapter `inc/quote-form.php` pour lire le param `options` et pré-cocher les cases correspondantes
 
 ---
 
@@ -246,6 +296,11 @@ Toutes les classes utilisent le préfixe `mova-cfg-`.
 | `.mova-cfg-zone-toggle.is-active` | Toggle activé | Background `#1a4759` |
 | `.mova-cfg-zone-swatches.is-disabled` | Swatches zone off | Opacité 0.35, pointer-events none |
 | `.mova-cfg-section--zone` | Section zone | Contient header + swatches + label |
+| `.mova-cfg-options` | Container checkboxes | Flex-wrap, gap 12px/24px |
+| `.mova-cfg-option` | Label + checkbox | Option individuelle (Jets, BaduJet…) |
+| `.mova-cfg-section--cta` | Section bouton | Contient le bouton devis |
+| `.mova-cfg-devis-btn` | Bouton devis | Pleine largeur, fond #1a4759, border-radius 8px |
+| `.mova-cfg-devis-icon` | Icône « + » | Affiché à droite du texte |
 
 ---
 
