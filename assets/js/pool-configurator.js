@@ -150,6 +150,57 @@
     }
 
     /* ========================
+       Lightbox zoom
+       ======================== */
+    var zoomBtn   = document.getElementById('mova-cfg-zoom');
+    var lightbox  = document.getElementById('mova-cfg-lightbox');
+    var lbContent = document.getElementById('mova-cfg-lb-content');
+    var lbClose   = document.getElementById('mova-cfg-lb-close');
+    var lbOpen    = false;
+
+    function openLightbox() {
+        if (!lightbox || !lbContent) return;
+        // Clone the layers into the lightbox
+        var layers = document.getElementById('mova-cfg-layers');
+        if (!layers) return;
+
+        lbContent.innerHTML = '';
+        var clone = layers.cloneNode(true);
+        clone.removeAttribute('id');
+        lbContent.appendChild(clone);
+
+        lbOpen = true;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        if (!lightbox) return;
+        lbOpen = false;
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+        if (lbContent) lbContent.innerHTML = '';
+    }
+
+    if (zoomBtn) {
+        zoomBtn.addEventListener('click', openLightbox);
+    }
+
+    if (lbClose) {
+        lbClose.addEventListener('click', closeLightbox);
+    }
+
+    if (lightbox) {
+        lightbox.addEventListener('click', function (e) {
+            if (e.target === lightbox || e.target === lbContent) closeLightbox();
+        });
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (lbOpen && e.key === 'Escape') closeLightbox();
+    });
+
+    /* ========================
        Bouton Obtenir un devis
        ======================== */
     var devisBtn = document.getElementById('mova-cfg-devis-btn');

@@ -8,10 +8,10 @@
 }
 
 .mova-nd-title {
-  font-family: "AcuminPro", sans-serif;
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #1a4759;
+  font-family: "AcuminPro", sans-serif !important;
+  font-size: 1.4rem !important;
+  font-weight: 600 !important;
+  color: inherit;
   margin: 0 0 20px 0;
 }
 
@@ -42,9 +42,6 @@
 /* --- Flèches --- */
 .mova-nd-arrow {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
   border: 1px solid #ddd;
   background: #fff;
   color: #1a4759;
@@ -54,6 +51,11 @@
   cursor: pointer;
   transition: all 0.2s ease;
   z-index: 2;
+}
+
+.mova-nd-arrow:focus {
+  background: none;
+  color: #1a4759;
 }
 
 .mova-nd-arrow:hover {
@@ -92,10 +94,10 @@
 }
 
 .mova-nd-card-name {
-  font-family: "AcuminPro", sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1a4759;
+  font-family: "AcuminPro", sans-serif !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: inherit;
   margin: 0 0 6px 0;
   line-height: 1.2;
 }
@@ -116,10 +118,10 @@
 }
 
 .mova-nd-card-distance {
-  font-family: "AcuminPro", sans-serif;
+  font-family: "AcuminPro", sans-serif !important;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #1a4759;
+  color: inherit;
   opacity: 0.7;
   margin-top: auto;
   padding-top: 8px;
@@ -132,13 +134,14 @@
   font-family: "AcuminPro", sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #1a4759;
+  color: inherit;
   margin-top: 10px;
   transition: gap 0.2s ease;
 }
 
 .mova-nd-card:hover .mova-nd-card-cta {
   gap: 8px;
+  text-decoration: underline;
 }
 
 /* --- Responsive --- */

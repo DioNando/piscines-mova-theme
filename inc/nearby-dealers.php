@@ -110,7 +110,6 @@ function mova_nearby_dealers_shortcode( $atts ) {
                     <span class="mova-nd-card-distance"><?php echo number_format( $dealer['distance'], 1 ); ?> km</span>
                     <span class="mova-nd-card-cta">
                         Voir la fiche
-                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </span>
                 </a>
                 <?php endforeach; ?>

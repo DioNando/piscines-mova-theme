@@ -16,10 +16,9 @@
 }
 
 .mova-dd-name {
-  font-family: "AcuminPro", sans-serif;
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #1a4759;
+  font-family: "Kaftan", sans-serif !important;
+  font-size: 3rem !important;
+  color: inherit;
   margin: 0 0 24px 0;
   line-height: 1.2;
 }
@@ -40,22 +39,19 @@
 }
 
 .mova-dd-text {
-  font-family: "AcuminPro", sans-serif;
-  font-size: 0.95rem;
-  color: #333;
+  font-family: "AcuminPro", sans-serif !important;
+  color: inherit;
   margin: 0;
   line-height: 1.5;
 }
 
 .mova-dd-province {
-  font-size: 0.85rem;
-  color: #666;
+  color: inherit;
 }
 
 .mova-dd-link {
-  font-family: "AcuminPro", sans-serif;
-  font-size: 0.95rem;
-  color: #1a4759;
+  font-family: "AcuminPro", sans-serif !important;
+  color: inherit;
   text-decoration: none;
   transition: color 0.2s;
 }
@@ -72,27 +68,22 @@
 }
 
 .mova-dd-btn {
+  text-align: center;
+  font-weight: 600 !important;
+  color: inherit;
+  background: #ffffff00;
+  border: 1px solid #1a4759;
+  border-radius: 0;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background 0.2s ease;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-family: "AcuminPro", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 12px 24px;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.mova-dd-btn-primary {
-  background: #1a4759;
-  color: #fff;
 }
 
 .mova-dd-btn-primary:hover {
-  background: #0b1e26;
-  color: #fff;
+  background: #1a4759;
+  color: #fff !important;
 }
 
 /* --- Carte --- */

@@ -102,7 +102,6 @@ function mova_dealer_detail_shortcode( $atts ) {
             <div class="mova-dd-actions">
                 <?php if ( $lat && $lng ) : ?>
                 <a href="https://www.google.com/maps/dir/?api=1&destination=<?php echo esc_attr( $lat ); ?>,<?php echo esc_attr( $lng ); ?>" target="_blank" class="mova-dd-btn mova-dd-btn-primary">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21.71 11.29l-9-9a1 1 0 00-1.42 0l-9 9a1 1 0 000 1.42l9 9a1 1 0 001.42 0l9-9a1 1 0 000-1.42zM14 14.5V12h-4v3H8v-4a1 1 0 011-1h5V7.5l3.5 3.5L14 14.5z" fill="currentColor"/></svg>
                     Y aller
                 </a>
                 <?php endif; ?>

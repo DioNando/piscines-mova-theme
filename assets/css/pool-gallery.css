@@ -225,7 +225,7 @@
   opacity: 0.7;
 }
 
-.mova-pg-lb-close:focus {
+.mova-pg-lb-close:hover, .mova-pg-lb-close:focus  {
   background: none;
 }
 
@@ -247,7 +247,7 @@
   z-index: 10;
 }
 
-.mova-pg-lb-nav:hover {
+.mova-pg-lb-nav:hover, .mova-pg-lb-nav:focus {
   background: rgba(255, 255, 255, 0.3);
 }
 

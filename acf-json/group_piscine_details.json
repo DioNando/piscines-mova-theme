@@ -71,18 +71,138 @@
       "ui": 1
     },
     {
+      "key": "field_piscine_couleurs_cfg",
+      "label": "Couleurs du configurateur",
+      "name": "couleurs_configurateur",
+      "type": "repeater",
+      "instructions": "Ajoutez chaque couleur disponible pour ce modèle avec son image fond correspondante.",
+      "layout": "block",
+      "button_label": "Ajouter une couleur",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_piscine_config_aquacove",
+            "operator": "==",
+            "value": "1"
+          }
+        ]
+      ],
+      "sub_fields": [
+        {
+          "key": "field_cfg_couleur",
+          "label": "Couleur",
+          "name": "couleur",
+          "type": "taxonomy",
+          "taxonomy": "couleur_piscine",
+          "field_type": "select",
+          "save_terms": 0,
+          "load_terms": 0,
+          "return_format": "object",
+          "wrapper": { "width": "50" }
+        },
+        {
+          "key": "field_cfg_image_fond",
+          "label": "Image fond (PNG)",
+          "name": "image_fond",
+          "type": "image",
+          "instructions": "Image PNG de la piscine dans cette couleur.",
+          "return_format": "id",
+          "preview_size": "medium",
+          "mime_types": "png",
+          "wrapper": { "width": "50" }
+        }
+      ]
+    },
+    {
+      "key": "field_piscine_zones_cfg",
+      "label": "Zones AquaCove",
+      "name": "zones_configurateur",
+      "type": "repeater",
+      "instructions": "Ajoutez chaque zone avec ses tapis disponibles et overlays PNG.",
+      "layout": "block",
+      "button_label": "Ajouter une zone",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_piscine_config_aquacove",
+            "operator": "==",
+            "value": "1"
+          }
+        ]
+      ],
+      "sub_fields": [
+        {
+          "key": "field_cfg_zone",
+          "label": "Zone",
+          "name": "zone",
+          "type": "select",
+          "choices": {
+            "marches": "Marches",
+            "bancs": "Bancs",
+            "terrasse": "Terrasse",
+            "fond": "Fond"
+          },
+          "wrapper": { "width": "100" }
+        },
+        {
+          "key": "field_cfg_tapis_zone",
+          "label": "Tapis disponibles pour cette zone",
+          "name": "tapis_zone",
+          "type": "repeater",
+          "instructions": "Ajoutez chaque modèle de tapis avec son image overlay transparente.",
+          "layout": "table",
+          "button_label": "Ajouter un tapis",
+          "sub_fields": [
+            {
+              "key": "field_cfg_tz_modele",
+              "label": "Modèle de tapis",
+              "name": "modele_tapis",
+              "type": "taxonomy",
+              "taxonomy": "modele_tapis",
+              "field_type": "select",
+              "save_terms": 0,
+              "load_terms": 0,
+              "return_format": "object",
+              "wrapper": { "width": "30" }
+            },
+            {
+              "key": "field_cfg_tz_overlay",
+              "label": "Overlay (PNG)",
+              "name": "overlay",
+              "type": "image",
+              "instructions": "Image PNG transparente du tapis pour cette zone.",
+              "return_format": "id",
+              "preview_size": "medium",
+              "mime_types": "png",
+              "wrapper": { "width": "40" }
+            },
+            {
+              "key": "field_cfg_tz_swatch",
+              "label": "Pastille (optionnel)",
+              "name": "swatch_override",
+              "type": "image",
+              "instructions": "Laisser vide pour utiliser la pastille par défaut du modèle.",
+              "return_format": "id",
+              "preview_size": "thumbnail",
+              "wrapper": { "width": "30" }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "key": "field_piscine_slug_dimension",
-      "label": "Slug dimension (fichiers)",
+      "label": "[DÉPRÉCIÉ] Slug dimension (fichiers)",
       "name": "slug_dimension",
       "type": "text",
-      "instructions": "Slug utilisé dans les noms de fichiers images (ex: 12x34, pataugeuse, c-de-nage). Doit correspondre exactement au préfixe du nom de fichier."
+      "instructions": "⚠️ DÉPRÉCIÉ — Sera supprimé. Utilisez les repeaters ci-dessus."
     },
     {
       "key": "field_piscine_zones_aquacove",
-      "label": "Zones AquaCove disponibles",
+      "label": "[DÉPRÉCIÉ] Zones AquaCove disponibles",
       "name": "zones_aquacove",
       "type": "checkbox",
-      "instructions": "Cochez les zones où le tapis AquaCove peut être appliqué pour ce modèle.",
+      "instructions": "⚠️ DÉPRÉCIÉ — Sera supprimé. Utilisez le repeater Zones AquaCove ci-dessus.",
       "choices": {
         "marches": "Marches",
         "bancs": "Bancs",
@@ -102,10 +222,10 @@
     },
     {
       "key": "field_piscine_tapis_disponibles",
-      "label": "Tapis AquaCove disponibles",
+      "label": "[DÉPRÉCIÉ] Tapis AquaCove disponibles",
       "name": "tapis_disponibles",
       "type": "taxonomy",
-      "instructions": "Sélectionnez les modèles de tapis compatibles avec cette piscine.",
+      "instructions": "⚠️ DÉPRÉCIÉ — Sera supprimé. Utilisez le repeater Zones AquaCove ci-dessus.",
       "taxonomy": "modele_tapis",
       "field_type": "checkbox",
       "save_terms": 0,
