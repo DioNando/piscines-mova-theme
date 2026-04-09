@@ -66,5 +66,7 @@ require_once get_stylesheet_directory() . '/inc/pool-color-catalog.php';
 require_once get_stylesheet_directory() . '/inc/pool-configurator.php';
 require_once get_stylesheet_directory() . '/inc/quote-form.php';
 
-
-
+// CLI — Migration configurateur (temporaire, à supprimer après Phase 5)
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+    require_once get_stylesheet_directory() . '/inc/cli/migrate-configurator-images.php';
+}

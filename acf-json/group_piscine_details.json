@@ -191,57 +191,6 @@
       ]
     },
     {
-      "key": "field_piscine_slug_dimension",
-      "label": "[DÉPRÉCIÉ] Slug dimension (fichiers)",
-      "name": "slug_dimension",
-      "type": "text",
-      "instructions": "⚠️ DÉPRÉCIÉ — Sera supprimé. Utilisez les repeaters ci-dessus."
-    },
-    {
-      "key": "field_piscine_zones_aquacove",
-      "label": "[DÉPRÉCIÉ] Zones AquaCove disponibles",
-      "name": "zones_aquacove",
-      "type": "checkbox",
-      "instructions": "⚠️ DÉPRÉCIÉ — Sera supprimé. Utilisez le repeater Zones AquaCove ci-dessus.",
-      "choices": {
-        "marches": "Marches",
-        "bancs": "Bancs",
-        "terrasse": "Terrasse",
-        "fond": "Fond"
-      },
-      "layout": "horizontal",
-      "conditional_logic": [
-        [
-          {
-            "field": "field_piscine_config_aquacove",
-            "operator": "==",
-            "value": "1"
-          }
-        ]
-      ]
-    },
-    {
-      "key": "field_piscine_tapis_disponibles",
-      "label": "[DÉPRÉCIÉ] Tapis AquaCove disponibles",
-      "name": "tapis_disponibles",
-      "type": "taxonomy",
-      "instructions": "⚠️ DÉPRÉCIÉ — Sera supprimé. Utilisez le repeater Zones AquaCove ci-dessus.",
-      "taxonomy": "modele_tapis",
-      "field_type": "checkbox",
-      "save_terms": 0,
-      "load_terms": 0,
-      "return_format": "object",
-      "conditional_logic": [
-        [
-          {
-            "field": "field_piscine_config_aquacove",
-            "operator": "==",
-            "value": "1"
-          }
-        ]
-      ]
-    },
-    {
       "key": "field_piscine_config_jets",
       "label": "Compatible Jets de massage",
       "name": "opt_jets",
@@ -349,5 +298,5 @@
   ],
   "active": true,
   "description": "Spécifications techniques, options de configuration, documents PDF et contenus éditoriaux pour chaque modèle de piscine.",
-  "modified": 1775692801
+  "modified": 1775692810
 }

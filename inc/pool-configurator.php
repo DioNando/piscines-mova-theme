@@ -26,44 +26,26 @@ function mova_pool_configurator_shortcode( $atts ) {
         return $debug ? '<!-- mova-cfg: opt_aquacove est désactivé -->' : '';
     }
 
-    $slug_dimension = get_field( 'slug_dimension', $post_id );
-    if ( ! $slug_dimension ) {
-        return $debug ? '<!-- mova-cfg: slug_dimension est vide -->' : '';
-    }
-
-    $zones = get_field( 'zones_aquacove', $post_id );
-    if ( ! is_array( $zones ) || empty( $zones ) ) {
-        return $debug ? '<!-- mova-cfg: zones_aquacove est vide (valeur=' . print_r( $zones, true ) . ') -->' : '';
-    }
-
-    // Chemins
-    $base_dir = get_stylesheet_directory() . '/assets/images/tapis-aquacove/';
-    $base_url = get_stylesheet_directory_uri() . '/assets/images/tapis-aquacove/';
-
-    // --- Couleurs disponibles ---
-    $couleurs_raw = get_field( 'couleurs_disponibles', $post_id );
+    // --- Couleurs depuis le repeater ---
+    $couleurs_cfg = get_field( 'couleurs_configurateur', $post_id );
     $couleurs     = array();
 
-    if ( ! empty( $couleurs_raw ) && is_array( $couleurs_raw ) ) {
-        foreach ( $couleurs_raw as $term ) {
-            $term_id  = is_object( $term ) ? $term->term_id : intval( $term );
-            $term_obj = is_object( $term ) ? $term : get_term( $term_id, 'couleur_piscine' );
+    if ( ! empty( $couleurs_cfg ) && is_array( $couleurs_cfg ) ) {
+        foreach ( $couleurs_cfg as $row ) {
+            $term_obj = isset( $row['couleur'] ) ? $row['couleur'] : null;
+            $image_id = isset( $row['image_fond'] ) ? intval( $row['image_fond'] ) : 0;
 
-            if ( ! $term_obj || is_wp_error( $term_obj ) ) continue;
+            if ( ! $term_obj || ! is_object( $term_obj ) || ! $image_id ) continue;
 
-            $slug_fichier = get_field( 'slug_fichier', 'couleur_piscine_' . $term_obj->term_id );
-            if ( ! $slug_fichier ) continue;
-
-            // Vérifier que le fond existe
-            $fond_file = 'piscine-' . $slug_dimension . '-' . $slug_fichier . '.png';
-            if ( ! file_exists( $base_dir . $fond_file ) ) continue;
+            $fond_url = wp_get_attachment_image_url( $image_id, 'full' );
+            if ( ! $fond_url ) continue;
 
             $swatch_id = get_field( 'swatch_couleur', 'couleur_piscine_' . $term_obj->term_id );
 
             $couleurs[] = array(
-                'slug'    => $slug_fichier,
-                'wpSlug'  => $term_obj->slug,
+                'slug'    => $term_obj->slug,
                 'name'    => $term_obj->name,
+                'fondUrl' => $fond_url,
                 'swatch'  => $swatch_id ? wp_get_attachment_image_url( $swatch_id, 'thumbnail' ) : '',
             );
         }
@@ -71,54 +53,58 @@ function mova_pool_configurator_shortcode( $atts ) {
 
     if ( empty( $couleurs ) ) {
         if ( $debug ) {
-            $nb_raw = is_array( $couleurs_raw ) ? count( $couleurs_raw ) : 0;
-            return '<!-- mova-cfg: 0 couleurs valides sur ' . $nb_raw . ' brutes. Vérifiez slug_fichier sur chaque terme couleur_piscine ET que le fichier piscine-' . $slug_dimension . '-{slug}.png existe dans ' . $base_dir . ' -->';
+            $nb_raw = is_array( $couleurs_cfg ) ? count( $couleurs_cfg ) : 0;
+            return '<!-- mova-cfg: 0 couleurs valides sur ' . $nb_raw . ' lignes repeater. Vérifiez que chaque ligne a une couleur et une image fond. -->';
         }
         return '';
     }
 
-    // --- Tapis disponibles par zone ---
-    $tapis_raw = get_field( 'tapis_disponibles', $post_id );
-    $tapis_par_zone = array(); // zone => [ {slug, name, swatch}, ... ]
+    // --- Tapis par zone depuis le repeater ---
+    $zones_cfg      = get_field( 'zones_configurateur', $post_id );
+    $tapis_par_zone = array(); // zone => [ {slug, name, swatch, overlayUrl}, ... ]
 
-    if ( ! empty( $tapis_raw ) && is_array( $tapis_raw ) ) {
-        foreach ( $zones as $zone ) {
-            $tapis_par_zone[ $zone ] = array();
+    if ( ! empty( $zones_cfg ) && is_array( $zones_cfg ) ) {
+        foreach ( $zones_cfg as $zone_row ) {
+            $zone       = isset( $zone_row['zone'] ) ? $zone_row['zone'] : '';
+            $tapis_rows = isset( $zone_row['tapis_zone'] ) ? $zone_row['tapis_zone'] : array();
 
-            foreach ( $tapis_raw as $term ) {
-                $term_id  = is_object( $term ) ? $term->term_id : intval( $term );
-                $term_obj = is_object( $term ) ? $term : get_term( $term_id, 'modele_tapis' );
+            if ( ! $zone || empty( $tapis_rows ) || ! is_array( $tapis_rows ) ) continue;
 
-                if ( ! $term_obj || is_wp_error( $term_obj ) ) continue;
+            $zone_tapis = array();
 
-                $slug_fichier = get_field( 'slug_fichier', 'modele_tapis_' . $term_obj->term_id );
-                if ( ! $slug_fichier ) continue;
+            foreach ( $tapis_rows as $t_row ) {
+                $term_obj   = isset( $t_row['modele_tapis'] ) ? $t_row['modele_tapis'] : null;
+                $overlay_id = isset( $t_row['overlay'] ) ? intval( $t_row['overlay'] ) : 0;
 
-                // Vérifier que l'overlay existe pour cette zone précise
-                $overlay_file = $slug_dimension . '-' . $slug_fichier . '-' . $zone . '.png';
-                if ( ! file_exists( $base_dir . $overlay_file ) ) continue;
+                if ( ! $term_obj || ! is_object( $term_obj ) || ! $overlay_id ) continue;
 
-                $swatch_id = get_field( 'swatch_tapis', 'modele_tapis_' . $term_obj->term_id );
+                $overlay_url = wp_get_attachment_image_url( $overlay_id, 'full' );
+                if ( ! $overlay_url ) continue;
 
-                $tapis_par_zone[ $zone ][] = array(
-                    'slug'    => $slug_fichier,
-                    'wpSlug'  => $term_obj->slug,
-                    'name'    => $term_obj->name,
-                    'swatch'  => $swatch_id ? wp_get_attachment_image_url( $swatch_id, 'thumbnail' ) : '',
+                // Swatch : override du repeater, sinon default du terme
+                $swatch_id = ! empty( $t_row['swatch_override'] ) ? intval( $t_row['swatch_override'] ) : 0;
+                if ( ! $swatch_id ) {
+                    $swatch_id = get_field( 'swatch_tapis', 'modele_tapis_' . $term_obj->term_id );
+                }
+
+                $zone_tapis[] = array(
+                    'slug'       => $term_obj->slug,
+                    'name'       => $term_obj->name,
+                    'overlayUrl' => $overlay_url,
+                    'swatch'     => $swatch_id ? wp_get_attachment_image_url( $swatch_id, 'thumbnail' ) : '',
                 );
             }
 
-            // Retirer les zones sans tapis valide
-            if ( empty( $tapis_par_zone[ $zone ] ) ) {
-                unset( $tapis_par_zone[ $zone ] );
+            if ( ! empty( $zone_tapis ) ) {
+                $tapis_par_zone[ $zone ] = $zone_tapis;
             }
         }
     }
 
     if ( empty( $tapis_par_zone ) ) {
         if ( $debug ) {
-            $nb_raw = is_array( $tapis_raw ) ? count( $tapis_raw ) : 0;
-            return '<!-- mova-cfg: 0 tapis valides sur ' . $nb_raw . ' bruts. Vérifiez slug_fichier sur chaque terme modele_tapis ET qu\'au moins un fichier ' . $slug_dimension . '-{slug}-{zone}.png existe dans ' . $base_dir . ' -->';
+            $nb_raw = is_array( $zones_cfg ) ? count( $zones_cfg ) : 0;
+            return '<!-- mova-cfg: 0 zones valides sur ' . $nb_raw . ' lignes repeater. Vérifiez que chaque zone a au moins un tapis avec overlay. -->';
         }
         return '';
     }
@@ -143,26 +129,24 @@ function mova_pool_configurator_shortcode( $atts ) {
     }
 
     // Image fond par défaut
-    $default_fond_url = $base_url . 'piscine-' . $slug_dimension . '-' . $default_couleur . '.png';
+    $default_fond_url = $couleurs[0]['fondUrl'];
 
     // Assets
     wp_enqueue_style(
         'mova-pool-configurator-style',
         get_stylesheet_directory_uri() . '/assets/css/pool-configurator.css',
         array(),
-        '1.0.0'
+        '1.1.0'
     );
     wp_enqueue_script(
         'mova-pool-configurator-script',
         get_stylesheet_directory_uri() . '/assets/js/pool-configurator.js',
         array(),
-        '1.0.0',
+        '1.1.0',
         true
     );
 
     wp_localize_script( 'mova-pool-configurator-script', 'movaConfigurator', array(
-        'baseUrl'        => $base_url,
-        'slugDimension'  => $slug_dimension,
         'zones'          => $zones_effectives,
         'defaultCouleur' => $default_couleur,
         'defaultsTapis'  => $defaults_tapis,
@@ -188,16 +172,14 @@ function mova_pool_configurator_shortcode( $atts ) {
                      class="mova-cfg-layer mova-cfg-layer--fond"
                      id="mova-cfg-layer-fond" />
                 <?php foreach ( $zones_effectives as $zone ) :
-                    $def_tapis_slug = $defaults_tapis[ $zone ];
-                    $overlay_file   = $slug_dimension . '-' . $def_tapis_slug . '-' . $zone . '.png';
-                    $overlay_exists = file_exists( $base_dir . $overlay_file );
+                    $def_tapis     = $tapis_par_zone[ $zone ][0];
+                    $overlay_url   = $def_tapis['overlayUrl'];
                 ?>
-                <img src="<?php echo $overlay_exists ? esc_url( $base_url . $overlay_file ) : ''; ?>"
+                <img src="<?php echo esc_url( $overlay_url ); ?>"
                      alt="<?php echo esc_attr( ucfirst( $zone ) ); ?>"
                      class="mova-cfg-layer mova-cfg-layer--overlay"
                      data-zone="<?php echo esc_attr( $zone ); ?>"
-                     id="mova-cfg-layer-<?php echo esc_attr( $zone ); ?>"
-                     <?php if ( ! $overlay_exists ) echo 'style="display:none;"'; ?> />
+                     id="mova-cfg-layer-<?php echo esc_attr( $zone ); ?>" />
                 <?php endforeach; ?>
             </div>
         </div>

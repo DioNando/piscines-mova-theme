@@ -12,17 +12,18 @@
 
     var activeCouleur = cfg.defaultCouleur;
 
-    // Map slug_fichier → wpSlug for devis URL
-    var couleurWpSlugMap = {};
+    // Index couleur slug → { fondUrl, ... }
+    var couleurIndex = {};
     cfg.couleurs.forEach(function (c) {
-        couleurWpSlugMap[c.slug] = c.wpSlug || c.slug;
+        couleurIndex[c.slug] = c;
     });
 
-    // Map slug_fichier → wpSlug for tapis devis URL
-    var tapisWpSlugMap = {};
+    // Index tapis par zone : tapisIndex[zone][slug] → { overlayUrl, ... }
+    var tapisIndex = {};
     Object.keys(cfg.tapisParZone || {}).forEach(function (zone) {
+        tapisIndex[zone] = {};
         cfg.tapisParZone[zone].forEach(function (t) {
-            tapisWpSlugMap[t.slug] = t.wpSlug || t.slug;
+            tapisIndex[zone][t.slug] = t;
         });
     });
 
@@ -49,10 +50,12 @@
 
             if (couleurLabel) couleurLabel.textContent = btn.getAttribute('title');
 
-            var fondUrl = cfg.baseUrl + 'piscine-' + cfg.slugDimension + '-' + slug + '.png';
-            loadImage(fondUrl, function (src) {
-                layerFond.src = src;
-            });
+            var colorObj = couleurIndex[slug];
+            if (colorObj && colorObj.fondUrl) {
+                loadImage(colorObj.fondUrl, function (src) {
+                    layerFond.src = src;
+                });
+            }
         });
     });
 
@@ -121,21 +124,21 @@
     /* ========================
        Helpers
        ======================== */
-    function getOverlayUrl(zone) {
-        return cfg.baseUrl + cfg.slugDimension + '-' + activeTapis[zone] + '-' + zone + '.png';
-    }
-
     function updateOverlay(zone) {
         var layer = document.getElementById('mova-cfg-layer-' + zone);
         if (!layer) return;
 
-        var url = getOverlayUrl(zone);
-        loadImage(url, function (src) {
-            layer.src = src;
-            layer.style.display = '';
-        }, function () {
+        var tObj = tapisIndex[zone] && tapisIndex[zone][activeTapis[zone]];
+        if (tObj && tObj.overlayUrl) {
+            loadImage(tObj.overlayUrl, function (src) {
+                layer.src = src;
+                layer.style.display = '';
+            }, function () {
+                layer.style.display = 'none';
+            });
+        } else {
             layer.style.display = 'none';
-        });
+        }
     }
 
     function loadImage(src, onLoad, onError) {
@@ -215,10 +218,9 @@
                 params.push('model=' + encodeURIComponent(cfg.modelSlug));
             }
 
-            // Couleur active (WP slug for quote form)
+            // Couleur active
             if (activeCouleur) {
-                var wpSlug = couleurWpSlugMap[activeCouleur] || activeCouleur;
-                params.push('couleur=' + encodeURIComponent(wpSlug));
+                params.push('couleur=' + encodeURIComponent(activeCouleur));
             }
 
             // Options cochées
@@ -229,11 +231,10 @@
                 params.push('options=' + encodeURIComponent(opts.join(',')));
             }
 
-            // Tapis actifs par zone (WP slug for quote form)
+            // Tapis actifs par zone
             cfg.zones.forEach(function (zone) {
                 if (activeZones[zone] && activeTapis[zone]) {
-                    var wpSlug = tapisWpSlugMap[activeTapis[zone]] || activeTapis[zone];
-                    params.push('tapis_' + zone + '=' + encodeURIComponent(wpSlug));
+                    params.push('tapis_' + zone + '=' + encodeURIComponent(activeTapis[zone]));
                 }
             });
 

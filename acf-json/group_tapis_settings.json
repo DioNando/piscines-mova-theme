@@ -16,13 +16,6 @@
       "name": "image_preview_tapis",
       "type": "image",
       "return_format": "id"
-    },
-    {
-      "key": "field_tapis_slug_fichier",
-      "label": "Slug fichier",
-      "name": "slug_fichier",
-      "type": "text",
-      "instructions": "Slug utilisé dans les noms de fichiers tapis (ex: lainageblanc, chevrons-inverses). Doit correspondre exactement au segment du nom de fichier."
     }
   ],
   "location": [

@@ -4,13 +4,13 @@
 1. [Vue d'ensemble](#vue-densemble)
 2. [Fichiers du projet](#fichiers-du-projet)
 3. [Prérequis WordPress](#prérequis-wordpress)
-4. [Convention de nommage des images](#convention-de-nommage-des-images)
-5. [Utilisation du shortcode](#utilisation-du-shortcode)
-6. [Fonctionnement](#fonctionnement)
-7. [Variable JavaScript `movaConfigurator`](#variable-javascript-movaconfigurator)
-8. [Intégration avec le formulaire de devis](#intégration-avec-le-formulaire-de-devis)
-9. [Personnalisation CSS](#personnalisation-css)
-10. [Mode debug](#mode-debug)
+4. [Utilisation du shortcode](#utilisation-du-shortcode)
+5. [Fonctionnement](#fonctionnement)
+6. [Variable JavaScript `movaConfigurator`](#variable-javascript-movaconfigurator)
+7. [Intégration avec le formulaire de devis](#intégration-avec-le-formulaire-de-devis)
+8. [Personnalisation CSS](#personnalisation-css)
+9. [Mode debug](#mode-debug)
+10. [Migration depuis la version filesystem](#migration-depuis-la-version-filesystem)
 
 ---
 
@@ -19,14 +19,15 @@
 Le shortcode `[mova_pool_configurator]` affiche un configurateur visuel AquaCove qui superpose des couches PNG transparentes (tapis) sur un fond de couleur de coque. Il se compose de :
 
 - **Zone de prévisualisation (sticky)** : empilement de layers PNG — un fond (couleur coque) + un overlay par zone (marches, bancs, terrasse, fond)
+- **Bouton zoom** : ouvre une lightbox plein écran avec les layers clonées
 - **Panneau Couleur de la coque** : swatches cliquables pour changer le fond
 - **Panneau Tapis par zone** : chaque zone a son propre sélecteur de tapis indépendant, avec un toggle on/off
 - **Section Options** : checkboxes dynamiques pour les options compatibles (Jets de massage, BaduJet Turbo, etc.)
-- **Bouton « Obtenir un devis »** : redirige vers le formulaire de devis avec pré-remplissage (modèle, couleur, options)
+- **Bouton « Obtenir un devis »** : redirige vers le formulaire de devis avec pré-remplissage (modèle, couleur, options, tapis par zone)
 
 Chaque zone peut avoir un modèle de tapis différent. Quand on change la couleur de la coque, les overlays tapis restent en place. Quand on désactive une zone, son overlay disparaît et ses swatches sont grisés.
 
-Le composant est entièrement côté client (pas d'AJAX). Les URLs des images sont construites par concaténation de slugs — zéro requête DB côté front.
+Le composant est entièrement côté client (pas d'AJAX). Les URLs des images proviennent directement de la médiathèque WordPress — zéro opération filesystem.
 
 ---
 
@@ -34,10 +35,9 @@ Le composant est entièrement côté client (pas d'AJAX). Les URLs des images so
 
 | Fichier | Rôle |
 |---|---|
-| `inc/pool-configurator.php` | Shortcode WordPress — gardes, données ACF, validation `file_exists()`, HTML, `wp_localize_script` |
-| `assets/js/pool-configurator.js` | Logique JS : interactions couleur/tapis/zones, gestion des layers, préchargement `new Image()` |
-| `assets/css/pool-configurator.css` | Styles : layout grille, layers superposées, swatches, zone toggles, responsive |
-| `assets/images/tapis-aquacove/` | ~706 PNG (fonds + overlays). Exclu de Git via `.gitignore` |
+| `inc/pool-configurator.php` | Shortcode WordPress — gardes, lecture des repeaters ACF, HTML, `wp_localize_script` |
+| `assets/js/pool-configurator.js` | Logique JS : interactions couleur/tapis/zones, gestion des layers, préchargement `new Image()`, lightbox, bouton devis |
+| `assets/css/pool-configurator.css` | Styles : layout grille, layers superposées, swatches, zone toggles, lightbox, responsive |
 
 ---
 
@@ -58,56 +58,30 @@ Le composant est entièrement côté client (pas d'AJAX). Les URLs des images so
 | Champ | Clé ACF | Type | Description |
 |---|---|---|---|
 | Compatible AquaCove | `opt_aquacove` | True/False | Active le configurateur pour ce modèle |
-| Slug dimension | `slug_dimension` | Text | Slug fichier de la dimension (ex: `12x34`, `pataugeuse`, `c-de-nage`) |
-| Zones AquaCove | `zones_aquacove` | Checkbox | Zones disponibles : marches, bancs, terrasse, fond. Visible si `opt_aquacove = true` |
-| Tapis disponibles | `tapis_disponibles` | Taxonomy multi (`modele_tapis`) | Modèles de tapis compatibles. Visible si `opt_aquacove = true` |
-| Couleurs disponibles | `couleurs_disponibles` | Taxonomy multi (`couleur_piscine`) | Couleurs de coque compatibles (partagé avec pool-color-preview) |
-| Compatible Jets | `opt_jets` | True/False | Affiche l'option « Jets de massage » dans le configurateur |
-| Compatible BaduJet | `opt_badujet` | True/False | Affiche l'option « BaduJet Turbo » dans le configurateur |
+| Couleurs du configurateur | `couleurs_configurateur` | Repeater | Couleurs avec images fonds uploadées (visible si `opt_aquacove = true`) |
+| ↳ Couleur | `couleur` | Taxonomy select (`couleur_piscine`) | Terme couleur |
+| ↳ Image fond | `image_fond` | Image (ID) | PNG de la piscine dans cette couleur, uploadé en médiathèque |
+| Zones AquaCove | `zones_configurateur` | Repeater | Zones avec tapis et overlays (visible si `opt_aquacove = true`) |
+| ↳ Zone | `zone` | Select | marches, bancs, terrasse ou fond |
+| ↳ Tapis zone | `tapis_zone` | Repeater imbriqué | Tapis disponibles pour cette zone |
+| ↳↳ Modèle de tapis | `modele_tapis` | Taxonomy select (`modele_tapis`) | Terme tapis |
+| ↳↳ Overlay | `overlay` | Image (ID) | PNG transparent du tapis pour cette zone, uploadé en médiathèque |
+| ↳↳ Pastille (optionnel) | `swatch_override` | Image (ID) | Override la pastille par défaut du terme |
+| Couleurs disponibles | `couleurs_disponibles` | Taxonomy multi (`couleur_piscine`) | Partagé avec pool-color-preview |
+| Compatible Jets | `opt_jets` | True/False | Affiche l'option « Jets de massage » |
+| Compatible BaduJet | `opt_badujet` | True/False | Affiche l'option « BaduJet Turbo » |
 
 ### Champs ACF sur la taxonomie `couleur_piscine`
 
 | Champ | Clé ACF | Type | Description |
 |---|---|---|---|
 | Swatch couleur | `swatch_couleur` | Image | Pastille miniature (thumbnail) |
-| Slug fichier | `slug_fichier` | Text | Slug dans les noms de fichiers (ex: `fondrocheux`, `grislunaire`) |
 
 ### Champs ACF sur la taxonomie `modele_tapis`
 
 | Champ | Clé ACF | Type | Description |
 |---|---|---|---|
-| Swatch tapis | `swatch_tapis` | Image | Pastille de texture (thumbnail) |
-| Slug fichier | `slug_fichier` | Text | Slug dans les noms de fichiers (ex: `lainageblanc`, `chevrons-inverses`) |
-
----
-
-## Convention de nommage des images
-
-Toutes les images sont dans `assets/images/tapis-aquacove/`.
-
-### Fond (couleur coque)
-```
-piscine-{slug_dimension}-{slug_fichier_couleur}.png
-```
-Exemples : `piscine-12x34-grislunaire.png`, `piscine-pataugeuse-blanccoton.png`
-
-### Overlay tapis (PNG transparent)
-```
-{slug_dimension}-{slug_fichier_tapis}-{zone}.png
-```
-Exemples : `12x34-abysse-marches.png`, `12x34-sable-terrasse.png`
-
-### Zones par dimension
-
-| Zones | Modèles |
-|---|---|
-| marches | 8x16, 9x24, 11x23, c-de-nage, couloir |
-| marches + bancs | 8x10, 10x20cp, 11x19, 11x25, 12x20, 12x22, 12x24, 12x24cp, 12x28, 13x27 |
-| marches + bancs + terrasse | 12x26, 12x30, 12x33, 12x34, 12x37, 14x28cp |
-| marches + fond | pataugeuse |
-
-### Slugs de tapis disponibles
-`abysse`, `chevrons`, `chevrons-inverses`, `crepuscule`, `feuillage`, `graphite`, `lainageblanc`, `loupdemer`, `mova`, `poussieredelune`, `sable`, `sauna`
+| Swatch tapis | `swatch_tapis` | Image | Pastille de texture par défaut (thumbnail) |
 
 ---
 
@@ -141,10 +115,8 @@ Le shortcode retourne une chaîne vide si l'une de ces conditions échoue :
 
 1. Le post est de type `piscine`
 2. `opt_aquacove` est activé
-3. `slug_dimension` est renseigné
-4. `zones_aquacove` contient au moins 1 zone
-5. Au moins 1 couleur a un `slug_fichier` et un fichier fond existant
-6. Au moins 1 zone a au moins 1 tapis avec un overlay existant
+3. Le repeater `couleurs_configurateur` contient au moins 1 couleur avec image fond valide
+4. Le repeater `zones_configurateur` contient au moins 1 zone avec au moins 1 tapis ayant un overlay valide
 
 ---
 
@@ -164,23 +136,25 @@ Le preview empile des `<img>` dans un container :
 
 Le fond est en `position: relative` avec `width: 100%; height: auto` — il dicte la taille du container selon les proportions naturelles de l'image. Les overlays se calent en absolute par-dessus.
 
+### Source des images
+
+Toutes les images proviennent de la **médiathèque WordPress** via `wp_get_attachment_image_url()`. Aucun chemin de fichier n'est construit côté PHP ou JS. Les URLs sont des URLs WordPress standard (ex: `https://example.com/wp-content/uploads/2026/04/piscine-12x34-grislunaire.png`).
+
 ### Interactions
 
 | Action | Comportement |
 |---|---|
-| Clic swatch couleur | Change le fond. Les overlays tapis restent en place |
-| Clic swatch tapis (dans une zone) | Change l'overlay de cette zone uniquement |
+| Clic swatch couleur | Change le fond via `fondUrl` de la couleur. Les overlays tapis restent en place |
+| Clic swatch tapis (dans une zone) | Change l'overlay de cette zone via `overlayUrl` du tapis |
 | Toggle zone off | Cache l'overlay + grise les swatches de la zone |
 | Toggle zone on | Réaffiche l'overlay avec le tapis actif de la zone |
 | Coche/décoche option | Met à jour les options envoyées au formulaire de devis |
-| Clic « Obtenir un devis » | Redirige vers le formulaire avec model, couleur WP slug, et options cochées en query params |
+| Clic bouton zoom | Clone les layers dans une lightbox plein écran |
+| Clic « Obtenir un devis » | Redirige vers le formulaire avec model, couleur, options et tapis par zone en query params |
 
-### Validation côté serveur
+### Lightbox
 
-PHP vérifie `file_exists()` pour chaque combinaison :
-- Une couleur n'apparaît que si son fond existe
-- Un tapis n'apparaît dans une zone que si son overlay pour cette zone existe
-- Les zones sans aucun tapis valide sont retirées automatiquement
+Le bouton zoom (icône loupe) clone le conteneur `.mova-cfg-layers` dans un overlay plein écran (`.mova-cfg-lightbox`). Fermeture via : bouton ✕, touche Escape, ou clic sur le fond sombre.
 
 ---
 
@@ -190,44 +164,64 @@ Passée via `wp_localize_script`, contient :
 
 ```js
 {
-    baseUrl: "https://…/assets/images/tapis-aquacove/",
-    slugDimension: "12x34",
     zones: ["marches", "bancs", "terrasse"],
-    defaultCouleur: "cieldeminuit",
+    defaultCouleur: "ciel-de-minuit",
     defaultsTapis: {
         marches: "abysse",
         bancs: "abysse",
         terrasse: "abysse"
     },
     couleurs: [
-        { slug: "cieldeminuit", wpSlug: "ciel-de-minuit", name: "Ciel de minuit", swatch: "https://…/thumb.jpg" },
+        {
+            slug: "ciel-de-minuit",
+            name: "Ciel de minuit",
+            fondUrl: "https://…/uploads/2026/04/piscine-12x34-cieldeminuit.png",
+            swatch: "https://…/uploads/2026/04/swatch-ciel.jpg"
+        },
         // ...
     ],
+    tapisParZone: {
+        marches: [
+            {
+                slug: "abysse",
+                name: "Abysse",
+                overlayUrl: "https://…/uploads/2026/04/12x34-abysse-marches.png",
+                swatch: "https://…/uploads/2026/04/swatch-abysse.jpg"
+            },
+            // ...
+        ],
+        bancs: [ /* ... */ ],
+        terrasse: [ /* ... */ ]
+    },
     options: [
         { slug: "jets", label: "Jets de massage" },
         { slug: "badujet", label: "BaduJet Turbo" }
     ],
     devisUrl: "https://piscinesmova.preprod.io/demandez-un-devis/",
-    modelSlug: "12x34",
-    tapisParZone: {
-        marches: [
-            { slug: "abysse", name: "Abysse", swatch: "https://…/thumb.jpg" },
-            // ...
-        ],
-        bancs: [ /* ... */ ],
-        terrasse: [ /* ... */ ]
-    }
+    modelSlug: "12x34"
 }
 ```
 
-### Construction des URLs (côté JS)
+### Lookups JS
+
+Le JS construit deux index au démarrage :
 
 ```js
+// couleurIndex[slug] → { slug, name, fondUrl, swatch }
+var couleurIndex = {};
+cfg.couleurs.forEach(function (c) { couleurIndex[c.slug] = c; });
+
+// tapisIndex[zone][slug] → { slug, name, overlayUrl, swatch }
+var tapisIndex = {};
+```
+
+Le changement d'image se fait par lookup direct :
+```js
 // Fond
-cfg.baseUrl + 'piscine-' + cfg.slugDimension + '-' + couleurSlug + '.png'
+layerFond.src = couleurIndex[slug].fondUrl;
 
 // Overlay
-cfg.baseUrl + cfg.slugDimension + '-' + tapisSlug + '-' + zone + '.png'
+layer.src = tapisIndex[zone][slug].overlayUrl;
 ```
 
 ---
@@ -243,19 +237,13 @@ https://piscinesmova.preprod.io/demandez-un-devis/?model=12x34&couleur=ciel-de-m
 | Param | Source | Description |
 |---|---|---|
 | `model` | `modelSlug` (post_name du CPT piscine) | Pré-coche le modèle dans le formulaire |
-| `couleur` | `wpSlug` du terme `couleur_piscine` actif | Pré-sélectionne la couleur dans le dropdown |
-| `options` | Checkboxes cochées (séparées par virgule) | Optionnel — slugs des options sélectionnées |
-| `tapis_{zone}` | `wpSlug` du terme `modele_tapis` actif dans la zone | Un param par zone active (marches, bancs, terrasse) |
+| `couleur` | `slug` du terme `couleur_piscine` actif | Pré-sélectionne la couleur dans le dropdown |
+| `options` | Checkboxes cochées (séparées par virgule) | Slugs des options sélectionnées |
+| `tapis_{zone}` | `slug` du terme `modele_tapis` actif dans la zone | Un param par zone active (marches, bancs, terrasse, fond) |
 
 Les params `tapis_{zone}` ne sont envoyés que pour les zones activées (toggle on) ayant un tapis sélectionné.
 
-### Distinction `slug` vs `wpSlug`
-
-Chaque couleur et chaque tapis possèdent deux slugs :
-- **`slug`** (= `slug_fichier` ACF) : utilisé pour construire les URLs d'images (ex: `grislunaire`)
-- **`wpSlug`** (= `term->slug` WP) : utilisé pour les query params du devis (ex: `gris-lunaire`)
-
-Le JS maintient deux mappings : `couleurWpSlugMap` et `tapisWpSlugMap` pour la conversion.
+> **Note** : un seul slug est utilisé partout (`term->slug`). Il n'y a plus de distinction entre slug fichier et slug WordPress.
 
 ### Ajouter des options
 
@@ -268,7 +256,7 @@ Pour ajouter une nouvelle option (ex: Éclairage) :
        $options[] = array( 'slug' => 'eclairage', 'label' => 'Éclairage' );
    }
    ```
-3. **Formulaire de devis** — Si besoin, adapter `inc/quote-form.php` pour lire le param `options` et pré-cocher les cases correspondantes
+3. **Formulaire de devis** — Si besoin, adapter `inc/quote-form.php` pour lire le param `options`
 
 ---
 
@@ -291,6 +279,7 @@ Toutes les classes utilisent le préfixe `mova-cfg-`.
 |---|---|---|
 | `.mova-cfg` | Conteneur | Grid 2 colonnes |
 | `.mova-cfg-preview` | Colonne gauche | Sticky `top: 120px` (static en mobile) |
+| `.mova-cfg-zoom` | Bouton zoom | Position absolute dans le preview |
 | `.mova-cfg-layers` | Container layers | Position relative, background #f5f6f8 |
 | `.mova-cfg-layer--fond` | Image fond | `position: relative` — dicte la hauteur |
 | `.mova-cfg-layer--overlay` | Image overlay | `position: absolute; inset: 0; pointer-events: none` |
@@ -303,6 +292,9 @@ Toutes les classes utilisent le préfixe `mova-cfg-`.
 | `.mova-cfg-option` | Label + checkbox | Option individuelle (Jets, BaduJet…) |
 | `.mova-cfg-section--cta` | Section bouton | Contient le bouton devis |
 | `.mova-cfg-devis-btn` | Bouton devis | Pleine largeur, fond #1a4759, border-radius 8px |
+| `.mova-cfg-lightbox` | Lightbox overlay | Fixed, z-index 9999, fond semi-transparent |
+| `.mova-cfg-lightbox.open` | Lightbox ouverte | `display: flex` |
+| `.mova-cfg-lb-close` | Bouton fermer | Position absolute top-right |
 
 ---
 
@@ -311,11 +303,36 @@ Toutes les classes utilisent le préfixe `mova-cfg-`.
 Ajouter `debug=1` au shortcode pour obtenir des commentaires HTML indiquant quelle garde bloque :
 
 ```html
+<!-- mova-cfg: post_type n'est pas piscine -->
 <!-- mova-cfg: opt_aquacove est désactivé -->
-<!-- mova-cfg: slug_dimension est vide -->
-<!-- mova-cfg: zones_aquacove est vide -->
-<!-- mova-cfg: 0 couleurs valides sur 8 brutes. Vérifiez slug_fichier… -->
-<!-- mova-cfg: 0 tapis valides sur 12 bruts. Vérifiez slug_fichier… -->
+<!-- mova-cfg: 0 couleurs valides sur 8 lignes repeater. Vérifiez que chaque ligne a une couleur et une image fond. -->
+<!-- mova-cfg: 0 zones valides sur 3 lignes repeater. Vérifiez que chaque zone a au moins un tapis avec overlay. -->
 ```
 
 Visible uniquement dans le code source HTML et uniquement pour les administrateurs WordPress (`manage_options`).
+
+---
+
+## Migration depuis la version filesystem
+
+> Cette section documente la migration effectuée. À conserver comme référence puis supprimer quand la migration est terminée.
+
+### Avant (v1 — filesystem)
+
+Les images étaient stockées dans `assets/images/tapis-aquacove/` (~706 PNG) et référencées par convention de nommage :
+- Fonds : `piscine-{slug_dimension}-{slug_fichier}.png`
+- Overlays : `{slug_dimension}-{slug_fichier}-{zone}.png`
+
+Chaque couleur et tapis avait un champ `slug_fichier` sur sa taxonomie, distinct du `term->slug` WordPress. Le PHP validait chaque combinaison via `file_exists()` (~69 appels par page).
+
+### Après (v2 — repeaters ACF)
+
+Les images sont uploadées en médiathèque WordPress et liées explicitement via des repeaters ACF sur le CPT piscine. Un seul slug (`term->slug`) est utilisé partout. Zéro opération filesystem.
+
+### Script de migration
+
+Le script WP-CLI `inc/cli/migrate-configurator-images.php` (temporaire) fournit :
+- `wp mova upload-images` — Bulk-upload des PNG vers la médiathèque
+- `wp mova mapping-report` — Rapport des associations existantes pour guider le remplissage des repeaters
+
+À supprimer après migration complète, avec le dossier `assets/images/tapis-aquacove/`.

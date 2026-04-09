@@ -398,11 +398,11 @@ Le configurateur `[mova_pool_configurator]` envoie des paramètres supplémentai
 | Param | Description |
 |---|---|
 | `model` | Slug du modèle de piscine (CPT `piscine`) |
-| `couleur` | WP slug du terme `couleur_piscine` |
+| `couleur` | Slug du terme `couleur_piscine` |
 | `options` | Slugs d'options séparés par virgule (ex: `jets,badujet`) |
-| `tapis_marches` | WP slug du `modele_tapis` sélectionné pour la zone marches |
-| `tapis_bancs` | WP slug du `modele_tapis` sélectionné pour la zone bancs |
-| `tapis_terrasse` | WP slug du `modele_tapis` sélectionné pour la zone terrasse |
+| `tapis_marches` | Slug du `modele_tapis` sélectionné pour la zone marches |
+| `tapis_bancs` | Slug du `modele_tapis` sélectionné pour la zone bancs |
+| `tapis_terrasse` | Slug du `modele_tapis` sélectionné pour la zone terrasse |
 
 ### Bloc « Sélections AquaCove »
 
