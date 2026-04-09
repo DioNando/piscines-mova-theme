@@ -5,13 +5,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /* =============================================
-   Shortcode — [mova_pool_configurator]
-   Configurateur visuel de piscine
+   Shortcode — [mova_pool_color_preview]
+   Prévisualisation des couleurs de piscine
    ============================================= */
-function mova_pool_configurator_shortcode( $atts ) {
+function mova_pool_color_preview_shortcode( $atts ) {
     $atts = shortcode_atts( array(
         'id' => 0,
-    ), $atts, 'mova_pool_configurator' );
+    ), $atts, 'mova_pool_color_preview' );
 
     $post_id = intval( $atts['id'] ) ?: get_the_ID();
 
@@ -61,10 +61,10 @@ function mova_pool_configurator_shortcode( $atts ) {
     }
 
     // Assets
-    wp_enqueue_style( 'mova-pool-configurator-style', get_stylesheet_directory_uri() . '/assets/css/pool-configurator.css', array(), '1.0.0' );
-    wp_enqueue_script( 'mova-pool-configurator-script', get_stylesheet_directory_uri() . '/assets/js/pool-configurator.js', array(), '1.0.0', true );
+    wp_enqueue_style( 'mova-pool-color-preview-style', get_stylesheet_directory_uri() . '/assets/css/pool-color-preview.css', array(), '1.0.0' );
+    wp_enqueue_script( 'mova-pool-color-preview-script', get_stylesheet_directory_uri() . '/assets/js/pool-color-preview.js', array(), '1.0.0', true );
 
-    wp_localize_script( 'mova-pool-configurator-script', 'movaConfigurator', array(
+    wp_localize_script( 'mova-pool-color-preview-script', 'movaColorPreview', array(
         'defaultImage' => $default_image ?: '',
         'modelSlug'    => get_post_field( 'post_name', $post_id ),
         'modelTitle'   => html_entity_decode( get_the_title( $post_id ) ),
@@ -74,31 +74,31 @@ function mova_pool_configurator_shortcode( $atts ) {
 
     ob_start(); ?>
 
-    <div class="mova-cfg" id="mova-cfg">
+    <div class="mova-cpv" id="mova-cpv">
 
         <!-- Preview -->
-        <div class="mova-cfg-preview">
-            <div class="mova-cfg-preview-wrap">
+        <div class="mova-cpv-preview">
+            <div class="mova-cpv-preview-wrap">
                 <img src="<?php echo esc_url( $default_image ); ?>"
                      alt="<?php echo esc_attr( get_the_title( $post_id ) ); ?>"
-                     id="mova-cfg-preview-img"
-                     class="mova-cfg-preview-img" />
+                     id="mova-cpv-preview-img"
+                     class="mova-cpv-preview-img" />
             </div>
         </div>
 
-        <!-- Panneau de configuration -->
-        <div class="mova-cfg-panel">
+        <!-- Panneau couleurs -->
+        <div class="mova-cpv-panel">
 
-            <h3 class="mova-cfg-title">Personnalisez votre piscine</h3>
+            <h3 class="mova-cpv-title">Choisissez votre couleur</h3>
 
             <!-- Couleurs -->
-            <div class="mova-cfg-section">
-                <h4 class="mova-cfg-section-title">Couleurs</h4>
-                <p class="mova-cfg-section-subtitle">Sélectionnez une couleur de piscine</p>
+            <div class="mova-cpv-section">
+                <h4 class="mova-cpv-section-title">Couleurs</h4>
+                <p class="mova-cpv-section-subtitle">Sélectionnez une couleur de piscine</p>
 
-                <div class="mova-cfg-swatches" id="mova-cfg-couleurs">
+                <div class="mova-cpv-swatches" id="mova-cpv-couleurs">
                     <?php foreach ( $couleurs as $couleur ) : ?>
-                    <button class="mova-cfg-swatch"
+                    <button class="mova-cpv-swatch"
                             data-slug="<?php echo esc_attr( $couleur['slug'] ); ?>"
                             data-ambiance="<?php echo esc_url( $couleur['ambiance'] ); ?>"
                             title="<?php echo esc_attr( $couleur['name'] ); ?>"
@@ -107,13 +107,13 @@ function mova_pool_configurator_shortcode( $atts ) {
                             <img src="<?php echo esc_url( $couleur['swatch'] ); ?>"
                                  alt="<?php echo esc_attr( $couleur['name'] ); ?>" />
                         <?php else : ?>
-                            <span class="mova-cfg-swatch-placeholder"><?php echo esc_html( mb_substr( $couleur['name'], 0, 2 ) ); ?></span>
+                            <span class="mova-cpv-swatch-placeholder"><?php echo esc_html( mb_substr( $couleur['name'], 0, 2 ) ); ?></span>
                         <?php endif; ?>
                     </button>
                     <?php endforeach; ?>
                 </div>
 
-                <p class="mova-cfg-color-name" id="mova-cfg-color-name"></p>
+                <p class="mova-cpv-color-name" id="mova-cpv-color-name"></p>
             </div>
 
         </div>
@@ -123,4 +123,4 @@ function mova_pool_configurator_shortcode( $atts ) {
     <?php
     return ob_get_clean();
 }
-add_shortcode( 'mova_pool_configurator', 'mova_pool_configurator_shortcode' );
+add_shortcode( 'mova_pool_color_preview', 'mova_pool_color_preview_shortcode' );

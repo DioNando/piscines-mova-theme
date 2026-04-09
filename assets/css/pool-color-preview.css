@@ -1,8 +1,8 @@
 /* =============================================
-   Pool Configurator — Step 1: Couleurs
+   Pool Color Preview — Couleurs
    ============================================= */
 
-.mova-cfg {
+.mova-cpv {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
@@ -12,12 +12,12 @@
 }
 
 /* --- Preview --- */
-.mova-cfg-preview {
+.mova-cpv-preview {
   position: sticky;
   top: 120px;
 }
 
-.mova-cfg-preview-wrap {
+.mova-cpv-preview-wrap {
   background: #f5f6f8;
   /* border-radius: 12px; */
   overflow: hidden;
@@ -27,23 +27,23 @@
   justify-content: center;
 }
 
-.mova-cfg-preview-img {
+.mova-cpv-preview-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   transition: opacity 0.3s ease;
 }
 
-.mova-cfg-preview-img.loading {
+.mova-cpv-preview-img.loading {
   opacity: 0.4;
 }
 
 /* --- Panneau --- */
-.mova-cfg-panel {
+.mova-cpv-panel {
   padding: 10px 0;
 }
 
-.mova-cfg-title {
+.mova-cpv-title {
   font-size: 26px;
   font-weight: 700;
   color: #1a4759;
@@ -52,31 +52,31 @@
 }
 
 /* --- Section --- */
-.mova-cfg-section {
+.mova-cpv-section {
   margin-bottom: 32px;
 }
 
-.mova-cfg-section-title {
+.mova-cpv-section-title {
   font-size: 16px;
   font-weight: 600;
   color: #1a4759;
   margin: 0 0 4px;
 }
 
-.mova-cfg-section-subtitle {
+.mova-cpv-section-subtitle {
   font-size: 13px;
   color: #777;
   margin: 0 0 14px;
 }
 
 /* --- Swatches --- */
-.mova-cfg-swatches {
+.mova-cpv-swatches {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
-.mova-cfg-swatch {
+.mova-cpv-swatch {
   width: 72px;
   height: 72px;
   border-radius: 8px;
@@ -91,31 +91,31 @@
   position: relative;
 }
 
-.mova-cfg-swatch img {
+.mova-cpv-swatch img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.mova-cfg-swatch:hover {
+.mova-cpv-swatch:hover {
   border-color: #1a4759;
   background-color: transparent;
   transform: scale(1.06);
 }
 
-.mova-cfg-swatch.active {
+.mova-cpv-swatch.active {
   border-color: #1a4759;
   box-shadow:
     0 0 0 2px #fff,
     0 0 0 4px #1a4759;
 }
 
-.mova-cfg-swatch:focus {
+.mova-cpv-swatch:focus {
   background-color: transparent;
 }
 
-.mova-cfg-swatch-placeholder {
+.mova-cpv-swatch-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -128,7 +128,7 @@
 }
 
 /* --- Nom couleur sélectionnée --- */
-.mova-cfg-color-name {
+.mova-cpv-color-name {
   font-size: 14px;
   font-weight: 500;
   color: #1a4759;
@@ -139,26 +139,26 @@
 
 /* --- Responsive --- */
 @media (max-width: 1024px) {
-  .mova-cfg {
+  .mova-cpv {
     gap: 24px;
   }
 
-  .mova-cfg-title {
+  .mova-cpv-title {
     font-size: 22px;
   }
 }
 
 @media (max-width: 767px) {
-  .mova-cfg {
+  .mova-cpv {
     grid-template-columns: 1fr;
     gap: 20px;
   }
 
-  .mova-cfg-preview {
+  .mova-cpv-preview {
     position: static;
   }
 
-  .mova-cfg-swatch {
+  .mova-cpv-swatch {
     width: 48px;
     height: 48px;
   }

@@ -1,13 +1,13 @@
 (function () {
     'use strict';
 
-    var previewImg = document.getElementById('mova-cfg-preview-img');
-    var colorName  = document.getElementById('mova-cfg-color-name');
-    var swatches   = document.querySelectorAll('#mova-cfg-couleurs .mova-cfg-swatch');
+    var previewImg = document.getElementById('mova-cpv-preview-img');
+    var colorName  = document.getElementById('mova-cpv-color-name');
+    var swatches   = document.querySelectorAll('#mova-cpv-couleurs .mova-cpv-swatch');
 
     if (!previewImg || swatches.length === 0) return;
 
-    var defaultSrc    = movaConfigurator.defaultImage;
+    var defaultSrc    = movaColorPreview.defaultImage;
     var selectedColor = '';
 
     /* ========================

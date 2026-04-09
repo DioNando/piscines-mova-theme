@@ -360,23 +360,23 @@ Utilisateur clique « Envoyer »
 
 ---
 
-## Intégration avec le configurateur
+## Intégration avec la prévisualisation couleurs
 
-Le shortcode `[mova_pool_configurator]` (dans `inc/pool-configurator.php`) exporte une variable `devisUrl` pointant vers `/demande-de-devis/` :
+Le shortcode `[mova_pool_color_preview]` (dans `inc/pool-color-preview.php`) exporte une variable `devisUrl` pointant vers `/demande-de-devis/` :
 
 ```php
-wp_localize_script( 'mova-pool-configurator-script', 'movaConfigurator', array(
+wp_localize_script( 'mova-pool-color-preview-script', 'movaColorPreview', array(
     'devisUrl' => home_url( '/demande-de-devis/' ),
     // ...
 ) );
 ```
 
-Pour créer un lien depuis le configurateur vers le formulaire de devis avec pré-remplissage :
+Pour créer un lien depuis la prévisualisation vers le formulaire de devis avec pré-remplissage :
 
 ```js
-// Dans pool-configurator.js
-var url = movaConfigurator.devisUrl
-        + '?model=' + encodeURIComponent(movaConfigurator.modelSlug)
+// Dans pool-color-preview.js
+var url = movaColorPreview.devisUrl
+        + '?model=' + encodeURIComponent(movaColorPreview.modelSlug)
         + '&couleur=' + encodeURIComponent(selectedColor);
 window.location.href = url;
 ```
