@@ -76,42 +76,44 @@ function mova_pool_configurator_shortcode( $atts ) {
         return '';
     }
 
-    // --- Tapis disponibles ---
+    // --- Tapis disponibles par zone ---
     $tapis_raw = get_field( 'tapis_disponibles', $post_id );
-    $tapis     = array();
+    $tapis_par_zone = array(); // zone => [ {slug, name, swatch}, ... ]
 
     if ( ! empty( $tapis_raw ) && is_array( $tapis_raw ) ) {
-        foreach ( $tapis_raw as $term ) {
-            $term_id  = is_object( $term ) ? $term->term_id : intval( $term );
-            $term_obj = is_object( $term ) ? $term : get_term( $term_id, 'modele_tapis' );
+        foreach ( $zones as $zone ) {
+            $tapis_par_zone[ $zone ] = array();
 
-            if ( ! $term_obj || is_wp_error( $term_obj ) ) continue;
+            foreach ( $tapis_raw as $term ) {
+                $term_id  = is_object( $term ) ? $term->term_id : intval( $term );
+                $term_obj = is_object( $term ) ? $term : get_term( $term_id, 'modele_tapis' );
 
-            $slug_fichier = get_field( 'slug_fichier', 'modele_tapis_' . $term_obj->term_id );
-            if ( ! $slug_fichier ) continue;
+                if ( ! $term_obj || is_wp_error( $term_obj ) ) continue;
 
-            // Vérifier qu'au moins un overlay existe pour ce tapis
-            $has_overlay = false;
-            foreach ( $zones as $zone ) {
+                $slug_fichier = get_field( 'slug_fichier', 'modele_tapis_' . $term_obj->term_id );
+                if ( ! $slug_fichier ) continue;
+
+                // Vérifier que l'overlay existe pour cette zone précise
                 $overlay_file = $slug_dimension . '-' . $slug_fichier . '-' . $zone . '.png';
-                if ( file_exists( $base_dir . $overlay_file ) ) {
-                    $has_overlay = true;
-                    break;
-                }
+                if ( ! file_exists( $base_dir . $overlay_file ) ) continue;
+
+                $swatch_id = get_field( 'swatch_tapis', 'modele_tapis_' . $term_obj->term_id );
+
+                $tapis_par_zone[ $zone ][] = array(
+                    'slug'    => $slug_fichier,
+                    'name'    => $term_obj->name,
+                    'swatch'  => $swatch_id ? wp_get_attachment_image_url( $swatch_id, 'thumbnail' ) : '',
+                );
             }
-            if ( ! $has_overlay ) continue;
 
-            $swatch_id = get_field( 'swatch_tapis', 'modele_tapis_' . $term_obj->term_id );
-
-            $tapis[] = array(
-                'slug'    => $slug_fichier,
-                'name'    => $term_obj->name,
-                'swatch'  => $swatch_id ? wp_get_attachment_image_url( $swatch_id, 'thumbnail' ) : '',
-            );
+            // Retirer les zones sans tapis valide
+            if ( empty( $tapis_par_zone[ $zone ] ) ) {
+                unset( $tapis_par_zone[ $zone ] );
+            }
         }
     }
 
-    if ( empty( $tapis ) ) {
+    if ( empty( $tapis_par_zone ) ) {
         if ( $debug ) {
             $nb_raw = is_array( $tapis_raw ) ? count( $tapis_raw ) : 0;
             return '<!-- mova-cfg: 0 tapis valides sur ' . $nb_raw . ' bruts. Vérifiez slug_fichier sur chaque terme modele_tapis ET qu\'au moins un fichier ' . $slug_dimension . '-{slug}-{zone}.png existe dans ' . $base_dir . ' -->';
@@ -119,9 +121,15 @@ function mova_pool_configurator_shortcode( $atts ) {
         return '';
     }
 
-    // Défauts
+    // Zones effectives (celles qui ont au moins 1 tapis)
+    $zones_effectives = array_keys( $tapis_par_zone );
+
+    // Défauts par zone
     $default_couleur = $couleurs[0]['slug'];
-    $default_tapis   = $tapis[0]['slug'];
+    $defaults_tapis  = array();
+    foreach ( $tapis_par_zone as $zone => $liste ) {
+        $defaults_tapis[ $zone ] = $liste[0]['slug'];
+    }
 
     // Image fond par défaut
     $default_fond_url = $base_url . 'piscine-' . $slug_dimension . '-' . $default_couleur . '.png';
@@ -144,11 +152,11 @@ function mova_pool_configurator_shortcode( $atts ) {
     wp_localize_script( 'mova-pool-configurator-script', 'movaConfigurator', array(
         'baseUrl'        => $base_url,
         'slugDimension'  => $slug_dimension,
-        'zones'          => $zones,
+        'zones'          => $zones_effectives,
         'defaultCouleur' => $default_couleur,
-        'defaultTapis'   => $default_tapis,
+        'defaultsTapis'  => $defaults_tapis,
         'couleurs'       => $couleurs,
-        'tapis'          => $tapis,
+        'tapisParZone'   => $tapis_par_zone,
     ) );
 
     ob_start(); ?>
@@ -162,8 +170,9 @@ function mova_pool_configurator_shortcode( $atts ) {
                      alt="Fond <?php echo esc_attr( $couleurs[0]['name'] ); ?>"
                      class="mova-cfg-layer mova-cfg-layer--fond"
                      id="mova-cfg-layer-fond" />
-                <?php foreach ( $zones as $zone ) :
-                    $overlay_file = $slug_dimension . '-' . $default_tapis . '-' . $zone . '.png';
+                <?php foreach ( $zones_effectives as $zone ) :
+                    $def_tapis_slug = $defaults_tapis[ $zone ];
+                    $overlay_file   = $slug_dimension . '-' . $def_tapis_slug . '-' . $zone . '.png';
                     $overlay_exists = file_exists( $base_dir . $overlay_file );
                 ?>
                 <img src="<?php echo $overlay_exists ? esc_url( $base_url . $overlay_file ) : ''; ?>"
@@ -202,13 +211,28 @@ function mova_pool_configurator_shortcode( $atts ) {
                 <p class="mova-cfg-active-label" id="mova-cfg-couleur-label"><?php echo esc_html( $couleurs[0]['name'] ); ?></p>
             </div>
 
-            <!-- Modèles de tapis -->
-            <div class="mova-cfg-section">
-                <h4 class="mova-cfg-section-title">Modèle de tapis</h4>
-                <div class="mova-cfg-swatches" id="mova-cfg-tapis">
-                    <?php foreach ( $tapis as $t ) : ?>
-                    <button class="mova-cfg-swatch mova-cfg-swatch--tapis<?php echo $t['slug'] === $default_tapis ? ' is-active' : ''; ?>"
+            <!-- Tapis par zone -->
+            <?php foreach ( $zones_effectives as $zone ) :
+                $zone_tapis   = $tapis_par_zone[ $zone ];
+                $default_slug = $defaults_tapis[ $zone ];
+                $zone_labels  = array( 'marches' => 'Marches', 'bancs' => 'Bancs', 'terrasse' => 'Terrasse', 'fond' => 'Fond' );
+                $zone_label   = isset( $zone_labels[ $zone ] ) ? $zone_labels[ $zone ] : ucfirst( $zone );
+            ?>
+            <div class="mova-cfg-section mova-cfg-section--zone" data-zone="<?php echo esc_attr( $zone ); ?>">
+                <div class="mova-cfg-zone-header">
+                    <h4 class="mova-cfg-section-title">Tapis — <?php echo esc_html( $zone_label ); ?></h4>
+                    <button class="mova-cfg-zone-toggle is-active"
+                            data-zone="<?php echo esc_attr( $zone ); ?>"
+                            aria-pressed="true"
+                            title="Activer/désactiver cette zone">
+                        <span class="mova-cfg-zone-toggle-icon"></span>
+                    </button>
+                </div>
+                <div class="mova-cfg-swatches mova-cfg-zone-swatches" data-zone="<?php echo esc_attr( $zone ); ?>">
+                    <?php foreach ( $zone_tapis as $t ) : ?>
+                    <button class="mova-cfg-swatch mova-cfg-swatch--tapis<?php echo $t['slug'] === $default_slug ? ' is-active' : ''; ?>"
                             data-slug="<?php echo esc_attr( $t['slug'] ); ?>"
+                            data-zone="<?php echo esc_attr( $zone ); ?>"
                             title="<?php echo esc_attr( $t['name'] ); ?>"
                             aria-label="<?php echo esc_attr( $t['name'] ); ?>">
                         <?php if ( $t['swatch'] ) : ?>
@@ -220,22 +244,9 @@ function mova_pool_configurator_shortcode( $atts ) {
                     </button>
                     <?php endforeach; ?>
                 </div>
-                <p class="mova-cfg-active-label" id="mova-cfg-tapis-label"><?php echo esc_html( $tapis[0]['name'] ); ?></p>
+                <p class="mova-cfg-active-label" data-zone-label="<?php echo esc_attr( $zone ); ?>"><?php echo esc_html( $zone_tapis[0]['name'] ); ?></p>
             </div>
-
-            <!-- Zones -->
-            <div class="mova-cfg-section">
-                <h4 class="mova-cfg-section-title">Zones</h4>
-                <div class="mova-cfg-zones" id="mova-cfg-zones">
-                    <?php foreach ( $zones as $zone ) : ?>
-                    <button class="mova-cfg-zone-toggle is-active"
-                            data-zone="<?php echo esc_attr( $zone ); ?>"
-                            aria-pressed="true">
-                        <?php echo esc_html( ucfirst( $zone ) ); ?>
-                    </button>
-                    <?php endforeach; ?>
-                </div>
-            </div>
+            <?php endforeach; ?>
 
         </div>
 

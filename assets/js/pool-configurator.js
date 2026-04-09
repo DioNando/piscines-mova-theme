@@ -4,21 +4,21 @@
     var cfg = window.movaConfigurator;
     if (!cfg) return;
 
-    var layerFond     = document.getElementById('mova-cfg-layer-fond');
-    var couleurLabel  = document.getElementById('mova-cfg-couleur-label');
-    var tapisLabel    = document.getElementById('mova-cfg-tapis-label');
-    var couleurBtns   = document.querySelectorAll('#mova-cfg-couleurs .mova-cfg-swatch');
-    var tapisBtns     = document.querySelectorAll('#mova-cfg-tapis .mova-cfg-swatch');
-    var zoneBtns      = document.querySelectorAll('#mova-cfg-zones .mova-cfg-zone-toggle');
+    var layerFond    = document.getElementById('mova-cfg-layer-fond');
+    var couleurLabel = document.getElementById('mova-cfg-couleur-label');
+    var couleurBtns  = document.querySelectorAll('#mova-cfg-couleurs .mova-cfg-swatch');
 
     if (!layerFond) return;
 
     var activeCouleur = cfg.defaultCouleur;
-    var activeTapis   = cfg.defaultTapis;
 
-    // Zones actives (toutes par défaut)
+    // Tapis actif par zone
+    var activeTapis = {};
     var activeZones = {};
-    cfg.zones.forEach(function (z) { activeZones[z] = true; });
+    cfg.zones.forEach(function (z) {
+        activeTapis[z] = cfg.defaultsTapis[z] || '';
+        activeZones[z] = true;
+    });
 
     /* ========================
        Couleur swatches
@@ -30,14 +30,11 @@
 
             activeCouleur = slug;
 
-            // Mise à jour classes actives
             couleurBtns.forEach(function (b) { b.classList.remove('is-active'); });
             btn.classList.add('is-active');
 
-            // Label
             if (couleurLabel) couleurLabel.textContent = btn.getAttribute('title');
 
-            // Changer le fond — les overlays restent
             var fondUrl = cfg.baseUrl + 'piscine-' + cfg.slugDimension + '-' + slug + '.png';
             loadImage(fondUrl, function (src) {
                 layerFond.src = src;
@@ -46,47 +43,61 @@
     });
 
     /* ========================
-       Tapis swatches
+       Tapis swatches (per zone)
        ======================== */
-    tapisBtns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            var slug = btn.dataset.slug;
-            if (slug === activeTapis) return;
+    cfg.zones.forEach(function (zone) {
+        var container = document.querySelector('.mova-cfg-zone-swatches[data-zone="' + zone + '"]');
+        if (!container) return;
 
-            activeTapis = slug;
+        var btns = container.querySelectorAll('.mova-cfg-swatch');
+        var label = document.querySelector('[data-zone-label="' + zone + '"]');
 
-            // Mise à jour classes actives
-            tapisBtns.forEach(function (b) { b.classList.remove('is-active'); });
-            btn.classList.add('is-active');
+        btns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var slug = btn.dataset.slug;
+                if (slug === activeTapis[zone]) return;
 
-            // Label
-            if (tapisLabel) tapisLabel.textContent = btn.getAttribute('title');
+                activeTapis[zone] = slug;
 
-            // Mettre à jour tous les overlays de zones actives
-            updateAllOverlays();
+                // Update active class within this zone only
+                btns.forEach(function (b) { b.classList.remove('is-active'); });
+                btn.classList.add('is-active');
+
+                if (label) label.textContent = btn.getAttribute('title');
+
+                // Update this zone's overlay only
+                if (activeZones[zone]) {
+                    updateOverlay(zone);
+                }
+            });
         });
     });
 
     /* ========================
        Zone toggles
        ======================== */
+    var zoneBtns = document.querySelectorAll('.mova-cfg-zone-toggle');
     zoneBtns.forEach(function (btn) {
         btn.addEventListener('click', function () {
             var zone = btn.dataset.zone;
             var layer = document.getElementById('mova-cfg-layer-' + zone);
+            var section = btn.closest('.mova-cfg-section--zone');
             if (!layer) return;
 
             activeZones[zone] = !activeZones[zone];
             btn.classList.toggle('is-active');
             btn.setAttribute('aria-pressed', activeZones[zone] ? 'true' : 'false');
 
+            // Dim the swatches when zone is off
+            if (section) {
+                var swatchContainer = section.querySelector('.mova-cfg-zone-swatches');
+                if (swatchContainer) {
+                    swatchContainer.classList.toggle('is-disabled', !activeZones[zone]);
+                }
+            }
+
             if (activeZones[zone]) {
-                // Réactiver : charger l'overlay courant
-                var url = getOverlayUrl(zone);
-                loadImage(url, function (src) {
-                    layer.src = src;
-                    layer.style.display = '';
-                });
+                updateOverlay(zone);
             } else {
                 layer.style.display = 'none';
             }
@@ -97,27 +108,19 @@
        Helpers
        ======================== */
     function getOverlayUrl(zone) {
-        return cfg.baseUrl + cfg.slugDimension + '-' + activeTapis + '-' + zone + '.png';
+        return cfg.baseUrl + cfg.slugDimension + '-' + activeTapis[zone] + '-' + zone + '.png';
     }
 
-    function updateAllOverlays() {
-        cfg.zones.forEach(function (zone) {
-            var layer = document.getElementById('mova-cfg-layer-' + zone);
-            if (!layer) return;
+    function updateOverlay(zone) {
+        var layer = document.getElementById('mova-cfg-layer-' + zone);
+        if (!layer) return;
 
-            if (!activeZones[zone]) {
-                layer.style.display = 'none';
-                return;
-            }
-
-            var url = getOverlayUrl(zone);
-            loadImage(url, function (src) {
-                layer.src = src;
-                layer.style.display = '';
-            }, function () {
-                // Overlay inexistant → cacher
-                layer.style.display = 'none';
-            });
+        var url = getOverlayUrl(zone);
+        loadImage(url, function (src) {
+            layer.src = src;
+            layer.style.display = '';
+        }, function () {
+            layer.style.display = 'none';
         });
     }
 
