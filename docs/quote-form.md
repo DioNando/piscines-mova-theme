@@ -7,11 +7,13 @@
 4. [Utilisation du shortcode](#utilisation-du-shortcode)
 5. [Fonctionnalités](#fonctionnalités)
 6. [Structure des données](#structure-des-données)
-7. [Sécurité](#sécurité)
-8. [Flux de soumission (AJAX)](#flux-de-soumission-ajax)
-9. [Personnalisation CSS](#personnalisation-css)
-10. [Intégration avec le configurateur](#intégration-avec-le-configurateur)
-11. [Ajouter / modifier des champs](#ajouter--modifier-des-champs)
+7. [Stockage en base de données (CPT)](#stockage-en-base-de-données-cpt)
+8. [Administration (Back-Office)](#administration-back-office)
+9. [Sécurité](#sécurité)
+10. [Flux de soumission (AJAX)](#flux-de-soumission-ajax)
+11. [Personnalisation CSS](#personnalisation-css)
+12. [Intégration avec le configurateur](#intégration-avec-le-configurateur)
+13. [Ajouter / modifier des champs](#ajouter--modifier-des-champs)
 
 ---
 
@@ -22,6 +24,7 @@ Le shortcode `[mova_quote_form]` affiche un formulaire de demande de devis pour 
 - **3 sections de champs** : Coordonnées, Adresse, Projet
 - **Section consentements** : accord de partage des coordonnées + inscription à l'infolettre
 - **Soumission AJAX** : envoi sans rechargement de page via `admin-ajax.php`
+- **Stockage en base de données** : chaque soumission est enregistrée comme un CPT `demande_devis` consultable dans le back-office WordPress
 
 Le formulaire est dynamique : les modèles de piscines (CPT `piscine`), les couleurs (taxonomie `couleur_piscine`) et les provinces (taxonomie `province`) sont chargés automatiquement depuis la base de données WordPress. Il supporte le pré-remplissage depuis le configurateur de piscine via des query params ou des attributs de shortcode.
 
@@ -33,9 +36,11 @@ Quand le formulaire est atteint depuis le configurateur AquaCove, les sélection
 
 | Fichier | Rôle |
 |---|---|
-| `inc/quote-form.php` | Shortcode WordPress (HTML du formulaire + 3 fieldsets) + handler AJAX `mova_submit_quote` (validation, sanitisation, envoi `wp_mail()`) |
+| `inc/quote-form.php` | Shortcode WordPress (HTML du formulaire + 3 fieldsets) + handler AJAX `mova_submit_quote` (validation, sanitisation, stockage CPT `demande_devis`, envoi `wp_mail()`) + colonnes admin + filtre par statut |
 | `assets/js/quote-form.js` | Logique JS : validation côté client, soumission AJAX `XMLHttpRequest`, gestion des états (loading, erreur, succès) |
 | `assets/css/quote-form.css` | Styles : layout grille, champs de formulaire, checkboxes, bouton submit, messages feedback, responsive |
+| `acf-json/post_type_69d4b8f1a7e20.json` | Enregistrement ACF du CPT `demande_devis` |
+| `acf-json/group_demande_devis_details.json` | Groupe de champs ACF « Détails de la demande » (5 onglets) |
 
 **Chemins d'assets dans le thème :**
 - CSS : `{theme}/assets/css/quote-form.css`
@@ -45,8 +50,9 @@ Quand le formulaire est atteint depuis le configurateur AquaCove, les sélection
 
 ## Prérequis WordPress
 
-### Custom Post Type
+### Custom Post Types
 - **`piscine`** — Chaque modèle de piscine est un post de ce type. Utilisé pour alimenter les checkboxes de sélection de modèle.
+- **`demande_devis`** — Chaque soumission du formulaire est enregistrée comme un post de ce type. Visible uniquement dans l'administration (`public: false`, `show_ui: true`). Enregistré via ACF JSON (`post_type_69d4b8f1a7e20.json`).
 
 ### Taxonomies utilisées
 
@@ -56,7 +62,7 @@ Quand le formulaire est atteint depuis le configurateur AquaCove, les sélection
 | Provinces | `province` | Menu déroulant « Province » (section adresse) |
 
 ### Plugin requis
-- **ACF** (Advanced Custom Fields) — Les taxonomies et CPT doivent être configurés. Aucun champ ACF spécifique n'est requis pour le formulaire lui-même, mais les champs du CPT `piscine` (définis dans `group_piscine_details`) doivent exister pour que les modèles soient publiés.
+- **ACF** (Advanced Custom Fields) — Les taxonomies et CPT doivent être configurés. Le groupe de champs `group_demande_devis_details` définit les champs de stockage des soumissions. La fonction `update_field()` d'ACF est utilisée dans le handler AJAX pour enregistrer les données. Les champs du CPT `piscine` (définis dans `group_piscine_details`) doivent exister pour que les modèles soient publiés.
 
 ### Enregistrement du module
 Le fichier est inclus dans `functions.php` :
@@ -159,10 +165,13 @@ Le formulaire est envoyé via `XMLHttpRequest` en `POST` vers `admin-ajax.php`. 
 - En cas de succès : message vert + `form.reset()`
 - En cas d'erreur : message rouge avec détails
 
-### 8. Envoi de courriel
+### 8. Stockage en base de données
+Avant l'envoi du courriel, la soumission est enregistrée en base de données via `wp_insert_post()` (CPT `demande_devis`) avec tous les champs remplis via `update_field()` d'ACF. Le statut est initialisé à `"nouveau"`. Si l'insertion échoue, le courriel est quand même envoyé (pas de blocage).
+
+### 9. Envoi de courriel
 L'email est envoyé via `wp_mail()` à l'adresse admin du site (`get_option('admin_email')`). Le format est texte brut avec toutes les données du formulaire. Le header `Reply-To` est défini sur l'adresse du demandeur.
 
-### 9. Responsive
+### 10. Responsive
 | Breakpoint | Comportement |
 |---|---|
 | > 767px | Grille 2 colonnes pour les champs, 3 colonnes pour l'adresse |
@@ -256,12 +265,144 @@ Infolettre : Oui
 
 ---
 
+## Stockage en base de données (CPT)
+
+Chaque soumission valide du formulaire crée un post de type `demande_devis` via `wp_insert_post()`. Les données sont stockées dans des champs ACF via `update_field()`.
+
+### CPT `demande_devis`
+
+| Propriété | Valeur |
+|---|---|
+| **Slug** | `demande_devis` |
+| **Fichier ACF** | `acf-json/post_type_69d4b8f1a7e20.json` |
+| **Public** | `false` (pas de page front-end) |
+| **Visible dans l'admin** | `true` |
+| **Icône menu** | `dashicons-email-alt` |
+| **Position menu** | 25 (sous Commentaires) |
+| **Supports** | `title`, `custom-fields` |
+
+### Groupe de champs ACF — `group_demande_devis_details`
+
+**Fichier :** `acf-json/group_demande_devis_details.json`
+
+Organisé en **5 onglets** :
+
+#### Onglet « Coordonnées »
+| Champ ACF | Clé | Type |
+|---|---|---|
+| Prénom | `field_devis_prenom` | text |
+| Nom | `field_devis_nom` | text |
+| Courriel | `field_devis_courriel` | email |
+| Téléphone | `field_devis_telephone` | text |
+| Meilleur moment | `field_devis_moment` | text |
+| Moyen de contact | `field_devis_moyen_contact` | text |
+
+#### Onglet « Adresse »
+| Champ ACF | Clé | Type |
+|---|---|---|
+| Adresse | `field_devis_adresse` | text |
+| Ville | `field_devis_ville` | text |
+| Province | `field_devis_province` | text |
+| Code postal | `field_devis_code_postal` | text |
+
+#### Onglet « Projet »
+| Champ ACF | Clé | Type |
+|---|---|---|
+| Modèle(s) | `field_devis_modeles` | text |
+| Couleur | `field_devis_couleur` | text |
+| Type d'installation | `field_devis_type_installation` | text |
+| Date du projet | `field_devis_date_projet` | text |
+| Source | `field_devis_source` | text |
+| Commentaires | `field_devis_commentaires` | textarea |
+
+#### Onglet « AquaCove »
+| Champ ACF | Clé | Type |
+|---|---|---|
+| Tapis — Marches | `field_devis_tapis_marches` | text |
+| Tapis — Bancs | `field_devis_tapis_bancs` | text |
+| Tapis — Terrasse | `field_devis_tapis_terrasse` | text |
+| Options AquaCove | `field_devis_options_aquacove` | text |
+
+#### Onglet « Suivi »
+| Champ ACF | Clé | Type | Détail |
+|---|---|---|---|
+| Statut | `field_devis_statut` | select | Nouveau / En cours / Traité / Archivé (défaut : `nouveau`) |
+| Accord coordonnées | `field_devis_accord_coordonnees` | true_false | Toggle Oui/Non |
+| Infolettre | `field_devis_infolettre` | true_false | Toggle Oui/Non |
+| Notes internes | `field_devis_notes_internes` | textarea | Visible uniquement par l'équipe |
+
+### Titre du post
+
+Le titre est automatiquement généré : `"Devis — {prénom} {nom}"`.
+
+### Modèles de piscines
+
+Le tableau `modeles[]` est joint en chaîne séparée par virgules avant stockage (ex: `"12x24, 12x34"`).
+
+### Résilience
+
+Si `wp_insert_post()` échoue (retourne `WP_Error`), le courriel est quand même envoyé. Le stockage en base ne bloque jamais l'envoi du courriel.
+
+---
+
+## Administration (Back-Office)
+
+### Menu WordPress
+
+Le CPT `demande_devis` apparaît dans le menu admin avec l'icône `dashicons-email-alt` (enveloppe) à la position 25.
+
+### Colonnes de la liste
+
+La liste des demandes affiche les colonnes personnalisées suivantes :
+
+| Colonne | Contenu |
+|---|---|
+| **Titre** | `Devis — Prénom Nom` (lien vers l'édition) |
+| **Courriel** | Adresse courriel du demandeur |
+| **Téléphone** | Numéro de téléphone |
+| **Modèle(s)** | Modèles sélectionnés (séparés par virgule) |
+| **Statut** | Pastille colorée selon le statut |
+| **Date** | Date de soumission |
+
+### Pastilles de statut
+
+| Valeur | Label | Couleur |
+|---|---|---|
+| `nouveau` | Nouveau | Bleu (`#2271b1`) |
+| `en_cours` | En cours | Jaune (`#dba617`) |
+| `traite` | Traité | Vert (`#00a32a`) |
+| `archive` | Archivé | Gris (`#787c82`) |
+
+### Filtre par statut
+
+Un menu déroulant « Tous les statuts / Nouveau / En cours / Traité / Archivé » est disponible au-dessus de la liste. Le filtre utilise une `meta_query` sur le champ ACF `statut`.
+
+### Tri
+
+La colonne **Statut** est triable (cliquer sur l'en-tête pour trier).
+
+### Édition d'une demande
+
+En cliquant sur une demande, les 5 onglets ACF sont affichés. Le champ **Statut** et **Notes internes** (onglet « Suivi ») permettent de suivre le traitement de la demande. Tous les autres champs sont en lecture/écriture mais reflètent les données soumises.
+
+### Fonctions PHP (hooks admin)
+
+| Fonction | Hook | Rôle |
+|---|---|---|
+| `mova_devis_admin_columns()` | `manage_demande_devis_posts_columns` | Définit les colonnes personnalisées |
+| `mova_devis_admin_column_content()` | `manage_demande_devis_posts_custom_column` | Affiche le contenu des colonnes |
+| `mova_devis_sortable_columns()` | `manage_edit-demande_devis_sortable_columns` | Rend la colonne Statut triable |
+| `mova_devis_admin_filter_dropdown()` | `restrict_manage_posts` | Affiche le dropdown de filtre par statut |
+| `mova_devis_admin_filter_query()` | `pre_get_posts` | Applique le filtre meta_query + tri par statut |
+
+---
+
 ## Sécurité
 
 | Mesure | Détail |
 |---|---|
 | **Nonce WordPress** | `wp_create_nonce('mova_quote_form_nonce')` généré dans le HTML, vérifié par `wp_verify_nonce()` dans le handler AJAX |
-| **Honeypot anti-spam** | Champ caché `website` (hors écran, `tabindex="-1"`). Si rempli → la soumission est silencieusement acceptée (faux positif pour le bot) sans envoi de courriel |
+| **Honeypot anti-spam** | Champ caché `website` (hors écran, `tabindex="-1"`). Si rempli → la soumission est silencieusement acceptée (faux positif pour le bot) sans envoi de courriel ni création de post en base |
 | **Sanitisation serveur** | Chaque champ est passé par `sanitize_text_field()`, `sanitize_email()` ou `sanitize_textarea_field()` avec `wp_unslash()` |
 | **Validation serveur** | Les champs obligatoires sont revalidés côté serveur indépendamment du JS |
 | **Échappement HTML** | Toutes les valeurs affichées dans le formulaire utilisent `esc_attr()` / `esc_html()` |
@@ -300,7 +441,13 @@ Utilisateur clique « Envoyer »
                                             │
                                             ├── Erreur → JSON error + messages
                                             │
-                                            └── OK → wp_mail()
+                                            └── OK → wp_insert_post(demande_devis)
+                                                        │
+                                                        ▼
+                                                update_field() × N champs ACF
+                                                        │
+                                                        ▼
+                                                    wp_mail()
                                                         │
                                                         ├── Échec → JSON error
                                                         │
@@ -454,14 +601,29 @@ Options AquaCove : jets, badujet
    </div>
    ```
 
-2. **PHP** (`inc/quote-form.php`) — Dans le handler AJAX, ajouter la sanitisation et l'inclure dans le body du courriel :
+2. **ACF** (`acf-json/group_demande_devis_details.json`) — Ajouter un champ dans le groupe, dans l'onglet approprié :
+   ```json
+   {
+     "key": "field_devis_budget",
+     "label": "Budget estimé",
+     "name": "budget",
+     "type": "text",
+     "wrapper": { "width": "50", "class": "", "id": "" }
+   }
+   ```
+   > Alternative : ajouter le champ directement dans l'interface ACF de WordPress, puis synchroniser le JSON.
+
+3. **PHP** (`inc/quote-form.php`) — Dans le handler AJAX, ajouter la sanitisation, le stockage ACF, et l'inclure dans le body du courriel :
    ```php
    $budget = sanitize_text_field( wp_unslash( $_POST['budget'] ?? '' ) );
+   // ...
+   // Stockage ACF (dans le bloc wp_insert_post)
+   update_field( 'field_devis_budget', $budget, $post_id );
    // ...
    $body .= "Budget : {$budget}\n";
    ```
 
-3. **JS** (`assets/js/quote-form.js`) — Si le champ est obligatoire, ajouter la validation dans la fonction `validate()` :
+4. **JS** (`assets/js/quote-form.js`) — Si le champ est obligatoire, ajouter la validation dans la fonction `validate()` :
    ```js
    var budget = form.querySelector('[name="budget"]');
    if (!budget.value) {
@@ -476,6 +638,10 @@ Options AquaCove : jets, badujet
 2. Ajouter `<span class="mova-qf-req">*</span>` après le texte du label
 3. Ajouter la validation JS dans `validate()`
 4. Ajouter la validation PHP dans le handler AJAX
+
+### Ajouter une colonne admin
+
+Dans `inc/quote-form.php`, ajouter la clé dans `mova_devis_admin_columns()` et le `case` correspondant dans `mova_devis_admin_column_content()`.
 
 ### Modifier le destinataire du courriel
 

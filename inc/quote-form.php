@@ -377,8 +377,48 @@ function mova_handle_quote_submission() {
         wp_send_json_error( array( 'message' => implode( '<br>', $errors ) ) );
     }
 
-    // Construire le courriel
+    // Enregistrer la demande en base de données (CPT demande_devis)
     $modeles_list = ! empty( $modeles ) ? implode( ', ', $modeles ) : '—';
+
+    $post_id = wp_insert_post( array(
+        'post_type'   => 'demande_devis',
+        'post_title'  => 'Devis — ' . $prenom . ' ' . $nom,
+        'post_status' => 'publish',
+    ) );
+
+    if ( $post_id && ! is_wp_error( $post_id ) ) {
+        update_field( 'field_devis_prenom',           $prenom, $post_id );
+        update_field( 'field_devis_nom',              $nom, $post_id );
+        update_field( 'field_devis_courriel',         $courriel, $post_id );
+        update_field( 'field_devis_telephone',        $telephone, $post_id );
+        update_field( 'field_devis_moment',           $moment, $post_id );
+        update_field( 'field_devis_moyen_contact',    $moyen_contact, $post_id );
+        update_field( 'field_devis_adresse',          $adresse, $post_id );
+        update_field( 'field_devis_ville',            $ville, $post_id );
+        update_field( 'field_devis_province',         $province, $post_id );
+        update_field( 'field_devis_code_postal',      $code_postal, $post_id );
+        update_field( 'field_devis_modeles',          $modeles_list, $post_id );
+        update_field( 'field_devis_couleur',          $couleur, $post_id );
+        update_field( 'field_devis_type_installation', $type_installation, $post_id );
+        update_field( 'field_devis_date_projet',      $date_projet, $post_id );
+        update_field( 'field_devis_source',           $source, $post_id );
+        update_field( 'field_devis_commentaires',     $commentaires, $post_id );
+        update_field( 'field_devis_accord_coordonnees', $accord ? 1 : 0, $post_id );
+        update_field( 'field_devis_infolettre',       $infolettre ? 1 : 0, $post_id );
+        update_field( 'field_devis_statut',           'nouveau', $post_id );
+
+        // Tapis AquaCove
+        foreach ( $tapis_selections as $tz_key => $tz_slug ) {
+            update_field( 'field_devis_tapis_' . $tz_key, $tz_slug, $post_id );
+        }
+
+        // Options AquaCove
+        if ( $options_aquacove ) {
+            update_field( 'field_devis_options_aquacove', $options_aquacove, $post_id );
+        }
+    }
+
+    // Construire le courriel
 
     $body  = "Nouvelle demande de devis\n";
     $body .= "========================\n\n";
@@ -435,3 +475,128 @@ function mova_handle_quote_submission() {
 }
 add_action( 'wp_ajax_mova_submit_quote', 'mova_handle_quote_submission' );
 add_action( 'wp_ajax_nopriv_mova_submit_quote', 'mova_handle_quote_submission' );
+
+
+/* =============================================
+   Admin — Colonnes personnalisées (demande_devis)
+   ============================================= */
+function mova_devis_admin_columns( $columns ) {
+    $new = array();
+    $new['cb']        = $columns['cb'];
+    $new['title']     = $columns['title'];
+    $new['courriel']  = 'Courriel';
+    $new['telephone'] = 'Téléphone';
+    $new['modeles']   = 'Modèle(s)';
+    $new['statut']    = 'Statut';
+    $new['date']      = $columns['date'];
+    return $new;
+}
+add_filter( 'manage_demande_devis_posts_columns', 'mova_devis_admin_columns' );
+
+function mova_devis_admin_column_content( $column, $post_id ) {
+    switch ( $column ) {
+        case 'courriel':
+            $val = get_field( 'courriel', $post_id );
+            echo esc_html( $val ?: '—' );
+            break;
+        case 'telephone':
+            $val = get_field( 'telephone', $post_id );
+            echo esc_html( $val ?: '—' );
+            break;
+        case 'modeles':
+            $val = get_field( 'modeles', $post_id );
+            echo esc_html( $val ?: '—' );
+            break;
+        case 'statut':
+            $val = get_field( 'statut', $post_id );
+            $labels = array(
+                'nouveau'  => 'Nouveau',
+                'en_cours' => 'En cours',
+                'traite'   => 'Traité',
+                'archive'  => 'Archivé',
+            );
+            $colors = array(
+                'nouveau'  => '#2271b1',
+                'en_cours' => '#dba617',
+                'traite'   => '#00a32a',
+                'archive'  => '#787c82',
+            );
+            $label = isset( $labels[ $val ] ) ? $labels[ $val ] : $val;
+            $color = isset( $colors[ $val ] ) ? $colors[ $val ] : '#787c82';
+            if ( $label ) {
+                printf(
+                    '<span style="display:inline-block;padding:3px 10px;border-radius:4px;background:%s;color:#fff;font-size:12px;font-weight:600;line-height:1.4;">%s</span>',
+                    esc_attr( $color ),
+                    esc_html( $label )
+                );
+            } else {
+                echo '—';
+            }
+            break;
+    }
+}
+add_action( 'manage_demande_devis_posts_custom_column', 'mova_devis_admin_column_content', 10, 2 );
+
+function mova_devis_sortable_columns( $columns ) {
+    $columns['statut'] = 'statut';
+    return $columns;
+}
+add_filter( 'manage_edit-demande_devis_sortable_columns', 'mova_devis_sortable_columns' );
+
+
+/* =============================================
+   Admin — Filtre par statut (demande_devis)
+   ============================================= */
+function mova_devis_admin_filter_dropdown() {
+    global $typenow;
+    if ( 'demande_devis' !== $typenow ) {
+        return;
+    }
+
+    $current = isset( $_GET['devis_statut'] ) ? sanitize_text_field( $_GET['devis_statut'] ) : '';
+    $statuts = array(
+        'nouveau'  => 'Nouveau',
+        'en_cours' => 'En cours',
+        'traite'   => 'Traité',
+        'archive'  => 'Archivé',
+    );
+
+    echo '<select name="devis_statut">';
+    echo '<option value="">Tous les statuts</option>';
+    foreach ( $statuts as $value => $label ) {
+        printf(
+            '<option value="%s" %s>%s</option>',
+            esc_attr( $value ),
+            selected( $current, $value, false ),
+            esc_html( $label )
+        );
+    }
+    echo '</select>';
+}
+add_action( 'restrict_manage_posts', 'mova_devis_admin_filter_dropdown' );
+
+function mova_devis_admin_filter_query( $query ) {
+    global $pagenow, $typenow;
+    if ( ! is_admin() || 'edit.php' !== $pagenow || 'demande_devis' !== $typenow || ! $query->is_main_query() ) {
+        return;
+    }
+
+    // Filtre par statut
+    if ( ! empty( $_GET['devis_statut'] ) ) {
+        $statut = sanitize_text_field( $_GET['devis_statut'] );
+        $meta_query = $query->get( 'meta_query' ) ?: array();
+        $meta_query[] = array(
+            'key'     => 'statut',
+            'value'   => $statut,
+            'compare' => '=',
+        );
+        $query->set( 'meta_query', $meta_query );
+    }
+
+    // Tri par statut
+    if ( 'statut' === $query->get( 'orderby' ) ) {
+        $query->set( 'meta_key', 'statut' );
+        $query->set( 'orderby', 'meta_value' );
+    }
+}
+add_action( 'pre_get_posts', 'mova_devis_admin_filter_query' );

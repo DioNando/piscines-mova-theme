@@ -1,0 +1,72 @@
+CPT,Groupe ACF,Onglet,Nom du champ,ID du champ (name),Type de champ,Remarques / Instructions
+piscine,Détails et Configuration Piscine,Spécifications Techniques,Dimensions,dimensions,text,"Ex: 12' x 34'"
+piscine,Détails et Configuration Piscine,Spécifications Techniques,Profondeur,profondeur,text,"Ex: 4' 6"" constante"
+piscine,Détails et Configuration Piscine,Spécifications Techniques,Volume d'eau,volume_eau,text,"Ex: 12 500 gallons"
+piscine,Détails et Configuration Piscine,Spécifications Techniques,Poids de la coque,poids_coque,text,"Ex: 2 800 lbs"
+piscine,Détails et Configuration Piscine,Spécifications Techniques,Galerie Photos,galerie,gallery,return_format: id
+piscine,Détails et Configuration Piscine,Configurateur & Options,Couleurs disponibles,couleurs_disponibles,taxonomy,"Taxonomy: couleur_piscine · checkbox · save_terms + load_terms"
+piscine,Détails et Configuration Piscine,Configurateur & Options,Compatible AquaCove,opt_aquacove,true_false,Toggle UI
+piscine,Détails et Configuration Piscine,Configurateur & Options,Couleurs du configurateur,couleurs_configurateur,repeater,"Conditionnel: si opt_aquacove == 1 · Sub-fields: couleur (taxonomy select), image_fond (image PNG)"
+piscine,Détails et Configuration Piscine,Configurateur & Options,↳ Couleur,couleur,taxonomy (sub-field),"Sub-field du repeater couleurs_configurateur · couleur_piscine select"
+piscine,Détails et Configuration Piscine,Configurateur & Options,↳ Image fond (PNG),image_fond,image (sub-field),"Sub-field du repeater couleurs_configurateur · mime: png"
+piscine,Détails et Configuration Piscine,Configurateur & Options,Zones AquaCove,zones_configurateur,repeater,"Conditionnel: si opt_aquacove == 1 · Sub-fields: zone (select), tapis_zone (repeater)"
+piscine,Détails et Configuration Piscine,Configurateur & Options,↳ Zone,zone,select (sub-field),"Choix: marches, bancs, terrasse"
+piscine,Détails et Configuration Piscine,Configurateur & Options,↳ Tapis disponibles pour cette zone,tapis_zone,repeater (sub-field),"Repeater imbriqué · Sub-fields: modele_tapis, overlay, swatch_override"
+piscine,Détails et Configuration Piscine,Configurateur & Options,  ↳ Modèle de tapis,modele_tapis,taxonomy (sub-sub-field),"Taxonomy: modele_tapis · select"
+piscine,Détails et Configuration Piscine,Configurateur & Options,  ↳ Overlay (PNG),overlay,image (sub-sub-field),"Image PNG transparente du tapis · mime: png"
+piscine,Détails et Configuration Piscine,Configurateur & Options,  ↳ Pastille (optionnel),swatch_override,image (sub-sub-field),"Laisser vide pour utiliser la pastille par défaut du modèle"
+piscine,Détails et Configuration Piscine,Configurateur & Options,Compatible Jets de massage,opt_jets,true_false,Toggle UI
+piscine,Détails et Configuration Piscine,Configurateur & Options,Compatible BaduJet Turbo,opt_badujet,true_false,Toggle UI
+piscine,Détails et Configuration Piscine,Documents PDF,Fiches Techniques (PDF),fiches_techniques,repeater,"Sub-fields: nom_document (text), fichier_pdf (file · pdf)"
+piscine,Détails et Configuration Piscine,Documents PDF,↳ Libellé du document,nom_document,text (sub-field),"Ex: Mova - 12x34 - Français"
+piscine,Détails et Configuration Piscine,Documents PDF,↳ Fichier PDF,fichier_pdf,file (sub-field),"return_format: url · mime: pdf"
+piscine,Détails et Configuration Piscine,Contenus des Onglets (Textes),Description du modèle,description_modele,wysiwyg,"Texte de présentation global · toolbar: basic"
+piscine,Détails et Configuration Piscine,Contenus des Onglets (Textes),Caractéristiques,caracteristiques_modele,wysiwyg,"Liste à puces des attributs · toolbar: basic"
+piscine,Détails et Configuration Piscine,Contenus des Onglets (Textes),Finitions et options (Optionnel),finitions_options,wysiwyg,"Vide = texte global · toolbar: basic"
+piscine,Détails et Configuration Piscine,Contenus des Onglets (Textes),Technologies (Optionnel),technologies_modele,wysiwyg,"Vide = texte global MovaMax · toolbar: basic"
+detaillant,Informations Détaillant,Coordonnées postales,Adresse (Rue),adresse,text,"Ex: 2385, avenue du Pont Sud"
+detaillant,Informations Détaillant,Coordonnées postales,Ville,ville,text,"Ex: Alma"
+detaillant,Informations Détaillant,Coordonnées postales,Code postal,code_postal,text,"Ex: G8B 5V2"
+detaillant,Informations Détaillant,Contact & Web,Téléphone,telephone,text,
+detaillant,Informations Détaillant,Contact & Web,Courriel de contact,email_contact,email,
+detaillant,Informations Détaillant,Contact & Web,Site Web,site_web_url,url,
+detaillant,Informations Détaillant,Carte Interactive,Emplacement Google Map,emplacement,google_map,"Positionner le détaillant visuellement"
+detaillant,Informations Détaillant,Carte Interactive,Latitude,latitude,text,"Ex: 48.518140"
+detaillant,Informations Détaillant,Carte Interactive,Longitude,longitude,text,"Ex: -71.655109"
+carriere,Détails Carrière,Informations du poste,Salaire,salaire,text,"Ex: 30 $ de l'heure, Compétitif dès l'embauche"
+carriere,Détails Carrière,Informations du poste,Type de poste,type_poste,text,"Ex: Permanent · Temps plein"
+carriere,Détails Carrière,Informations du poste,Quart de travail et horaire,horaire,text,"Ex: 8 Heures · Quart de jour"
+carriere,Détails Carrière,Contenu & Médias,Description du poste,description_poste,wysiwyg,"toolbar: basic · sans upload média"
+carriere,Détails Carrière,Contenu & Médias,Image du poste,image_poste,image,"return_format: id"
+carriere,Détails Carrière,Formulaire & Lien,Lien vers le formulaire,lien_formulaire,url,"URL Zoho pour postuler"
+carriere,Détails Carrière,Options,Ordre d'affichage,ordre_affichage,number,"Plus petit = affiché en premier · défaut: 0"
+carriere,Détails Carrière,Options,Poste actif,poste_actif,true_false,"Désactiver pour masquer sans supprimer · défaut: 1"
+inspiration,Détails Inspiration,Photo & Légende,Légende,legende,text,"Ex: Modèle 12x28 à fond plat - Loup gris"
+inspiration,Détails Inspiration,Photo & Légende,Crédit photo,credit_photo,text,"Ex: © Vanessa Pilon - Photographe Guillaume St-Amand"
+inspiration,Détails Inspiration,Liens & Associations,Piscine associée,piscine_associee,relationship,"post_type: piscine · max: 1"
+inspiration,Détails Inspiration,Liens & Associations,Taille d'affichage,taille_affichage,select,"Choix: normal (1 col), wide (2 col), tall (2 rangées)"
+inspiration,Détails Inspiration,Liens & Associations,Ordre d'affichage,ordre_affichage,number,"Plus petit = affiché en premier · défaut: 0"
+demande_devis,Détails de la demande,Coordonnées,Prénom,prenom,text,
+demande_devis,Détails de la demande,Coordonnées,Nom,nom,text,
+demande_devis,Détails de la demande,Coordonnées,Courriel,courriel,email,
+demande_devis,Détails de la demande,Coordonnées,Téléphone,telephone,text,
+demande_devis,Détails de la demande,Coordonnées,Meilleur moment,moment,text,
+demande_devis,Détails de la demande,Coordonnées,Moyen de contact préféré,moyen_contact,text,
+demande_devis,Détails de la demande,Adresse,Adresse,adresse,text,
+demande_devis,Détails de la demande,Adresse,Ville,ville,text,
+demande_devis,Détails de la demande,Adresse,Province,province,text,
+demande_devis,Détails de la demande,Adresse,Code postal,code_postal,text,
+demande_devis,Détails de la demande,Projet,Modèle(s) de piscine,modeles,text,"Modèles séparés par des virgules"
+demande_devis,Détails de la demande,Projet,Couleur,couleur,text,
+demande_devis,Détails de la demande,Projet,Type d'installation,type_installation,text,
+demande_devis,Détails de la demande,Projet,Date du projet,date_projet,text,
+demande_devis,Détails de la demande,Projet,Source,source,text,"Comment le demandeur a entendu parler de Mova"
+demande_devis,Détails de la demande,Projet,Commentaires,commentaires,textarea,
+demande_devis,Détails de la demande,AquaCove,Tapis — Marches,tapis_marches,text,
+demande_devis,Détails de la demande,AquaCove,Tapis — Bancs,tapis_bancs,text,
+demande_devis,Détails de la demande,AquaCove,Tapis — Terrasse,tapis_terrasse,text,
+demande_devis,Détails de la demande,AquaCove,Options AquaCove,options_aquacove,text,"Slugs d'options séparés par des virgules"
+demande_devis,Détails de la demande,Suivi,Statut de la demande,statut,select,"Choix: nouveau, en_cours, traité, archivé · défaut: nouveau"
+demande_devis,Détails de la demande,Suivi,Accord coordonnées,accord_coordonnees,true_false,"Le demandeur a accepté le partage"
+demande_devis,Détails de la demande,Suivi,Infolettre,infolettre,true_false,"Le demandeur a accepté l'infolettre"
+demande_devis,Détails de la demande,Suivi,Notes internes,notes_internes,textarea,"Visibles uniquement par l'équipe"
