@@ -214,7 +214,7 @@ function mova_pool_configurator_shortcode( $atts ) {
             <?php foreach ( $zones_effectives as $zone ) :
                 $zone_tapis   = $tapis_par_zone[ $zone ];
                 $default_slug = $defaults_tapis[ $zone ];
-                $zone_labels  = array( 'marches' => 'Marches', 'bancs' => 'Bancs', 'terrasse' => 'Terrasse', 'fond' => 'Fond' );
+                $zone_labels  = array( 'marches' => 'Marches', 'bancs' => 'Bancs', 'terrasse' => 'Terrasse' );
                 $zone_label   = isset( $zone_labels[ $zone ] ) ? $zone_labels[ $zone ] : ucfirst( $zone );
             ?>
             <div class="mova-cfg-section mova-cfg-section--zone" data-zone="<?php echo esc_attr( $zone ); ?>">

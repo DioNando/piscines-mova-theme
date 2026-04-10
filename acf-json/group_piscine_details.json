@@ -139,8 +139,7 @@
           "choices": {
             "marches": "Marches",
             "bancs": "Bancs",
-            "terrasse": "Terrasse",
-            "fond": "Fond"
+            "terrasse": "Terrasse"
           },
           "wrapper": { "width": "100" }
         },
@@ -298,5 +297,5 @@
   ],
   "active": true,
   "description": "Spécifications techniques, options de configuration, documents PDF et contenus éditoriaux pour chaque modèle de piscine.",
-  "modified": 1775692810
+  "modified": 1775692900
 }

@@ -18,7 +18,7 @@
 
 Le shortcode `[mova_pool_configurator]` affiche un configurateur visuel AquaCove qui superpose des couches PNG transparentes (tapis) sur un fond de couleur de coque. Il se compose de :
 
-- **Zone de prévisualisation (sticky)** : empilement de layers PNG — un fond (couleur coque) + un overlay par zone (marches, bancs, terrasse, fond)
+- **Zone de prévisualisation (sticky)** : empilement de layers PNG — un fond (couleur coque) + un overlay par zone (marches, bancs, terrasse)
 - **Bouton zoom** : ouvre une lightbox plein écran avec les layers clonées
 - **Panneau Couleur de la coque** : swatches cliquables pour changer le fond
 - **Panneau Tapis par zone** : chaque zone a son propre sélecteur de tapis indépendant, avec un toggle on/off
@@ -62,7 +62,7 @@ Le composant est entièrement côté client (pas d'AJAX). Les URLs des images pr
 | ↳ Couleur | `couleur` | Taxonomy select (`couleur_piscine`) | Terme couleur |
 | ↳ Image fond | `image_fond` | Image (ID) | PNG de la piscine dans cette couleur, uploadé en médiathèque |
 | Zones AquaCove | `zones_configurateur` | Repeater | Zones avec tapis et overlays (visible si `opt_aquacove = true`) |
-| ↳ Zone | `zone` | Select | marches, bancs, terrasse ou fond |
+| ↳ Zone | `zone` | Select | marches, bancs ou terrasse |
 | ↳ Tapis zone | `tapis_zone` | Repeater imbriqué | Tapis disponibles pour cette zone |
 | ↳↳ Modèle de tapis | `modele_tapis` | Taxonomy select (`modele_tapis`) | Terme tapis |
 | ↳↳ Overlay | `overlay` | Image (ID) | PNG transparent du tapis pour cette zone, uploadé en médiathèque |
@@ -239,7 +239,7 @@ https://piscinesmova.preprod.io/demandez-un-devis/?model=12x34&couleur=ciel-de-m
 | `model` | `modelSlug` (post_name du CPT piscine) | Pré-coche le modèle dans le formulaire |
 | `couleur` | `slug` du terme `couleur_piscine` actif | Pré-sélectionne la couleur dans le dropdown |
 | `options` | Checkboxes cochées (séparées par virgule) | Slugs des options sélectionnées |
-| `tapis_{zone}` | `slug` du terme `modele_tapis` actif dans la zone | Un param par zone active (marches, bancs, terrasse, fond) |
+| `tapis_{zone}` | `slug` du terme `modele_tapis` actif dans la zone | Un param par zone active (marches, bancs, terrasse) |
 
 Les params `tapis_{zone}` ne sont envoyés que pour les zones activées (toggle on) ayant un tapis sélectionné.
 
