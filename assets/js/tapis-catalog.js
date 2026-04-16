@@ -44,11 +44,6 @@
 
         // Sélectionner la première piscine automatiquement
         selectPiscine(0);
-
-        // Scroll (uniquement sur clic utilisateur)
-        if (doScroll) {
-            layersWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
     }
 
     /* ============================================================

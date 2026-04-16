@@ -29,11 +29,22 @@
   top: 120px;
 }
 
+/* --- Titre sélecteur --- */
+.mova-tc-swatches-title {
+  font-family: "AcuminPro", sans-serif !important;
+  font-size: 1.625rem !important;
+  font-weight: 600 !important;
+  color: inherit;
+  margin: 0 0 24px;
+  line-height: 1.2;
+}
+
 /* --- Grille des pastilles --- */
 .mova-tc-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 12px;
+  padding: 0.5rem;
 }
 
 .mova-tc-card {
@@ -54,8 +65,13 @@
 
 .mova-tc-card:hover {
   border-color: #1a4759;
+  background-color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(26, 71, 89, 0.12);
+}
+
+.mova-tc-card:focus {
+  background-color: white;
 }
 
 .mova-tc-card.active {
@@ -99,7 +115,6 @@
 .mova-tc-layers {
   position: relative;
   background: #f5f6f8;
-  border-radius: 12px;
   overflow: hidden;
   line-height: 0;
 }

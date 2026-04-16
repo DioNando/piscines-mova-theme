@@ -6,23 +6,43 @@
   margin: 0 auto;
 }
 
-/* --- Sélecteur de modèles --- */
-.mova-ccc-models {
-  margin-bottom: 40px;
+/* --- Layout 2 colonnes --- */
+.mova-ccc-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 40px;
+  align-items: start;
 }
 
+/* --- Colonne modèles --- */
+.mova-ccc-col-models {
+  max-height: 80vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* --- Colonne preview (sticky) --- */
+.mova-ccc-col-preview {
+  position: sticky;
+  top: 120px;
+}
+
+/* --- Titre sélecteur --- */
 .mova-ccc-models-title {
-  font-family: "Kaftan", sans-serif !important;
-  font-size: 1.5rem !important;
+  font-family: "AcuminPro", sans-serif !important;
+  font-size: 1.625rem !important;
+  font-weight: 600 !important;
   color: inherit;
   margin: 0 0 24px;
   line-height: 1.2;
 }
 
+/* --- Grille modèles --- */
 .mova-ccc-models-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  padding: 0.5rem;
 }
 
 .mova-ccc-model-card {
@@ -71,7 +91,9 @@
   background: #f5f6f8;
 }
 
-.mova-ccc-model-name, .mova-ccc-model-name:hover, .mova-ccc-model-name:focus {
+.mova-ccc-model-name,
+.mova-ccc-model-name:hover,
+.mova-ccc-model-name:focus {
   display: block;
   padding: 10px 12px;
   font-size: 14px;
@@ -81,26 +103,7 @@
   width: 100%;
 }
 
-/* --- Zone détail --- */
-.mova-ccc-detail {
-  margin-top: 40px;
-  padding-top: 40px;
-  border-top: 1px solid #e5e7eb;
-}
-
-.mova-ccc-detail-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: start;
-}
-
 /* --- Preview --- */
-.mova-ccc-preview {
-  position: sticky;
-  top: 120px;
-}
-
 .mova-ccc-preview-wrap {
   background: white;
   overflow: hidden;
@@ -123,7 +126,7 @@
 
 /* --- Panneau --- */
 .mova-ccc-panel {
-  padding: 10px 0;
+  padding: 16px 0 0;
 }
 
 .mova-ccc-model-title {
@@ -240,26 +243,28 @@
 
 /* --- Responsive --- */
 @media (max-width: 1024px) {
-  .mova-ccc-detail-inner {
+  .mova-ccc-layout {
+    grid-template-columns: 1fr 1.2fr;
     gap: 24px;
   }
 
-  .mova-ccc-model-title {
-    font-size: 20px;
-  }
-
   .mova-ccc-models-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
   }
 }
 
 @media (max-width: 767px) {
-  .mova-ccc-detail-inner {
+  .mova-ccc-layout {
     grid-template-columns: 1fr;
-    gap: 20px;
   }
 
-  .mova-ccc-preview {
+  .mova-ccc-col-models {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .mova-ccc-col-preview {
     position: static;
   }
 
@@ -269,15 +274,7 @@
   }
 
   .mova-ccc-models-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 12px;
-  }
-
-  .mova-ccc-models-title {
-    font-family: "Kaftan", sans-serif !important;
-    font-size: 1.5rem !important;
-    color: inherit;
-    margin: 0 0 24px 0;
-    line-height: 1.2;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
   }
 }

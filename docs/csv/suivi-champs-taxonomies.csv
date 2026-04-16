@@ -3,6 +3,5 @@ couleur_piscine,Réglages de la Couleur,Pastille de couleur (Swatch),swatch_coul
 couleur_piscine,Réglages de la Couleur,Image d'ambiance,image_ambiance,image,"Photo réelle d'une piscine avec cette couleur · return_format: id · preview: medium"
 couleur_piscine,Réglages de la Couleur,Description Marketing,description_couleur,textarea,"Texte court décrivant l'inspiration de la couleur"
 modele_tapis,Réglages du Modèle de Tapis,Pastille de texture,swatch_tapis,image,"return_format: id · preview: thumbnail"
-modele_tapis,Réglages du Modèle de Tapis,Image de démonstration,image_preview_tapis,image,"return_format: id"
 categorie_piscine,Média Taxonomie,Image de la catégorie,image_categorie,image,"return_format: id · preview: medium"
 categorie_piscine,Média Taxonomie,Description de la catégorie,description_categorie,textarea,

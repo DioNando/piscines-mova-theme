@@ -174,6 +174,7 @@ function mova_tapis_catalog_shortcode( $atts ) {
 
             <!-- Colonne 1 : grille pastilles -->
             <div class="mova-tc-col-swatches">
+                <h3 class="mova-tc-swatches-title">Choisissez un tapis</h3>
                 <div class="mova-tc-grid" id="mova-tc-grid">
                     <?php foreach ( $tapis_list as $index => $tapis ) : ?>
                     <button class="mova-tc-card"
@@ -197,16 +198,16 @@ function mova_tapis_catalog_shortcode( $atts ) {
 
             <!-- Colonne 2 : preview + infos -->
             <div class="mova-tc-col-preview">
-                <div class="mova-tc-layers" id="mova-tc-layers">
-                    <img src="" alt="" class="mova-tc-layer mova-tc-layer--fond" id="mova-tc-layer-fond" />
-                    <!-- Les overlays par zone sont injectés dynamiquement par JS -->
-                </div>
                 <div class="mova-tc-panel">
                     <h3 class="mova-tc-tapis-name" id="mova-tc-tapis-name"></h3>
                     <div class="mova-tc-section">
                         <h4 class="mova-tc-section-title">Aperçu sur le modèle</h4>
                         <div class="mova-tc-piscines" id="mova-tc-piscines"></div>
                     </div>
+                </div>
+                <div class="mova-tc-layers" id="mova-tc-layers">
+                    <img src="" alt="" class="mova-tc-layer mova-tc-layer--fond" id="mova-tc-layer-fond" />
+                    <!-- Les overlays par zone sont injectés dynamiquement par JS -->
                 </div>
             </div>
 

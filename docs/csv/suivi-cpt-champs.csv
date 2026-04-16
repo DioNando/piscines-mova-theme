@@ -24,6 +24,7 @@ piscine,Détails et Configuration Piscine,Contenus des Onglets (Textes),Descript
 piscine,Détails et Configuration Piscine,Contenus des Onglets (Textes),Caractéristiques,caracteristiques_modele,wysiwyg,"Liste à puces des attributs · toolbar: basic"
 piscine,Détails et Configuration Piscine,Contenus des Onglets (Textes),Finitions et options (Optionnel),finitions_options,wysiwyg,"Vide = texte global · toolbar: basic"
 piscine,Détails et Configuration Piscine,Contenus des Onglets (Textes),Technologies (Optionnel),technologies_modele,wysiwyg,"Vide = texte global MovaMax · toolbar: basic"
+piscine,Détails et Configuration Piscine,Modèles Similaires,Modèles similaires,modeles_similaires,relationship,"post_type: piscine · max: 6 · return_format: post_object"
 detaillant,Informations Détaillant,Coordonnées postales,Adresse (Rue),adresse,text,"Ex: 2385, avenue du Pont Sud"
 detaillant,Informations Détaillant,Coordonnées postales,Ville,ville,text,"Ex: Alma"
 detaillant,Informations Détaillant,Coordonnées postales,Code postal,code_postal,text,"Ex: G8B 5V2"

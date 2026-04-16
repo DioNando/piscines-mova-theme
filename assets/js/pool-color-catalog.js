@@ -6,7 +6,6 @@
     var devisUrl    = data.devisUrl;
 
     var modelsGrid  = document.getElementById('mova-ccc-models-grid');
-    var detailWrap  = document.getElementById('mova-ccc-detail');
     var previewImg  = document.getElementById('mova-ccc-preview-img');
     var modelTitle  = document.getElementById('mova-ccc-model-title');
     var swatchesEl  = document.getElementById('mova-ccc-swatches');
@@ -15,7 +14,7 @@
     var noColorsMsg   = document.getElementById('mova-ccc-no-colors');
     var linkDetail    = document.getElementById('mova-ccc-link-detail');
 
-    if (!modelsGrid || !detailWrap || models.length === 0) return;
+    if (!modelsGrid || !previewImg || models.length === 0) return;
 
     var currentModelIndex = -1;
     var selectedColor     = '';
@@ -43,9 +42,6 @@
         modelCards.forEach(function (c) { c.classList.remove('active'); });
         modelCards[index].classList.add('active');
 
-        // Afficher la zone détail
-        detailWrap.style.display = '';
-
         // Image par défaut
         previewImg.src = model.defaultImage || '';
         previewImg.alt = model.title;
@@ -62,11 +58,6 @@
 
         // Construire les swatches
         buildSwatches(model.couleurs);
-
-        // Scroll vers la zone détail
-        if (doScroll !== false) {
-            detailWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
     }
 
     /* ========================

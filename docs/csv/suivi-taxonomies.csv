@@ -3,7 +3,8 @@ piscine,Couleurs,couleur_piscine,Oui,"Palette de couleurs gel-coat pour les coqu
 piscine,Modèles de tapis,modele_tapis,Non,"Textures de tapis AquaCove · Ex: Marine, Granit, Sable",group_tapis_settings (Réglages du Modèle de Tapis)
 piscine,Dimensions,dimension_piscine,Oui,"Largeur × longueur des modèles · Ex: 12x24, 12x28, 12x34",Aucun
 piscine,Besoins,besoin_piscine,Oui,"Aide au choix selon usage · Ex: petite cour, famille nombreuse, nage sportive",Aucun
+piscine,Catégories de piscine,categorie_piscine,Oui,"Classement du catalogue · Ex: Petites, Familiales, Sportives",group_taxo_images (Média Taxonomie)
 detaillant,Provinces,province,Oui,"Provinces canadiennes et états américains · Ex: Québec, Ontario, New York",Aucun
 detaillant,Régions,region,Oui,"Régions administratives · Ex: Saguenay–Lac-Saint-Jean, Laurentides",Aucun
 detaillant,Pays,pays,Oui,"Pays · Ex: Canada, États-Unis",Aucun
-inspiration,Catégories Inspiration,categorie_inspiration,Oui,"Thèmes d'inspiration · Ex: aménagement, moderne, familial",group_taxo_images (Média Taxonomie) — Note: location originale = categorie_piscine
+inspiration,Catégories Inspiration,categorie_inspiration,Oui,"Thèmes d'inspiration · Ex: aménagement, moderne, familial",Aucun

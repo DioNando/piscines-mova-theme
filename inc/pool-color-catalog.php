@@ -110,44 +110,33 @@ function mova_pool_color_catalog_shortcode( $atts ) {
     ob_start(); ?>
 
     <div class="mova-ccc" id="mova-ccc">
+        <div class="mova-ccc-layout">
 
-        <!-- Sélecteur de modèles -->
-        <div class="mova-ccc-models">
-            <h3 class="mova-ccc-models-title">Choisissez un modèle</h3>
-            <div class="mova-ccc-models-grid" id="mova-ccc-models-grid">
-                <?php foreach ( $models as $index => $model ) : ?>
-                <button class="mova-ccc-model-card"
-                        data-index="<?php echo intval( $index ); ?>"
-                        title="<?php echo esc_attr( $model['title'] ); ?>"
-                        aria-label="<?php echo esc_attr( $model['title'] ); ?>">
-                    <?php if ( $model['thumb'] ) : ?>
-                        <img src="<?php echo esc_url( $model['thumb'] ); ?>"
-                             alt="<?php echo esc_attr( $model['title'] ); ?>"
-                             class="mova-ccc-model-thumb" loading="lazy" />
-                    <?php else : ?>
-                        <span class="mova-ccc-model-placeholder"></span>
-                    <?php endif; ?>
-                    <span class="mova-ccc-model-name"><?php echo esc_html( $model['title'] ); ?></span>
-                </button>
-                <?php endforeach; ?>
-            </div>
-        </div>
-
-        <!-- Zone preview + couleurs (masquée tant qu'aucun modèle sélectionné) -->
-        <div class="mova-ccc-detail" id="mova-ccc-detail" style="display:none;">
-
-            <div class="mova-ccc-detail-inner">
-
-                <!-- Preview -->
-                <div class="mova-ccc-preview">
-                    <div class="mova-ccc-preview-wrap">
-                        <img src="" alt=""
-                             id="mova-ccc-preview-img"
-                             class="mova-ccc-preview-img" />
-                    </div>
+            <!-- Colonne 1 : cartes modèles -->
+            <div class="mova-ccc-col-models">
+                <h3 class="mova-ccc-models-title">Choisissez un modèle</h3>
+                <div class="mova-ccc-models-grid" id="mova-ccc-models-grid">
+                    <?php foreach ( $models as $index => $model ) : ?>
+                    <button class="mova-ccc-model-card"
+                            data-index="<?php echo intval( $index ); ?>"
+                            title="<?php echo esc_attr( $model['title'] ); ?>"
+                            aria-label="<?php echo esc_attr( $model['title'] ); ?>">
+                        <?php if ( $model['thumb'] ) : ?>
+                            <img src="<?php echo esc_url( $model['thumb'] ); ?>"
+                                 alt="<?php echo esc_attr( $model['title'] ); ?>"
+                                 class="mova-ccc-model-thumb" loading="lazy" />
+                        <?php else : ?>
+                            <span class="mova-ccc-model-placeholder"></span>
+                        <?php endif; ?>
+                        <span class="mova-ccc-model-name"><?php echo esc_html( $model['title'] ); ?></span>
+                    </button>
+                    <?php endforeach; ?>
                 </div>
+            </div>
 
-                <!-- Panneau couleurs -->
+            <!-- Colonne 2 : preview + couleurs -->
+            <div class="mova-ccc-col-preview">
+
                 <div class="mova-ccc-panel">
                     <h3 class="mova-ccc-model-title" id="mova-ccc-model-title"></h3>
 
@@ -167,10 +156,15 @@ function mova_pool_color_catalog_shortcode( $atts ) {
                     </a>
                 </div>
 
+                <div class="mova-ccc-preview-wrap">
+                    <img src="" alt=""
+                         id="mova-ccc-preview-img"
+                         class="mova-ccc-preview-img" />
+                </div>
+
             </div>
 
         </div>
-
     </div>
 
     <?php
