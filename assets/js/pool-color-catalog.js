@@ -32,7 +32,7 @@
         });
     });
 
-    function selectModel(index) {
+    function selectModel(index, doScroll) {
         if (index < 0 || index >= models.length) return;
 
         var model = models[index];
@@ -64,7 +64,9 @@
         buildSwatches(model.couleurs);
 
         // Scroll vers la zone détail
-        detailWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (doScroll !== false) {
+            detailWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     }
 
     /* ========================
@@ -157,5 +159,8 @@
         };
         img.src = src;
     }
+
+    // Auto-sélection au chargement
+    selectModel(0, false);
 
 })();

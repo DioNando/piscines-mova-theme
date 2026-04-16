@@ -275,6 +275,10 @@
   }
 
   .mova-ccc-models-title {
-    font-size: 22px;
+    font-family: "Kaftan", sans-serif !important;
+    font-size: 1.5rem !important;
+    color: inherit;
+    margin: 0 0 24px 0;
+    line-height: 1.2;
   }
 }

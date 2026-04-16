@@ -9,13 +9,6 @@
       "type": "image",
       "return_format": "id",
       "preview_size": "thumbnail"
-    },
-    {
-      "key": "field_tapis_preview",
-      "label": "Image de démonstration",
-      "name": "image_preview_tapis",
-      "type": "image",
-      "return_format": "id"
     }
   ],
   "location": [
@@ -28,6 +21,6 @@
     ]
   ],
   "active": true,
-  "description": "Images de pastille et de démonstration associées à chaque modèle de tapis AquaCove.",
-  "modified": 1775692801
+  "description": "Pastille de texture associée à chaque modèle de tapis AquaCove. Le preview est généré depuis les configurateurs piscine.",
+  "modified": 1776222000
 }

@@ -1,17 +1,39 @@
 /* =============================================
    Tapis Catalog — Catalogue des tapis AquaCove
+   Preview via configurateur piscine
    ============================================= */
 
 .mova-tc {
   margin: 0 auto;
 }
 
-/* --- Grille des tapis --- */
+/* --- Layout 2 colonnes --- */
+.mova-tc-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* --- Colonne pastilles --- */
+.mova-tc-col-swatches {
+  /* scrollable si très nombreuses pastilles */
+  max-height: 80vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* --- Colonne preview (sticky) --- */
+.mova-tc-col-preview {
+  position: sticky;
+  top: 120px;
+}
+
+/* --- Grille des pastilles --- */
 .mova-tc-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 16px;
-  margin-bottom: 40px;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
 }
 
 .mova-tc-card {
@@ -73,96 +95,91 @@
   width: 100%;
 }
 
-/* --- Zone détail --- */
-.mova-tc-detail {
-  margin-top: 40px;
-  padding-top: 40px;
-  border-top: 1px solid #e5e7eb;
-}
-
-.mova-tc-detail-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: start;
-}
-
-/* --- Preview --- */
-.mova-tc-preview {
-  position: sticky;
-  top: 120px;
-}
-
-.mova-tc-preview-wrap {
+/* --- Preview en layers --- */
+.mova-tc-layers {
+  position: relative;
   background: #f5f6f8;
   border-radius: 12px;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  line-height: 0;
 }
 
-.mova-tc-preview-img {
+.mova-tc-layer--fond {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mova-tc-layer--overlay {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
+  pointer-events: none;
   transition: opacity 0.3s ease;
 }
 
-.mova-tc-preview-img.loading {
-  opacity: 0.4;
+.mova-tc-layer--overlay.loading {
+  opacity: 0.3;
 }
 
-/* --- Panneau info --- */
+/* --- Panneau --- */
 .mova-tc-panel {
-  padding: 10px 0;
+  padding: 16px 0 0;
 }
 
 .mova-tc-tapis-name {
   font-size: 24px;
   font-weight: 700;
   color: #1a4759;
-  margin: 0 0 12px;
+  margin: 0 0 24px;
   line-height: 1.2;
 }
 
-.mova-tc-tapis-desc {
-  font-size: 15px;
-  color: #555;
-  margin: 0 0 24px;
-  line-height: 1.5;
-}
-
-.mova-tc-tapis-desc:empty {
-  display: none;
-}
-
-/* --- Texture swatch large --- */
-.mova-tc-swatch-large {
-  margin-bottom: 24px;
+/* --- Section --- */
+.mova-tc-section {
+  margin-bottom: 28px;
 }
 
 .mova-tc-section-title {
   font-size: 16px;
   font-weight: 600;
   color: #1a4759;
-  margin: 0 0 10px;
+  margin: 0 0 12px;
 }
 
-.mova-tc-swatch-img {
-  width: 120px;
-  height: 120px;
-  border-radius: 8px;
-  object-fit: cover;
-  border: 2px solid #e5e7eb;
+/* --- Sélecteur de piscines --- */
+.mova-tc-piscines {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-/* --- Pas de preview --- */
-.mova-tc-no-preview {
-  color: #777;
+.mova-tc-piscine-btn {
+  padding: 7px 16px;
   font-size: 14px;
-  font-style: italic;
+  font-weight: 500;
+  color: #1a4759;
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: 20px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    color 0.2s;
+}
+
+.mova-tc-piscine-btn:hover {
+  border-color: #1a4759;
+}
+
+.mova-tc-piscine-btn.active {
+  background: #1a4759;
+  border-color: #1a4759;
+  color: #fff;
 }
 
 /* =============================================
@@ -171,43 +188,43 @@
 
 /* Tablette */
 @media (max-width: 1024px) {
-  .mova-tc-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 12px;
+  .mova-tc-layout {
+    grid-template-columns: 1fr 1.2fr;
+    gap: 24px;
   }
 
-  .mova-tc-detail-inner {
-    gap: 24px;
+  .mova-tc-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
   }
 }
 
 /* Mobile */
 @media (max-width: 767px) {
+  .mova-tc-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .mova-tc-col-swatches {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .mova-tc-col-preview {
+    position: static;
+  }
+
   .mova-tc-grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
   }
 
   .mova-tc-card-name {
     font-size: 12px;
-    padding: 8px 8px;
-  }
-
-  .mova-tc-detail-inner {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .mova-tc-preview {
-    position: static;
+    padding: 8px;
   }
 
   .mova-tc-tapis-name {
     font-size: 20px;
-  }
-
-  .mova-tc-swatch-img {
-    width: 80px;
-    height: 80px;
   }
 }

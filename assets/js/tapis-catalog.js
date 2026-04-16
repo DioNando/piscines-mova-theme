@@ -4,87 +4,114 @@
     var data      = movaTapisCatalog;
     var tapisList = data.tapis;
 
-    var grid       = document.getElementById('mova-tc-grid');
-    var detailWrap = document.getElementById('mova-tc-detail');
-    var previewImg = document.getElementById('mova-tc-preview-img');
-    var tapisName  = document.getElementById('mova-tc-tapis-name');
-    var tapisDesc  = document.getElementById('mova-tc-tapis-desc');
-    var swatchLrg  = document.getElementById('mova-tc-swatch-large');
-    var swatchImg  = document.getElementById('mova-tc-swatch-img');
-    var noPreview  = document.getElementById('mova-tc-no-preview');
+    var grid         = document.getElementById('mova-tc-grid');
+    var layersWrap   = document.getElementById('mova-tc-layers');
+    var layerFond    = document.getElementById('mova-tc-layer-fond');
+    var tapisNameEl  = document.getElementById('mova-tc-tapis-name');
+    var piscinesWrap = document.getElementById('mova-tc-piscines');
 
-    if (!grid || !detailWrap || tapisList.length === 0) return;
+    if (!grid || !layersWrap || tapisList.length === 0) return;
 
-    var currentIndex = -1;
+    var currentTapisIndex   = -1;
+    var currentPiscineIndex = -1;
 
-    /* ========================
+    /* ============================================================
        Sélection d'un tapis
-       ======================== */
+       ============================================================ */
     var cards = grid.querySelectorAll('.mova-tc-card');
 
     cards.forEach(function (card) {
         card.addEventListener('click', function () {
-            var index = parseInt(card.dataset.index, 10);
-            selectTapis(index);
+            selectTapis(parseInt(card.dataset.index, 10), true);
         });
     });
 
-    function selectTapis(index) {
+    function selectTapis(index, doScroll) {
         if (index < 0 || index >= tapisList.length) return;
 
         var tapis = tapisList[index];
-        currentIndex = index;
+        currentTapisIndex = index;
 
         // Activer la carte
         cards.forEach(function (c) { c.classList.remove('active'); });
         cards[index].classList.add('active');
 
-        // Afficher la zone détail
-        detailWrap.style.display = '';
+        // Nom
+        tapisNameEl.textContent = tapis.name;
 
-        // Nom + description
-        tapisName.textContent = tapis.name;
-        tapisDesc.textContent = tapis.description || '';
+        // Construire les boutons piscines
+        buildPiscines(tapis.piscines);
 
-        // Swatch texture large
-        if (tapis.swatch) {
-            swatchLrg.style.display = '';
-            swatchImg.src = tapis.swatch;
-            swatchImg.alt = tapis.name;
-        } else {
-            swatchLrg.style.display = 'none';
+        // Sélectionner la première piscine automatiquement
+        selectPiscine(0);
+
+        // Scroll (uniquement sur clic utilisateur)
+        if (doScroll) {
+            layersWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-
-        // Preview image
-        if (tapis.preview) {
-            noPreview.style.display = 'none';
-            setPreview(tapis.preview, tapis.name);
-        } else {
-            noPreview.style.display = '';
-            previewImg.src = '';
-            previewImg.alt = '';
-            previewImg.classList.remove('loading');
-        }
-
-        // Scroll vers la zone détail
-        detailWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    /* ========================
-       Mise à jour du preview
-       ======================== */
-    function setPreview(src, alt) {
-        previewImg.classList.add('loading');
+    /* ============================================================
+       Construction des boutons piscines
+       ============================================================ */
+    function buildPiscines(piscines) {
+        piscinesWrap.innerHTML = '';
 
-        var img = new Image();
-        img.onload = function () {
-            previewImg.src = src;
-            previewImg.alt = alt || '';
-            previewImg.classList.remove('loading');
-        };
-        img.onerror = function () {
-            previewImg.classList.remove('loading');
-        };
-        img.src = src;
+        piscines.forEach(function (piscine, idx) {
+            var btn = document.createElement('button');
+            btn.className = 'mova-tc-piscine-btn';
+            btn.dataset.index = idx;
+            btn.textContent = piscine.title;
+            btn.setAttribute('aria-label', piscine.title);
+
+            btn.addEventListener('click', function () {
+                selectPiscine(idx);
+            });
+
+            piscinesWrap.appendChild(btn);
+        });
     }
+
+    /* ============================================================
+       Sélection d'une piscine — affiche toutes les zones
+       ============================================================ */
+    function selectPiscine(index) {
+        var tapis   = tapisList[currentTapisIndex];
+        var piscine = tapis.piscines[index];
+        if (!piscine) return;
+
+        currentPiscineIndex = index;
+
+        // Activer le bouton
+        var btns = piscinesWrap.querySelectorAll('.mova-tc-piscine-btn');
+        btns.forEach(function (b) { b.classList.remove('active'); });
+        if (btns[index]) btns[index].classList.add('active');
+
+        // Fond
+        layerFond.src = piscine.defaultFondUrl;
+        layerFond.alt = piscine.title;
+
+        // Supprimer les overlays précédents
+        var existing = layersWrap.querySelectorAll('.mova-tc-layer--overlay');
+        existing.forEach(function (el) { el.parentNode.removeChild(el); });
+
+        // Créer un overlay par zone (toutes simultanément)
+        var zones = Object.keys(piscine.zones);
+        zones.forEach(function (zone) {
+            var overlayUrl = piscine.zones[zone];
+            if (!overlayUrl) return;
+
+            var img = document.createElement('img');
+            img.className = 'mova-tc-layer mova-tc-layer--overlay';
+            img.alt = zone;
+            img.src = overlayUrl;
+            layersWrap.appendChild(img);
+        });
+    }
+
+    /* ============================================================
+       Auto-sélection au chargement
+       ============================================================ */
+    selectTapis(0, false);
+
 })();
