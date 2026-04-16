@@ -1,3 +1,0 @@
-# Ignore all image assets in this directory (too large for Git)
-*
-!.gitignore

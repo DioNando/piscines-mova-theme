@@ -64,4 +64,5 @@ require_once get_stylesheet_directory() . '/inc/pool-gallery.php';
 require_once get_stylesheet_directory() . '/inc/pool-color-preview.php';
 require_once get_stylesheet_directory() . '/inc/pool-color-catalog.php';
 require_once get_stylesheet_directory() . '/inc/pool-configurator.php';
+require_once get_stylesheet_directory() . '/inc/carrieres-list.php';
 require_once get_stylesheet_directory() . '/inc/quote-form.php';

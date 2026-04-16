@@ -1,0 +1,73 @@
+/* Styles pour la liste des carrières */
+.mova-carrieres-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  width: 100%;
+  margin: 0 auto;
+}
+.mova-carriere-card {
+}
+.mova-carriere-card-inner {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+.mova-carriere-image {
+  flex: 1;
+  padding-top: 4rem;
+  display: block;
+}
+.mova-carriere-image img {
+  object-fit: cover;
+  height: 100% !important;
+}
+.mova-carriere-content {
+  width: 60%;
+  background: white;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 9rem;
+  padding-bottom: 9rem;
+}
+.mova-carriere-title {
+  font-family: "Kaftan", sans-serif !important;
+  font-size: 1.5rem !important;
+  color: inherit;
+  margin: 0 0 24px 0;
+  line-height: 1.2;
+}
+.mova-carriere-infos {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+.mova-carriere-infos li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+.mova-carriere-description {
+  margin-bottom: 1rem;
+}
+.mova-carriere-btn {
+  text-decoration: underline !important;
+  font-weight: 600;
+}
+.mova-carriere-btn:hover {
+  text-decoration: none;
+}
+@media (max-width: 800px) {
+  .mova-carriere-card-inner {
+    flex-direction: column !important;
+  }
+  .mova-carriere-image,
+  .mova-carriere-content {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}

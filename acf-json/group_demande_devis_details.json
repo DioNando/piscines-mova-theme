@@ -3,24 +3,6 @@
   "title": "Détails de la demande",
   "fields": [
     {
-      "key": "field_devis_tab_coordonnees",
-      "label": "Coordonnées",
-      "name": "",
-      "aria-label": "",
-      "type": "tab",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": false,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "placement": "top",
-      "endpoint": 0,
-      "selected": 0
-    },
-    {
       "key": "field_devis_prenom",
       "label": "Prénom",
       "name": "prenom",
@@ -140,24 +122,6 @@
       "append": ""
     },
     {
-      "key": "field_devis_tab_adresse",
-      "label": "Adresse",
-      "name": "",
-      "aria-label": "",
-      "type": "tab",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": false,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "placement": "top",
-      "endpoint": 0,
-      "selected": 0
-    },
-    {
       "key": "field_devis_adresse",
       "label": "Adresse",
       "name": "adresse",
@@ -236,24 +200,6 @@
       "placeholder": "",
       "prepend": "",
       "append": ""
-    },
-    {
-      "key": "field_devis_tab_projet",
-      "label": "Projet",
-      "name": "",
-      "aria-label": "",
-      "type": "tab",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": false,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "placement": "top",
-      "endpoint": 0,
-      "selected": 0
     },
     {
       "key": "field_devis_modeles",
@@ -376,24 +322,6 @@
       "new_lines": "br"
     },
     {
-      "key": "field_devis_tab_aquacove",
-      "label": "AquaCove",
-      "name": "",
-      "aria-label": "",
-      "type": "tab",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": false,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "placement": "top",
-      "endpoint": 0,
-      "selected": 0
-    },
-    {
       "key": "field_devis_tapis_marches",
       "label": "Tapis — Marches",
       "name": "tapis_marches",
@@ -472,24 +400,6 @@
       "placeholder": "",
       "prepend": "",
       "append": ""
-    },
-    {
-      "key": "field_devis_tab_suivi",
-      "label": "Suivi",
-      "name": "",
-      "aria-label": "",
-      "type": "tab",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": false,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "placement": "top",
-      "endpoint": 0,
-      "selected": 0
     },
     {
       "key": "field_devis_statut",
@@ -596,5 +506,6 @@
   "instruction_placement": "label",
   "hide_on_screen": "",
   "active": true,
-  "description": "Champs de la demande de devis soumise via le formulaire du site."
+  "description": "Champs de la demande de devis soumise via le formulaire du site.",
+  "modified": 1776384000
 }
