@@ -1,25 +1,84 @@
 /* =============================================
    Shortcode — [mova_similar_pools]
-   Grille des modèles de piscines similaires
+   Carrousel des modèles de piscines similaires
    Les styles de cartes (.mova-pc-card) viennent
    de pool-catalog.css (chargé en dépendance).
    ============================================= */
 
-.mova-sp-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+/* --- Wrapper carrousel --- */
+.mova-sp-carousel-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* ---- Responsive ---- */
+/* --- Track scrollable --- */
+.mova-sp-carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding: 4px 0 20px;
+}
+
+.mova-sp-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+/* --- Slides : 3 visibles par défaut --- */
+.mova-sp-slide {
+    flex: 0 0 calc((100% - 40px) / 3);
+    scroll-snap-align: start;
+}
+
+/* --- Flèches --- */
+.mova-sp-arrow {
+    flex-shrink: 0;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #1a4759;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 2;
+}
+
+.mova-sp-arrow:focus {
+  background: none;
+  color: #1a4759;
+}
+
+.mova-sp-arrow:hover {
+    background: #1a4759;
+    color: #fff;
+    border-color: #1a4759;
+}
+
+.mova-sp-arrow:disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* --- Responsive --- */
 @media (max-width: 1024px) {
-    .mova-sp-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .mova-sp-slide {
+        flex: 0 0 calc((100% - 20px) / 2);
     }
 }
 
-@media (max-width: 768px) {
-    .mova-sp-grid {
-        grid-template-columns: 1fr;
+@media (max-width: 600px) {
+    .mova-sp-slide {
+        flex: 0 0 85%;
+    }
+
+    .mova-sp-arrow {
+        display: none;
     }
 }

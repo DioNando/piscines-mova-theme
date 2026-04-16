@@ -163,7 +163,7 @@ function mova_pool_color_catalog_shortcode( $atts ) {
                     </div>
 
                     <a href="#" class="mova-ccc-link" id="mova-ccc-link-detail" target="_blank" rel="noopener">
-                        Voir la fiche complète →
+                        Voir la fiche complète
                     </a>
                 </div>
 

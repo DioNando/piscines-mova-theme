@@ -30,44 +30,55 @@ function mova_similar_pools_shortcode( $atts ) {
 
     wp_enqueue_style( 'mova-pool-catalog-style', get_stylesheet_directory_uri() . '/assets/css/pool-catalog.css', array(), '1.1.0' );
     wp_enqueue_style( 'mova-similar-pools-style', get_stylesheet_directory_uri() . '/assets/css/similar-pools.css', array( 'mova-pool-catalog-style' ), '1.0.0' );
+    wp_enqueue_script( 'mova-similar-pools-script', get_stylesheet_directory_uri() . '/assets/js/similar-pools.js', array(), '1.0.0', true );
 
     ob_start(); ?>
 
     <section class="mova-sp">
-        <div class="mova-sp-grid">
-            <?php foreach ( $similar_pools as $pool ) :
-                // ACF peut retourner un WP_Post ou un ID entier selon la config
-                $pool_id = $pool instanceof WP_Post ? $pool->ID : intval( $pool );
-                if ( ! $pool_id ) continue;
+        <div class="mova-sp-carousel-wrap">
+            <button class="mova-sp-arrow mova-sp-arrow-prev" aria-label="Précédent">
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
 
-                $permalink  = get_permalink( $pool_id );
-                $title      = get_the_title( $pool_id );
-                $thumbnail  = get_the_post_thumbnail_url( $pool_id, 'medium' );
-                $dimensions = get_field( 'dimensions', $pool_id );
-            ?>
-            <a class="mova-pc-card" href="<?php echo esc_url( $permalink ); ?>">
-                <div class="mova-pc-card-img">
-                    <?php if ( $thumbnail ) : ?>
-                        <img src="<?php echo esc_url( $thumbnail ); ?>" alt="<?php echo esc_attr( $title ); ?>" loading="lazy" />
-                    <?php else : ?>
-                        <div class="mova-pc-card-placeholder"></div>
-                    <?php endif; ?>
-                </div>
-                <div class="mova-pc-card-body">
-                    <div class="mova-pc-card-info">
-                        <p class="mova-pc-card-title"><?php echo esc_html( $title ); ?></p>
-                        <?php if ( $dimensions ) : ?>
-                            <span class="mova-pc-card-subtitle"><?php echo esc_html( $dimensions ); ?></span>
+            <div class="mova-sp-carousel" id="mova-sp-carousel">
+                <?php foreach ( $similar_pools as $pool ) :
+                    // ACF peut retourner un WP_Post ou un ID entier selon la config
+                    $pool_id = $pool instanceof WP_Post ? $pool->ID : intval( $pool );
+                    if ( ! $pool_id ) continue;
+
+                    $permalink  = get_permalink( $pool_id );
+                    $title      = get_the_title( $pool_id );
+                    $thumbnail  = get_the_post_thumbnail_url( $pool_id, 'medium' );
+                    $dimensions = get_field( 'dimensions', $pool_id );
+                ?>
+                <a class="mova-pc-card mova-sp-slide" href="<?php echo esc_url( $permalink ); ?>">
+                    <div class="mova-pc-card-img">
+                        <?php if ( $thumbnail ) : ?>
+                            <img src="<?php echo esc_url( $thumbnail ); ?>" alt="<?php echo esc_attr( $title ); ?>" loading="lazy" />
+                        <?php else : ?>
+                            <div class="mova-pc-card-placeholder"></div>
                         <?php endif; ?>
                     </div>
-                    <div class="mova-pc-card-arrow">
-                        <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                    <div class="mova-pc-card-body">
+                        <div class="mova-pc-card-info">
+                            <p class="mova-pc-card-title"><?php echo esc_html( $title ); ?></p>
+                            <?php if ( $dimensions ) : ?>
+                                <span class="mova-pc-card-subtitle"><?php echo esc_html( $dimensions ); ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="mova-pc-card-arrow">
+                            <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                     </div>
-                </div>
-            </a>
-            <?php endforeach; ?>
+                </a>
+                <?php endforeach; ?>
+            </div>
+
+            <button class="mova-sp-arrow mova-sp-arrow-next" aria-label="Suivant">
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
         </div>
     </section>
 

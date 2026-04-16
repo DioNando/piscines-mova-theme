@@ -12,9 +12,9 @@
 }
 
 .mova-ccc-models-title {
-  font-size: 26px;
-  font-weight: 700;
-  color: #1a4759;
+  font-family: "Kaftan", sans-serif !important;
+  font-size: 1.5rem !important;
+  color: inherit;
   margin: 0 0 24px;
   line-height: 1.2;
 }
@@ -43,12 +43,14 @@
 
 .mova-ccc-model-card:hover {
   border-color: #1a4759;
+  background: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(26, 71, 89, 0.12);
 }
 
 .mova-ccc-model-card.active {
   border-color: #1a4759;
+  background-color: white;
   box-shadow:
     0 0 0 2px #fff,
     0 0 0 4px #1a4759;
@@ -56,8 +58,9 @@
 
 .mova-ccc-model-thumb {
   width: 100%;
+  padding: 1rem;
   aspect-ratio: 4 / 3;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
@@ -68,7 +71,7 @@
   background: #f5f6f8;
 }
 
-.mova-ccc-model-name {
+.mova-ccc-model-name, .mova-ccc-model-name:hover, .mova-ccc-model-name:focus {
   display: block;
   padding: 10px 12px;
   font-size: 14px;
@@ -99,7 +102,7 @@
 }
 
 .mova-ccc-preview-wrap {
-  background: #f5f6f8;
+  background: white;
   overflow: hidden;
   aspect-ratio: 4 / 3;
   display: flex;
@@ -124,8 +127,8 @@
 }
 
 .mova-ccc-model-title {
-  font-size: 24px;
-  font-weight: 700;
+  font-family: "Kaftan", sans-serif !important;
+  font-size: 1.5rem !important;
   color: #1a4759;
   margin: 0 0 24px;
   line-height: 1.2;
@@ -230,13 +233,9 @@
   font-size: 14px;
   font-weight: 600;
   color: #1a4759;
-  text-decoration: none;
+  text-decoration: underline !important;
   border-bottom: 2px solid transparent;
   transition: border-color 0.2s;
-}
-
-.mova-ccc-link:hover {
-  border-bottom-color: #1a4759;
 }
 
 /* --- Responsive --- */
