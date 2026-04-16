@@ -1,0 +1,213 @@
+/* =============================================
+   Tapis Catalog — Catalogue des tapis AquaCove
+   ============================================= */
+
+.mova-tc {
+  margin: 0 auto;
+}
+
+/* --- Grille des tapis --- */
+.mova-tc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.mova-tc-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    transform 0.15s;
+}
+
+.mova-tc-card:hover {
+  border-color: #1a4759;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(26, 71, 89, 0.12);
+}
+
+.mova-tc-card.active {
+  border-color: #1a4759;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 4px #1a4759;
+}
+
+.mova-tc-card-swatch {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.mova-tc-card-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #f5f6f8;
+  font-size: 20px;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+}
+
+.mova-tc-card-name {
+  display: block;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a4759;
+  text-align: center;
+  width: 100%;
+}
+
+/* --- Zone détail --- */
+.mova-tc-detail {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.mova-tc-detail-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* --- Preview --- */
+.mova-tc-preview {
+  position: sticky;
+  top: 120px;
+}
+
+.mova-tc-preview-wrap {
+  background: #f5f6f8;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mova-tc-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.3s ease;
+}
+
+.mova-tc-preview-img.loading {
+  opacity: 0.4;
+}
+
+/* --- Panneau info --- */
+.mova-tc-panel {
+  padding: 10px 0;
+}
+
+.mova-tc-tapis-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a4759;
+  margin: 0 0 12px;
+  line-height: 1.2;
+}
+
+.mova-tc-tapis-desc {
+  font-size: 15px;
+  color: #555;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.mova-tc-tapis-desc:empty {
+  display: none;
+}
+
+/* --- Texture swatch large --- */
+.mova-tc-swatch-large {
+  margin-bottom: 24px;
+}
+
+.mova-tc-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a4759;
+  margin: 0 0 10px;
+}
+
+.mova-tc-swatch-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+}
+
+/* --- Pas de preview --- */
+.mova-tc-no-preview {
+  color: #777;
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* =============================================
+   Responsive
+   ============================================= */
+
+/* Tablette */
+@media (max-width: 1024px) {
+  .mova-tc-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  .mova-tc-detail-inner {
+    gap: 24px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .mova-tc-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+
+  .mova-tc-card-name {
+    font-size: 12px;
+    padding: 8px 8px;
+  }
+
+  .mova-tc-detail-inner {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .mova-tc-preview {
+    position: static;
+  }
+
+  .mova-tc-tapis-name {
+    font-size: 20px;
+  }
+
+  .mova-tc-swatch-img {
+    width: 80px;
+    height: 80px;
+  }
+}
