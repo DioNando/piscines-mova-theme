@@ -284,6 +284,27 @@
       "tabs": "visual",
       "toolbar": "basic",
       "media_upload": 0
+    },
+    {
+      "key": "field_tab_similaires",
+      "label": "Modèles Similaires",
+      "name": "",
+      "type": "tab",
+      "placement": "top"
+    },
+    {
+      "key": "field_piscine_modeles_similaires",
+      "label": "Modèles similaires",
+      "name": "modeles_similaires",
+      "type": "relationship",
+      "instructions": "Sélectionnez jusqu'à 6 modèles de piscines similaires à afficher sur cette page.",
+      "post_type": ["piscine"],
+      "taxonomy": [],
+      "filters": ["search"],
+      "elements": ["featured_image"],
+      "min": 0,
+      "max": 6,
+      "return_format": "post_object"
     }
   ],
   "location": [
@@ -297,5 +318,5 @@
   ],
   "active": true,
   "description": "Spécifications techniques, options de configuration, documents PDF et contenus éditoriaux pour chaque modèle de piscine.",
-  "modified": 1775692900
+  "modified": 1776297700
 }

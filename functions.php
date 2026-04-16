@@ -67,3 +67,4 @@ require_once get_stylesheet_directory() . '/inc/pool-configurator.php';
 require_once get_stylesheet_directory() . '/inc/tapis-catalog.php';
 require_once get_stylesheet_directory() . '/inc/carrieres-list.php';
 require_once get_stylesheet_directory() . '/inc/quote-form.php';
+require_once get_stylesheet_directory() . '/inc/similar-pools.php';

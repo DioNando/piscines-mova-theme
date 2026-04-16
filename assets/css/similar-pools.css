@@ -1,0 +1,25 @@
+/* =============================================
+   Shortcode — [mova_similar_pools]
+   Grille des modèles de piscines similaires
+   Les styles de cartes (.mova-pc-card) viennent
+   de pool-catalog.css (chargé en dépendance).
+   ============================================= */
+
+.mova-sp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+    .mova-sp-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .mova-sp-grid {
+        grid-template-columns: 1fr;
+    }
+}
