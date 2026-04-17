@@ -72,11 +72,17 @@ function mova_pool_catalog_ajax()
 
             $thumbnail = get_the_post_thumbnail_url($post_id, 'large');
 
+            // Image carte ACF en priorité, fallback sur l'image mise en avant
+            $image_carte_id = get_field('image_carte', $post_id);
+            $card_image = $image_carte_id
+                ? wp_get_attachment_image_url($image_carte_id, 'large')
+                : $thumbnail;
+
             $pools[] = array(
                 'id'        => $post_id,
                 'titre'     => html_entity_decode(get_the_title()),
                 'permalink' => get_permalink($post_id),
-                'thumbnail' => $thumbnail ?: '',
+                'thumbnail' => $card_image ?: '',
                 'subtitle'  => $subtitle,
             );
         }

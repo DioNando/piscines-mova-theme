@@ -19,13 +19,19 @@ function mova_pool_color_preview_shortcode( $atts ) {
         return '';
     }
 
-    // Image par défaut : première image de la galerie ou thumbnail
+    // Image par défaut : image_carte ACF, puis première image de la galerie, puis thumbnail
     $default_image = '';
-    $galerie = get_field( 'galerie', $post_id );
-    if ( ! empty( $galerie ) && is_array( $galerie ) ) {
-        $first_id = is_array( $galerie[0] ) ? ( $galerie[0]['ID'] ?? $galerie[0]['id'] ?? 0 ) : intval( $galerie[0] );
-        if ( $first_id ) {
-            $default_image = wp_get_attachment_image_url( $first_id, 'large' );
+    $image_carte_id = get_field( 'image_carte', $post_id );
+    if ( $image_carte_id ) {
+        $default_image = wp_get_attachment_image_url( $image_carte_id, 'large' );
+    }
+    if ( ! $default_image ) {
+        $galerie = get_field( 'galerie', $post_id );
+        if ( ! empty( $galerie ) && is_array( $galerie ) ) {
+            $first_id = is_array( $galerie[0] ) ? ( $galerie[0]['ID'] ?? $galerie[0]['id'] ?? 0 ) : intval( $galerie[0] );
+            if ( $first_id ) {
+                $default_image = wp_get_attachment_image_url( $first_id, 'large' );
+            }
         }
     }
     if ( ! $default_image ) {

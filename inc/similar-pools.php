@@ -48,8 +48,13 @@ function mova_similar_pools_shortcode( $atts ) {
 
                     $permalink  = get_permalink( $pool_id );
                     $title      = get_the_title( $pool_id );
-                    $thumbnail  = get_the_post_thumbnail_url( $pool_id, 'medium' );
                     $dimensions = get_field( 'dimensions', $pool_id );
+
+                    // Image carte ACF en priorité, fallback sur l'image mise en avant
+                    $image_carte_id = get_field( 'image_carte', $pool_id );
+                    $thumbnail = $image_carte_id
+                        ? wp_get_attachment_image_url( $image_carte_id, 'medium' )
+                        : get_the_post_thumbnail_url( $pool_id, 'medium' );
                 ?>
                 <a class="mova-pc-card mova-sp-slide" href="<?php echo esc_url( $permalink ); ?>">
                     <div class="mova-pc-card-img">

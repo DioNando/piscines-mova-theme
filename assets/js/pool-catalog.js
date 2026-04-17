@@ -153,6 +153,40 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchPools(currentPage, true);
   });
 
+  // --- Pré-sélection via paramètres URL ---
+  // Formats acceptés : ?categorie=avec-terrasse&dimension=12x34&besoin=famille
+  // Valeurs multiples : ?dimension=12x34&dimension=12x28
+  function applyUrlFilters() {
+    const params = new URLSearchParams(window.location.search);
+
+    const mapping = {
+      categorie: params.getAll("categorie"),
+      dimension: params.getAll("dimension"),
+      besoin:    params.getAll("besoin"),
+    };
+
+    Object.entries(mapping).forEach(([filterType, values]) => {
+      if (!values.length) return;
+      const group = document.querySelector(
+        `.mova-pc-filter-group[data-filter="${filterType}"]`,
+      );
+      if (!group) return;
+
+      // Pour les catégories, décocher "Tous les modèles" avant de cocher
+      if (filterType === "categorie") {
+        const allCheckbox = group.querySelector('input[value=""]');
+        if (allCheckbox) allCheckbox.checked = false;
+      }
+
+      values.forEach((val) => {
+        const cb = group.querySelector(`input[value="${CSS.escape(val)}"]`);
+        if (cb) cb.checked = true;
+      });
+    });
+  }
+
+  applyUrlFilters();
+
   // --- Premier rendu via AJAX ---
   fetchPools(1, false);
 
