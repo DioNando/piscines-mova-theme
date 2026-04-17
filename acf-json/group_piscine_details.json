@@ -45,6 +45,16 @@
       "return_format": "id"
     },
     {
+      "key": "field_piscine_banniere",
+      "label": "Image de bannière",
+      "name": "image_banniere",
+      "type": "image",
+      "instructions": "Image large utilisée en en-tête de la page du modèle.",
+      "return_format": "id",
+      "preview_size": "medium",
+      "library": "all"
+    },
+    {
       "key": "field_tab_configurateur",
       "label": "Configurateur & Options",
       "name": "",
@@ -318,5 +328,5 @@
   ],
   "active": true,
   "description": "Spécifications techniques, options de configuration, documents PDF et contenus éditoriaux pour chaque modèle de piscine.",
-  "modified": 1776297700
+  "modified": 1776556800
 }

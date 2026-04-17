@@ -4,6 +4,7 @@ piscine,Détails et Configuration Piscine,Spécifications Techniques,Profondeur,
 piscine,Détails et Configuration Piscine,Spécifications Techniques,Volume d'eau,volume_eau,text,"Ex: 12 500 gallons"
 piscine,Détails et Configuration Piscine,Spécifications Techniques,Poids de la coque,poids_coque,text,"Ex: 2 800 lbs"
 piscine,Détails et Configuration Piscine,Spécifications Techniques,Galerie Photos,galerie,gallery,return_format: id
+piscine,Détails et Configuration Piscine,Spécifications Techniques,Image de bannière,image_banniere,image,"Image large en en-tête de la page du modèle · return_format: id"
 piscine,Détails et Configuration Piscine,Configurateur & Options,Couleurs disponibles,couleurs_disponibles,taxonomy,"Taxonomy: couleur_piscine · checkbox · save_terms + load_terms"
 piscine,Détails et Configuration Piscine,Configurateur & Options,Compatible AquaCove,opt_aquacove,true_false,Toggle UI
 piscine,Détails et Configuration Piscine,Configurateur & Options,Couleurs du configurateur,couleurs_configurateur,repeater,"Conditionnel: si opt_aquacove == 1 · Sub-fields: couleur (taxonomy select), image_fond (image PNG)"

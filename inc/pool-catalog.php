@@ -70,7 +70,7 @@ function mova_pool_catalog_ajax()
             $cat_terms = wp_get_post_terms($post_id, 'categorie_piscine', array('fields' => 'all'));
             $subtitle  = (! is_wp_error($cat_terms) && ! empty($cat_terms)) ? $cat_terms[0]->name : '';
 
-            $thumbnail = get_the_post_thumbnail_url($post_id, 'medium');
+            $thumbnail = get_the_post_thumbnail_url($post_id, 'large');
 
             $pools[] = array(
                 'id'        => $post_id,
