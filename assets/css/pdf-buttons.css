@@ -26,6 +26,6 @@
 
 /* Effet au survol (Hover) */
 .mova-btn-pdf:hover {
-  background-color: #1a4759; /* Bleu plus foncé */
-  color: #ffffff;
+  background-color: #1a4759;
+  color: #ffffff !important;
 }

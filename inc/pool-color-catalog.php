@@ -33,25 +33,36 @@ function mova_pool_color_catalog_shortcode( $atts ) {
     foreach ( $piscines as $piscine ) {
         $pid = $piscine->ID;
 
-        // Image par défaut : première image de la galerie ou thumbnail
+        // Image par défaut : image_carte ACF, puis première image de la galerie, puis thumbnail
         $default_image = '';
+        $image_carte_id = get_field( 'image_carte', $pid );
+        if ( $image_carte_id ) {
+            $default_image = wp_get_attachment_image_url( $image_carte_id, 'large' );
+        }
         $galerie = get_field( 'galerie', $pid );
-        if ( ! empty( $galerie ) && is_array( $galerie ) ) {
-            $first_id = is_array( $galerie[0] ) ? ( $galerie[0]['ID'] ?? $galerie[0]['id'] ?? 0 ) : intval( $galerie[0] );
-            if ( $first_id ) {
-                $default_image = wp_get_attachment_image_url( $first_id, 'large' );
+        if ( ! $default_image ) {
+            if ( ! empty( $galerie ) && is_array( $galerie ) ) {
+                $first_id = is_array( $galerie[0] ) ? ( $galerie[0]['ID'] ?? $galerie[0]['id'] ?? 0 ) : intval( $galerie[0] );
+                if ( $first_id ) {
+                    $default_image = wp_get_attachment_image_url( $first_id, 'large' );
+                }
             }
         }
         if ( ! $default_image ) {
             $default_image = get_the_post_thumbnail_url( $pid, 'large' );
         }
 
-        // Thumbnail pour la carte du sélecteur
+        // Thumbnail pour la carte du sélecteur : image_carte ACF, puis galerie, puis thumbnail
         $thumb = '';
-        if ( ! empty( $galerie ) && is_array( $galerie ) ) {
-            $first_id = is_array( $galerie[0] ) ? ( $galerie[0]['ID'] ?? $galerie[0]['id'] ?? 0 ) : intval( $galerie[0] );
-            if ( $first_id ) {
-                $thumb = wp_get_attachment_image_url( $first_id, 'medium' );
+        if ( $image_carte_id ) {
+            $thumb = wp_get_attachment_image_url( $image_carte_id, 'medium' );
+        }
+        if ( ! $thumb ) {
+            if ( ! empty( $galerie ) && is_array( $galerie ) ) {
+                $first_id = is_array( $galerie[0] ) ? ( $galerie[0]['ID'] ?? $galerie[0]['id'] ?? 0 ) : intval( $galerie[0] );
+                if ( $first_id ) {
+                    $thumb = wp_get_attachment_image_url( $first_id, 'medium' );
+                }
             }
         }
         if ( ! $thumb ) {
