@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="mova-pc-card-body">
               <div class="mova-pc-card-info">
                 <div class="mova-pc-card-title">${pool.titre}</div>
-                <span class="mova-pc-card-subtitle">${pool.subtitle}</span>
+                <span class="mova-pc-card-subtitle">${(pool.categories || []).join(' · ')}</span>
               </div>
               <span class="mova-pc-card-arrow">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

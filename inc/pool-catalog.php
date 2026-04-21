@@ -68,7 +68,9 @@ function mova_pool_catalog_ajax()
             $post_id = get_the_ID();
 
             $cat_terms = wp_get_post_terms($post_id, 'categorie_piscine', array('fields' => 'all'));
-            $subtitle  = (! is_wp_error($cat_terms) && ! empty($cat_terms)) ? $cat_terms[0]->name : '';
+            $categories = (! is_wp_error($cat_terms) && ! empty($cat_terms))
+                ? array_map(function ($t) { return $t->name; }, $cat_terms)
+                : array();
 
             $thumbnail = get_the_post_thumbnail_url($post_id, 'large');
 
@@ -79,11 +81,11 @@ function mova_pool_catalog_ajax()
                 : $thumbnail;
 
             $pools[] = array(
-                'id'        => $post_id,
-                'titre'     => html_entity_decode(get_the_title()),
-                'permalink' => get_permalink($post_id),
-                'thumbnail' => $card_image ?: '',
-                'subtitle'  => $subtitle,
+                'id'         => $post_id,
+                'titre'      => html_entity_decode(get_the_title()),
+                'permalink'  => get_permalink($post_id),
+                'thumbnail'  => $card_image ?: '',
+                'categories' => $categories,
             );
         }
         wp_reset_postdata();

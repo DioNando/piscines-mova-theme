@@ -36,5 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   carousel.addEventListener("scroll", updateArrows, { passive: true });
+  window.addEventListener("resize", updateArrows, { passive: true });
+  window.addEventListener("load", updateArrows);
   updateArrows();
 });

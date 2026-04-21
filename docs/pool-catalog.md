@@ -147,7 +147,7 @@ Affiche « X modèles » au-dessus de la grille, basé sur `found_posts` retourn
 Chaque carte affiche :
 - Image de la carte (`image_carte` ACF) ou image à la une en fallback (placeholder si aucune des deux n'est disponible)
 - Titre du modèle (ex: « 12x34 »)
-- Sous-titre = première catégorie (ex: « Piscine avec terrasse »)
+- Sous-titres = toutes les catégories associées (ex: « Piscine avec terrasse », « Piscine sportive »)
 - Flèche de lien →
 - Lien cliquable vers la page single du modèle
 

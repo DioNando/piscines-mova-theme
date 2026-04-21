@@ -126,8 +126,8 @@
 }
 
 .mova-pc-card:hover .mova-pc-card-body {
-  background: #1a475936;
-  color: #1a4759;
+  background: #1a4759;
+  color: #fff;
 }
 
 .mova-pc-card-placeholder {
@@ -146,8 +146,8 @@
   padding-left: 1rem;
   padding-right: 1rem;
   gap: 10px;
-  background: #1a4759;
-  color: #fff;
+  background: #1a475936;
+  color: #1a4759;
   position: absolute;
   bottom: 1rem;
   left: 0;
@@ -177,6 +177,9 @@
   color: inherit;
   display: block;
   margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .mova-pc-card-arrow {

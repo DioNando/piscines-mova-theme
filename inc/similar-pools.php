@@ -48,13 +48,15 @@ function mova_similar_pools_shortcode( $atts ) {
 
                     $permalink  = get_permalink( $pool_id );
                     $title      = get_the_title( $pool_id );
-                    $dimensions = get_field( 'dimensions', $pool_id );
 
                     // Image carte ACF en priorité, fallback sur l'image mise en avant
                     $image_carte_id = get_field( 'image_carte', $pool_id );
                     $thumbnail = $image_carte_id
                         ? wp_get_attachment_image_url( $image_carte_id, 'medium' )
                         : get_the_post_thumbnail_url( $pool_id, 'medium' );
+
+                    $cat_terms  = wp_get_post_terms( $pool_id, 'categorie_piscine', array( 'fields' => 'names' ) );
+                    $categories = ( ! is_wp_error( $cat_terms ) && ! empty( $cat_terms ) ) ? implode( ' · ', $cat_terms ) : '';
                 ?>
                 <a class="mova-pc-card mova-sp-slide" href="<?php echo esc_url( $permalink ); ?>">
                     <div class="mova-pc-card-img">
@@ -67,8 +69,8 @@ function mova_similar_pools_shortcode( $atts ) {
                     <div class="mova-pc-card-body">
                         <div class="mova-pc-card-info">
                             <p class="mova-pc-card-title"><?php echo esc_html( $title ); ?></p>
-                            <?php if ( $dimensions ) : ?>
-                                <span class="mova-pc-card-subtitle"><?php echo esc_html( $dimensions ); ?></span>
+                            <?php if ( $categories ) : ?>
+                                <span class="mova-pc-card-subtitle"><?php echo esc_html( $categories ); ?></span>
                             <?php endif; ?>
                         </div>
                         <div class="mova-pc-card-arrow">

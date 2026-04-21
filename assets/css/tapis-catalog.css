@@ -197,6 +197,11 @@
   color: #fff;
 }
 
+.mova-tc-piscine-btn:hover, .mova-tc-piscine-btn:focus {
+  background-color: transparent !important;
+  color: #1a4759 !important;
+}
+
 /* =============================================
    Responsive
    ============================================= */

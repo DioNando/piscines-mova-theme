@@ -192,6 +192,11 @@
   color: inherit;
 }
 
+.mova-pg-zoom:focus {
+  background: #fff !important;
+  color: inherit !important;
+}
+
 /* --- Lightbox --- */
 .mova-pg-lightbox {
   display: none;
