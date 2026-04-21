@@ -46,7 +46,12 @@ function mova_quote_form_shortcode( $atts ) {
         ) );
         if ( ! is_wp_error( $tapis_terms ) ) {
             foreach ( $tapis_terms as $tt ) {
-                $tapis_terms_map[ $tt->slug ] = $tt->name;
+                $swatch_id  = get_field( 'swatch_tapis', $tt );
+                $swatch_url = $swatch_id ? wp_get_attachment_image_url( $swatch_id, 'thumbnail' ) : '';
+                $tapis_terms_map[ $tt->slug ] = array(
+                    'name'   => $tt->name,
+                    'swatch' => $swatch_url,
+                );
             }
         }
     }
@@ -60,7 +65,7 @@ function mova_quote_form_shortcode( $atts ) {
         'order'          => 'ASC',
     ) );
 
-    // Récupérer les couleurs (taxonomie couleur_piscine)
+    // Récupérer les couleurs (taxonomie couleur_piscine) — enfants seulement
     $couleurs = get_terms( array(
         'taxonomy'   => 'couleur_piscine',
         'hide_empty' => false,
@@ -70,6 +75,10 @@ function mova_quote_form_shortcode( $atts ) {
     if ( is_wp_error( $couleurs ) ) {
         $couleurs = array();
     }
+    // Masquer les termes parents (collections)
+    $couleurs = array_values( array_filter( $couleurs, function( $c ) {
+        return $c->parent !== 0;
+    } ) );
 
     // Récupérer les provinces (taxonomie province)
     $provinces = get_terms( array(
@@ -203,26 +212,38 @@ function mova_quote_form_shortcode( $atts ) {
                     </div>
                 </div>
 
-                <div class="mova-qf-row">
-                    <div class="mova-qf-field">
-                        <label for="mova_qf_couleur">Couleur de la piscine</label>
-                        <select id="mova_qf_couleur" name="couleur">
-                            <option value="">— Sélectionner —</option>
-                            <?php foreach ( $couleurs as $couleur ) :
-                                $selected = ( $preselect_couleur === $couleur->slug ) ? 'selected' : '';
-                            ?>
-                                <option value="<?php echo esc_attr( $couleur->slug ); ?>" <?php echo $selected; ?>><?php echo esc_html( $couleur->name ); ?></option>
-                            <?php endforeach; ?>
-                        </select>
+                <!-- Couleur (pastilles) -->
+                <div class="mova-qf-field mova-qf-field--full">
+                    <label>Couleur de la piscine</label>
+                    <div class="mova-qf-swatches" id="mova-qf-swatches-couleur" role="radiogroup" aria-label="Couleur de la piscine">
+                        <?php foreach ( $couleurs as $couleur ) :
+                            $swatch_id  = get_field( 'swatch_couleur', $couleur );
+                            $swatch_url = $swatch_id ? wp_get_attachment_image_url( $swatch_id, 'thumbnail' ) : '';
+                            $checked    = ( $preselect_couleur === $couleur->slug );
+                        ?>
+                            <label class="mova-qf-swatch-label">
+                                <input type="radio" name="couleur" value="<?php echo esc_attr( $couleur->slug ); ?>" <?php echo $checked ? 'checked' : ''; ?> />
+                                <span class="mova-qf-swatch-img-wrap">
+                                    <?php if ( $swatch_url ) : ?>
+                                        <img src="<?php echo esc_url( $swatch_url ); ?>" alt="" />
+                                    <?php else : ?>
+                                        <span class="mova-qf-swatch-placeholder"><?php echo esc_html( mb_substr( $couleur->name, 0, 1 ) ); ?></span>
+                                    <?php endif; ?>
+                                </span>
+                                <span class="mova-qf-swatch-name"><?php echo esc_html( $couleur->name ); ?></span>
+                            </label>
+                        <?php endforeach; ?>
                     </div>
+                </div>
+
+                <!-- Type d'installation -->
+                <div class="mova-qf-row">
                     <div class="mova-qf-field">
                         <label for="mova_qf_installation">Type d'installation</label>
                         <select id="mova_qf_installation" name="type_installation">
                             <option value="">— Sélectionner —</option>
-                            <option value="Creusée">Creusée</option>
-                            <option value="Semi-creusée">Semi-creusée</option>
-                            <option value="Hors terre">Hors terre</option>
-                            <option value="Je ne sais pas">Je ne sais pas</option>
+                            <option value="Clé en main">Clé en main</option>
+                            <option value="Auto-installation">Auto-installation</option>
                         </select>
                     </div>
                 </div>
@@ -235,10 +256,15 @@ function mova_quote_form_shortcode( $atts ) {
                     <?php if ( ! empty( $preselect_tapis ) ) : ?>
                     <div class="mova-qf-aquacove-items">
                         <?php foreach ( $preselect_tapis as $zone_key => $tapis_slug ) :
-                            $tapis_name = isset( $tapis_terms_map[ $tapis_slug ] ) ? $tapis_terms_map[ $tapis_slug ] : $tapis_slug;
-                            $zone_name  = isset( $zone_labels[ $zone_key ] ) ? $zone_labels[ $zone_key ] : $zone_key;
+                            $tapis_entry  = isset( $tapis_terms_map[ $tapis_slug ] ) ? $tapis_terms_map[ $tapis_slug ] : array( 'name' => $tapis_slug, 'swatch' => '' );
+                            $tapis_name   = $tapis_entry['name'];
+                            $tapis_swatch = $tapis_entry['swatch'];
+                            $zone_name    = isset( $zone_labels[ $zone_key ] ) ? $zone_labels[ $zone_key ] : $zone_key;
                         ?>
                             <div class="mova-qf-aquacove-item">
+                                <?php if ( $tapis_swatch ) : ?>
+                                    <img class="mova-qf-aquacove-swatch" src="<?php echo esc_url( $tapis_swatch ); ?>" alt="<?php echo esc_attr( $tapis_name ); ?>" />
+                                <?php endif; ?>
                                 <span class="mova-qf-aquacove-zone"><?php echo esc_html( $zone_name ); ?> :</span>
                                 <span class="mova-qf-aquacove-value"><?php echo esc_html( $tapis_name ); ?></span>
                                 <input type="hidden" name="tapis_<?php echo esc_attr( $zone_key ); ?>" value="<?php echo esc_attr( $tapis_slug ); ?>" />
