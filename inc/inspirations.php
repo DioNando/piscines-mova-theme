@@ -177,7 +177,6 @@ function mova_inspirations_shortcode( $atts ) {
                         <?php if ( $piscine_link ) : ?>
                             <a href="<?php echo esc_url( $piscine_link ); ?>" class="mova-insp-link">
                                 Voir le modèle
-                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </a>
                         <?php endif; ?>
                     </div>
