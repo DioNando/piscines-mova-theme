@@ -216,3 +216,72 @@ function mova_inspirations_shortcode( $atts ) {
     return ob_get_clean();
 }
 add_shortcode( 'mova_inspirations', 'mova_inspirations_shortcode' );
+
+
+/* =============================================
+   Shortcode — [mova_inspirations_mosaic]
+   Affiche 4 inspirations aléatoires en mosaïque
+   ============================================= */
+function mova_inspirations_mosaic_shortcode( $atts ) {
+    $atts = shortcode_atts( array(
+        'count' => 4,
+    ), $atts, 'mova_inspirations_mosaic' );
+
+    $count = max( 1, intval( $atts['count'] ) );
+
+    $args = array(
+        'post_type'      => 'inspiration',
+        'posts_per_page' => $count,
+        'post_status'    => 'publish',
+        'orderby'        => 'rand',
+    );
+
+    $query = new WP_Query( $args );
+
+    wp_enqueue_style( 'mova-inspirations-style', get_stylesheet_directory_uri() . '/assets/css/inspirations.css', array(), '1.0.0' );
+
+    ob_start(); ?>
+    <div class="mova-insp-mosaic mova-insp-mosaic--<?php echo esc_attr( $count ); ?>">
+        <?php if ( $query->have_posts() ) : ?>
+            <?php while ( $query->have_posts() ) : $query->the_post();
+                $post_id        = get_the_ID();
+                $thumbnail_full = get_the_post_thumbnail_url( $post_id, 'full' );
+                $thumbnail_grid = get_the_post_thumbnail_url( $post_id, 'large' );
+                $legende        = get_field( 'legende', $post_id ) ?: '';
+                $credit         = get_field( 'credit_photo', $post_id ) ?: '';
+                $piscine        = get_field( 'piscine_associee', $post_id );
+                $piscine_link   = '';
+                $piscine_name   = '';
+                if ( ! empty( $piscine ) ) {
+                    $p = is_array( $piscine ) ? $piscine[0] : $piscine;
+                    $piscine_link = get_permalink( $p );
+                    $piscine_name = get_the_title( $p );
+                }
+            ?>
+            <div class="mova-insp-mosaic-item">
+                <?php if ( $thumbnail_grid ) : ?>
+                    <img src="<?php echo esc_url( $thumbnail_grid ); ?>"
+                         alt="<?php echo esc_attr( $legende ); ?>"
+                         loading="lazy" />
+                <?php endif; ?>
+                <?php if ( $piscine_link ) : ?>
+                    <a href="<?php echo esc_url( $piscine_link ); ?>" class="mova-insp-link" aria-label="Voir le modèle <?php echo esc_attr( $piscine_name ); ?>">
+                        Voir le modèle
+                    </a>
+                <?php endif; ?>
+                <div class="mova-insp-overlay">
+                    <?php if ( $legende ) : ?>
+                        <h4 class="mova-insp-legende"><?php echo esc_html( $legende ); ?></h4>
+                    <?php endif; ?>
+                    <?php if ( $credit ) : ?>
+                        <p class="mova-insp-credit"><?php echo esc_html( $credit ); ?></p>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php endwhile; wp_reset_postdata(); ?>
+        <?php endif; ?>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode( 'mova_inspirations_mosaic', 'mova_inspirations_mosaic_shortcode' );
