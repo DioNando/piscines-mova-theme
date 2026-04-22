@@ -285,10 +285,21 @@ function mova_quote_form_shortcode( $atts ) {
                 </div>
                 <?php endif; ?>
 
-                <div class="mova-qf-row">
+                <div class="mova-qf-row mova-qf-row--3">
                     <div class="mova-qf-field">
-                        <label for="mova_qf_date">Date du projet</label>
-                        <input type="date" id="mova_qf_date" name="date_projet" />
+                        <label for="mova_qf_date">Où en êtes-vous dans vos démarches?</label>
+                        <select id="mova_qf_date" name="date_projet">
+                            <option value="">— Sélectionner —</option>
+                            <option value="Je suis curieux / j'explore les options">Je suis curieux / j'explore les options</option>
+                            <option value="J'aimerais me baigner cet été">J'aimerais me baigner cet été</option>
+                            <option value="J'ai un projet concret pour cette année">J'ai un projet concret pour cette année</option>
+                            <option value="Je planifie pour l'an prochain">Je planifie pour l'an prochain</option>
+                            <option value="Je suis prêt à acheter">Je suis prêt à acheter</option>
+                        </select>
+                    </div>
+                    <div class="mova-qf-field">
+                        <label for="mova_qf_date_concrete">Date souhaitée <span class="mova-qf-optional">(optionnel)</span></label>
+                        <input type="date" id="mova_qf_date_concrete" name="date_concrete" />
                     </div>
                     <div class="mova-qf-field">
                         <label for="mova_qf_source">Comment avez-vous entendu parler de nous?</label>
@@ -369,6 +380,7 @@ function mova_handle_quote_submission() {
     $couleur          = sanitize_text_field( wp_unslash( $_POST['couleur'] ?? '' ) );
     $type_installation = sanitize_text_field( wp_unslash( $_POST['type_installation'] ?? '' ) );
     $date_projet      = sanitize_text_field( wp_unslash( $_POST['date_projet'] ?? '' ) );
+    $date_concrete    = sanitize_text_field( wp_unslash( $_POST['date_concrete'] ?? '' ) );
     $source           = sanitize_text_field( wp_unslash( $_POST['source'] ?? '' ) );
     $commentaires     = sanitize_textarea_field( wp_unslash( $_POST['commentaires'] ?? '' ) );
     $accord           = ! empty( $_POST['accord_coordonnees'] );
@@ -477,7 +489,10 @@ function mova_handle_quote_submission() {
         $body .= "Options AquaCove : " . str_replace( ',', ', ', $options_aquacove ) . "\n";
     }
 
-    $body .= "Date du projet : {$date_projet}\n";
+    $body .= "Où en êtes-vous dans vos démarches : {$date_projet}\n";
+    if ( $date_concrete ) {
+        $body .= "Date souhaitée : {$date_concrete}\n";
+    }
     $body .= "Source : {$source}\n\n";
     $body .= "Commentaires :\n{$commentaires}\n\n";
     $body .= "---\n";
