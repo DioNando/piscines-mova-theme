@@ -167,17 +167,17 @@ function mova_inspirations_shortcode( $atts ) {
                     <img src="<?php echo esc_url( $thumbnail_grid ); ?>"
                          alt="<?php echo esc_attr( $legende ); ?>"
                          loading="lazy" />
+                    <?php if ( $piscine_link ) : ?>
+                        <a href="<?php echo esc_url( $piscine_link ); ?>" class="mova-insp-link" aria-label="Voir le modèle <?php echo esc_attr( $piscine_name ); ?>">
+                            Voir le modèle
+                        </a>
+                    <?php endif; ?>
                     <div class="mova-insp-overlay">
                         <?php if ( $legende ) : ?>
                             <h4 class="mova-insp-legende"><?php echo esc_html( $legende ); ?></h4>
                         <?php endif; ?>
                         <?php if ( $credit ) : ?>
                             <p class="mova-insp-credit"><?php echo esc_html( $credit ); ?></p>
-                        <?php endif; ?>
-                        <?php if ( $piscine_link ) : ?>
-                            <a href="<?php echo esc_url( $piscine_link ); ?>" class="mova-insp-link">
-                                Voir le modèle
-                            </a>
                         <?php endif; ?>
                     </div>
                 </div>

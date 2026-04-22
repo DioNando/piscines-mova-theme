@@ -101,10 +101,10 @@
 
         return '<div class="mova-insp-item mova-insp-item--' + escAttr(item.taille) + '" data-full="' + escAttr(item.thumbnail_full) + '">' +
             '<img src="' + escAttr(item.thumbnail) + '" alt="' + escAttr(item.legende) + '" loading="lazy" />' +
+            linkHtml +
             '<div class="mova-insp-overlay">' +
                 (item.legende ? '<h4 class="mova-insp-legende">' + escHtml(item.legende) + '</h4>' : '') +
                 (item.credit ? '<p class="mova-insp-credit">' + escHtml(item.credit) + '</p>' : '') +
-                linkHtml +
             '</div>' +
         '</div>';
     }

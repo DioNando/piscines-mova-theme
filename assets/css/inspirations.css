@@ -101,18 +101,41 @@
 }
 
 .mova-insp-link {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 500;
-  text-decoration: underline !important;
-  transition: opacity 0.2s ease;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #1a4759 !important;
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  padding: 6px 12px;
+  border: 1px solid rgba(26, 71, 89, 0.25);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    background 0.2s ease;
+  pointer-events: none;
+}
+
+.mova-insp-item:hover .mova-insp-link {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .mova-insp-link:hover {
-  opacity: 0.8;
+  background: #1a4759;
+  color: #fff !important;
+  border-color: #1a4759;
 }
 
 /* --- Load More --- */
