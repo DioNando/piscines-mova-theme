@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (typeof movaStoreData === "undefined" || !movaStoreData.stores) return;
 
   const allStores = movaStoreData.stores;
+  const provincesOrder = movaStoreData.provinces || [];
   const mapElement = document.getElementById("mova-sl-map");
   const listElement = document.getElementById("mova-sl-list");
   const searchInput = document.getElementById("mova-sl-search");
@@ -248,9 +249,17 @@ document.addEventListener("DOMContentLoaded", function () {
         grouped[prov].push(store);
       });
 
-      Object.keys(grouped)
-        .sort()
-        .forEach((province) => {
+      // Trier les sections selon l'ordre défini par PHP (nb de détaillants décroissant)
+      const sortedProvinces = Object.keys(grouped).sort((a, b) => {
+        const ia = provincesOrder.indexOf(a);
+        const ib = provincesOrder.indexOf(b);
+        if (ia === -1 && ib === -1) return a.localeCompare(b);
+        if (ia === -1) return 1;
+        if (ib === -1) return -1;
+        return ia - ib;
+      });
+
+      sortedProvinces.forEach((province) => {
           const section = document.createElement("div");
           section.className = "mova-sl-province-section";
 

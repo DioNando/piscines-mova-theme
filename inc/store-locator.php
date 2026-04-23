@@ -27,7 +27,7 @@ function mova_custom_store_locator_shortcode() {
     $query = new WP_Query( $args );
     
     $detaillants_data = array();
-    $provinces_list = array();
+    $provinces_count = array(); // province => nb de détaillants
 
     if ( $query->have_posts() ) {
         while ( $query->have_posts() ) {
@@ -41,8 +41,8 @@ function mova_custom_store_locator_shortcode() {
             $province_terms = wp_get_post_terms(get_the_ID(), 'province');
             $province = !is_wp_error($province_terms) && !empty($province_terms) ? $province_terms[0]->name : '';
             
-            if ($province && !in_array($province, $provinces_list)) {
-                $provinces_list[] = $province;
+            if ($province) {
+                $provinces_count[$province] = isset($provinces_count[$province]) ? $provinces_count[$province] + 1 : 1;
             }
 
             // Uniquement si on a des coordonnées GPS valides
@@ -66,12 +66,14 @@ function mova_custom_store_locator_shortcode() {
         wp_reset_postdata();
     }
     
-    // Trier la liste des provinces alphabétiquement
-    sort($provinces_list);
+    // Trier les provinces par nombre de détaillants décroissant (Québec > Ontario > ...)
+    arsort($provinces_count);
+    $provinces_list = array_keys($provinces_count);
 
     // 4. Exporter les données vers le fichier JavaScript
     wp_localize_script( 'mova-store-locator-script', 'movaStoreData', array(
-        'stores' => $detaillants_data
+        'stores'    => $detaillants_data,
+        'provinces' => $provinces_list,
     ));
 
     // 5. Structure HTML affichée sur la page
