@@ -469,3 +469,44 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* --- Géolocalisation : bouton Me localiser --- */
+#mova-sl-geolocate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  /* padding: 12px 15px; */
+  background: #1a4759;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  font-size: 0.875rem;
+  font-family: "AcuminPro", sans-serif;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+#mova-sl-geolocate:hover {
+  background: #163d4d;
+}
+
+#mova-sl-geolocate:disabled,
+#mova-sl-geolocate.loading {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+#mova-sl-geolocate svg {
+  flex-shrink: 0;
+}
+
+#mova-sl-geolocate.loading svg {
+  animation: mova-spin 1s linear infinite;
+}
+
+@keyframes mova-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

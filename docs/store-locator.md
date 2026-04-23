@@ -9,13 +9,15 @@
 6. [Personnalisation CSS](#personnalisation-css)
 7. [Migration de Leaflet vers Google Maps](#migration-de-leaflet-vers-google-maps)
 
+> **Dernière mise à jour** : ajout de la géolocalisation (bouton « Me localiser » + filtre par rayon).
+
 ---
 
 ## Vue d'ensemble
 
 Le shortcode `[mova_store_locator]` affiche une carte interactive avec la liste des détaillants (custom post type `detaillant`). Il se compose de deux colonnes :
 
-- **Gauche (40%)** : filtres sticky (recherche + select province) + liste de cartes groupées par province, synchronisée avec le viewport de la carte
+- **Gauche (40%)** : filtres sticky (recherche + select province + bouton géolocalisation + select rayon) + liste de cartes groupées par province, synchronisée avec le viewport de la carte
 - **Droite (60%)** : carte interactive Leaflet en `position: sticky` avec regroupement automatique des marqueurs (MarkerCluster)
 
 Le tout est responsive : sur mobile (< 992px), la carte passe en haut et la liste en dessous.
@@ -27,7 +29,7 @@ Le tout est responsive : sur mobile (< 992px), la carte passe en haut et la list
 | Fichier | Rôle |
 |---|---|
 | `inc/store-locator.php` | Shortcode WordPress : récupère les données ACF, enqueue Leaflet + MarkerCluster + assets locaux, génère le HTML |
-| `assets/js/store-locator.js` | Logique JS : initialisation Leaflet + MarkerCluster, synchronisation carte ↔ liste (moveend), filtrage texte, recherche de proximité (géocodage Nominatim) |
+| `assets/js/store-locator.js` | Logique JS : initialisation Leaflet + MarkerCluster, synchronisation carte ↔ liste (moveend), filtrage texte, recherche de proximité (géocodage Nominatim), géolocalisation navigateur |
 | `assets/css/store-locator.css` | Styles : layout, filtres sticky, cartes, marqueurs, clusters, popups, responsive |
 
 **Chemins d'assets dans le thème :**
@@ -78,6 +80,19 @@ Quand l'utilisateur tape **3 caractères ou plus**, un géocodage est lancé via
 
 > **Limitation Nominatim** : 1 requête/seconde max, restreint au Canada (`countrycodes=ca`).
 
+### 12. Géolocalisation (bouton « Me localiser »)
+Un bouton **« Me localiser »** dans la zone de filtres utilise l'API native `navigator.geolocation` du navigateur (aucune clé API requise, 100% gratuit) :
+
+- Au clic, le navigateur demande la permission de localisation
+- Si accordée : un marqueur bleu « Vous êtes ici » est posé sur la carte, la liste affiche les détaillants triés par distance croissante
+- Un **select de rayon** apparaît automatiquement (25 / 50 / **100** / 200 km) — changer le rayon relance le filtre sans re-demander la permission
+- Le filtre province est **ignoré** : tous les détaillants de toutes les provinces sont inclus dans le calcul
+- Si aucun détaillant n'est trouvé dans le rayon : message d'indication dans la sidebar
+- Si la permission est refusée ou expire : message d'erreur dans la sidebar
+- Si le navigateur ne supporte pas la géolocalisation : le bouton est masqué automatiquement
+
+**Comportement du marqueur utilisateur** : `L.circleMarker` bleu (`#2563eb`) avec contour blanc, distinct des pins numérotés des détaillants.
+
 ### 5. Cartes de détaillant (sidebar)
 Chaque carte affiche :
 - Icône pin numérotée (forme goutte, même style que le marqueur sur la carte)
@@ -123,8 +138,9 @@ Chaque marqueur a une popup affichant : nom, adresse, téléphone et un bouton �
 ### Couleurs principales
 | Couleur | Hex | Usage |
 |---|---|---|
-| Primaire | `#1a4759` | Marqueurs pin, titres, badges, fond actif |
+| Primaire | `#1a4759` | Marqueurs pin, titres, badges, fond actif, bouton géolocalisation |
 | Clusters | `#9C6D61` | Fond des clusters + halo dégradé |
+| Marqueur utilisateur | `#2563eb` | Cercle « Vous êtes ici » |
 
 Pour changer le thème, remplacer les occurrences dans `store-locator.css` et `store-locator.js`.
 

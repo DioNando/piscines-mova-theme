@@ -351,4 +351,114 @@ document.addEventListener("DOMContentLoaded", function () {
   // Écouteurs d'événements pour les filtres
   if (searchInput) searchInput.addEventListener("input", applyFilters);
   if (provinceSelect) provinceSelect.addEventListener("change", applyFilters);
+
+  // --- Géolocalisation ---
+  const geoBtn = document.getElementById("mova-sl-geolocate");
+  const radiusSelect = document.getElementById("mova-sl-radius");
+  const radiusGroup = document.querySelector(".mova-sl-radius-group");
+
+  // Marqueur "vous êtes ici"
+  let userMarker = null;
+
+  // Dernières coords géolocalisées (pour relancer le filtre rayon sans re-demander la permission)
+  let lastUserCoords = null;
+
+  function applyGeoFilter(lat, lng) {
+    const radius = radiusSelect ? parseInt(radiusSelect.value, 10) : 100;
+
+    // Calculer distances sur TOUS les détaillants (province ignorée)
+    const withDistance = allStores.map((s) => ({
+      ...s,
+      distance: haversineKm(lat, lng, s.lat, s.lng),
+    }));
+
+    // Filtrer par rayon
+    const inRadius = withDistance.filter((s) => s.distance <= radius);
+
+    // Trier par distance croissante
+    inRadius.sort((a, b) => a.distance - b.distance);
+
+    // Marqueur utilisateur
+    if (userMarker) {
+      map.removeLayer(userMarker);
+    }
+    userMarker = L.circleMarker([lat, lng], {
+      radius: 10,
+      color: "#fff",
+      fillColor: "#2563eb",
+      fillOpacity: 1,
+      weight: 3,
+    })
+      .addTo(map)
+      .bindPopup("<strong>Vous êtes ici</strong>");
+
+    // Afficher les résultats ou un message si aucun résultat dans le rayon
+    if (inRadius.length > 0) {
+      renderStores(inRadius, "proximity");
+    } else {
+      clusterGroup.clearLayers();
+      currentMarkers = [];
+      storeMarkerMap.clear();
+      lastFilteredStores = [];
+      listElement.innerHTML = `<div style="padding:20px; text-align:center; color:#666;">Aucun détaillant dans un rayon de ${radius} km. Augmentez le rayon de recherche.</div>`;
+    }
+
+    skipMoveEnd = true;
+    map.setView([lat, lng], 9);
+    setTimeout(() => {
+      skipMoveEnd = false;
+    }, 400);
+  }
+
+  if (!navigator.geolocation) {
+    // Navigateur sans support géolocalisation : masquer le bouton
+    if (geoBtn) geoBtn.style.display = "none";
+  } else {
+    if (geoBtn) {
+      geoBtn.addEventListener("click", () => {
+        const label = geoBtn.querySelector(".mova-sl-geolocate-label");
+        geoBtn.disabled = true;
+        geoBtn.classList.add("loading");
+        if (label) label.textContent = "Localisation…";
+
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            lastUserCoords = { lat, lng };
+
+            // Afficher le select rayon
+            if (radiusGroup) radiusGroup.style.display = "";
+
+            applyGeoFilter(lat, lng);
+
+            geoBtn.disabled = false;
+            geoBtn.classList.remove("loading");
+            if (label) label.textContent = "Me localiser";
+          },
+          (err) => {
+            let msg = "Impossible d'obtenir votre position.";
+            if (err.code === 1) msg = "Permission de géolocalisation refusée.";
+            else if (err.code === 3) msg = "Délai de géolocalisation dépassé.";
+
+            listElement.innerHTML = `<div style="padding:20px; text-align:center; color:#c0392b;">${msg}</div>`;
+
+            geoBtn.disabled = false;
+            geoBtn.classList.remove("loading");
+            if (label) label.textContent = "Me localiser";
+          },
+          { timeout: 10000, maximumAge: 60000 }
+        );
+      });
+    }
+
+    // Relancer le filtre quand le rayon change (sans re-demander la permission)
+    if (radiusSelect) {
+      radiusSelect.addEventListener("change", () => {
+        if (lastUserCoords) {
+          applyGeoFilter(lastUserCoords.lat, lastUserCoords.lng);
+        }
+      });
+    }
+  }
 });

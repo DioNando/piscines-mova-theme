@@ -94,6 +94,20 @@ function mova_custom_store_locator_shortcode() {
                         <?php endforeach; ?>
                     </select>
                 </div>
+                <div class="mova-sl-input-group mova-sl-radius-group" style="display:none;">
+                    <select id="mova-sl-radius">
+                        <option value="25">Dans un rayon de 25 km</option>
+                        <option value="50">Dans un rayon de 50 km</option>
+                        <option value="100" selected>Dans un rayon de 100 km</option>
+                        <option value="200">Dans un rayon de 200 km</option>
+                    </select>
+                </div>
+                <div class="mova-sl-input-group">
+                    <button id="mova-sl-geolocate" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="10" stroke-opacity=".3"/></svg>
+                        <span class="mova-sl-geolocate-label">Me localiser</span>
+                    </button>
+                </div>
             </div>
             
             <div class="mova-sl-list" id="mova-sl-list"></div>
