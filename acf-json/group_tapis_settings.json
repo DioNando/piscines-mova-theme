@@ -9,6 +9,17 @@
       "type": "image",
       "return_format": "id",
       "preview_size": "thumbnail"
+    },
+    {
+      "key": "field_tapis_ordre",
+      "label": "Ordre d'affichage",
+      "name": "ordre",
+      "type": "number",
+      "instructions": "Définit l'ordre d'affichage des pastilles de tapis (1 = premier). Laisser vide pour ordre alphabétique.",
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": ""
     }
   ],
   "location": [

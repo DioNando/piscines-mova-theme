@@ -66,6 +66,15 @@ function mova_pool_color_preview_shortcode( $atts ) {
         return '';
     }
 
+    // Trier par ordre d'affichage défini dans le BO (champ ACF "ordre")
+    usort( $couleurs, function ( $a, $b ) {
+        $oa = get_field( 'ordre', 'couleur_piscine_' . $a['term_id'] );
+        $ob = get_field( 'ordre', 'couleur_piscine_' . $b['term_id'] );
+        $oa = ( $oa !== '' && $oa !== null && $oa !== false ) ? (int) $oa : PHP_INT_MAX;
+        $ob = ( $ob !== '' && $ob !== null && $ob !== false ) ? (int) $ob : PHP_INT_MAX;
+        return $oa !== $ob ? $oa - $ob : strcmp( $a['name'], $b['name'] );
+    } );
+
     // Assets
     wp_enqueue_style( 'mova-pool-color-preview-style', get_stylesheet_directory_uri() . '/assets/css/pool-color-preview.css', array(), '1.0.0' );
     wp_enqueue_script( 'mova-pool-color-preview-script', get_stylesheet_directory_uri() . '/assets/js/pool-color-preview.js', array(), '1.0.0', true );

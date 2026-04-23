@@ -89,6 +89,14 @@ function mova_quote_form_shortcode($atts)
     $couleurs = array_values(array_filter($couleurs, function ($c) {
         return $c->parent !== 0;
     }));
+    // Trier par ordre d'affichage défini dans le BO (champ ACF "ordre")
+    usort($couleurs, function ($a, $b) {
+        $oa = get_field('ordre', 'couleur_piscine_' . $a->term_id);
+        $ob = get_field('ordre', 'couleur_piscine_' . $b->term_id);
+        $oa = ($oa !== '' && $oa !== null && $oa !== false) ? (int) $oa : PHP_INT_MAX;
+        $ob = ($ob !== '' && $ob !== null && $ob !== false) ? (int) $ob : PHP_INT_MAX;
+        return $oa !== $ob ? $oa - $ob : strcmp($a->name, $b->name);
+    });
 
     // Récupérer les provinces (taxonomie province)
     $provinces = get_terms(array(

@@ -26,6 +26,17 @@
       "name": "description_couleur",
       "type": "textarea",
       "instructions": "Texte court décrivant l'inspiration de la couleur."
+    },
+    {
+      "key": "field_couleur_ordre",
+      "label": "Ordre d'affichage",
+      "name": "ordre",
+      "type": "number",
+      "instructions": "Définit l'ordre d'affichage des pastilles (1 = premier). Laisser vide pour ordre alphabétique.",
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": ""
     }
   ],
   "location": [
