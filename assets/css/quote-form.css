@@ -139,7 +139,7 @@
 /* --- Checkboxes group (modèles) --- */
 .mova-qf-checkboxes {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 10px;
   margin-top: 6px;
 }
@@ -147,21 +147,53 @@
 .mova-qf-checkbox-label {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: 10px;
   font-family: "AcuminPro", sans-serif;
   font-size: 14px;
   color: #333;
   cursor: pointer;
   line-height: 1.4;
+  border: 1.5px solid #d0d5dd;
+  padding: 10px 12px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.mova-qf-checkbox-label:hover {
+  border-color: #1a4759;
+  background: #f4f8f9;
+}
+
+.mova-qf-checkbox-label:has(input:checked) {
+  border-color: #1a4759;
+  background: #eef4f6;
 }
 
 .mova-qf-checkbox-label input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
   accent-color: #1a4759;
   flex-shrink: 0;
   cursor: pointer;
+}
+
+.mova-qf-checkbox-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mova-qf-checkbox-cat {
+  font-size: 11px;
+  font-weight: 500;
+  color: #888;
+  letter-spacing: 0.4px;
+}
+
+.mova-qf-checkbox-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a4759;
 }
 
 /* --- Consent section --- */

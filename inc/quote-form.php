@@ -204,10 +204,17 @@ function mova_quote_form_shortcode($atts)
                         <?php foreach ($piscines as $piscine) :
                             $slug    = $piscine->post_name;
                             $checked = ($preselect_model === $slug) ? 'checked' : '';
+                            $cat_terms = wp_get_post_terms( $piscine->ID, 'categorie_piscine', array( 'fields' => 'names' ) );
+                            $cat_name  = ( ! is_wp_error( $cat_terms ) && ! empty( $cat_terms ) ) ? $cat_terms[0] : '';
                         ?>
                             <label class="mova-qf-checkbox-label">
                                 <input type="checkbox" name="modeles[]" value="<?php echo esc_attr($slug); ?>" <?php echo $checked; ?> />
-                                <span><?php echo esc_html($piscine->post_title); ?></span>
+                                <span class="mova-qf-checkbox-content">
+                                    <span class="mova-qf-checkbox-name"><?php echo esc_html($piscine->post_title); ?></span>
+                                    <?php if ( $cat_name ) : ?>
+                                        <span class="mova-qf-checkbox-cat"><?php echo esc_html( $cat_name ); ?></span>
+                                    <?php endif; ?>
+                                </span>
                             </label>
                         <?php endforeach; ?>
                     </div>
