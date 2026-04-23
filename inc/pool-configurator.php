@@ -43,6 +43,7 @@ function mova_pool_configurator_shortcode( $atts ) {
             $swatch_id = get_field( 'swatch_couleur', 'couleur_piscine_' . $term_obj->term_id );
 
             $couleurs[] = array(
+                'term_id' => $term_obj->term_id,
                 'slug'    => $term_obj->slug,
                 'name'    => $term_obj->name,
                 'fondUrl' => $fond_url,
@@ -50,6 +51,15 @@ function mova_pool_configurator_shortcode( $atts ) {
             );
         }
     }
+
+    // Trier par ordre d'affichage défini dans le BO (champ ACF "ordre" du terme)
+    usort( $couleurs, function ( $a, $b ) {
+        $oa = get_field( 'ordre', 'couleur_piscine_' . $a['term_id'] );
+        $ob = get_field( 'ordre', 'couleur_piscine_' . $b['term_id'] );
+        $oa = ( $oa !== '' && $oa !== null && $oa !== false ) ? (int) $oa : PHP_INT_MAX;
+        $ob = ( $ob !== '' && $ob !== null && $ob !== false ) ? (int) $ob : PHP_INT_MAX;
+        return $oa !== $ob ? $oa - $ob : strcmp( $a['name'], $b['name'] );
+    } );
 
     if ( empty( $couleurs ) ) {
         if ( $debug ) {
@@ -88,6 +98,7 @@ function mova_pool_configurator_shortcode( $atts ) {
                 }
 
                 $zone_tapis[] = array(
+                    'term_id'    => $term_obj->term_id,
                     'slug'       => $term_obj->slug,
                     'name'       => $term_obj->name,
                     'overlayUrl' => $overlay_url,
@@ -96,6 +107,14 @@ function mova_pool_configurator_shortcode( $atts ) {
             }
 
             if ( ! empty( $zone_tapis ) ) {
+                // Trier par ordre d'affichage défini dans le BO (champ ACF "ordre" du terme)
+                usort( $zone_tapis, function ( $a, $b ) {
+                    $oa = get_field( 'ordre', 'modele_tapis_' . $a['term_id'] );
+                    $ob = get_field( 'ordre', 'modele_tapis_' . $b['term_id'] );
+                    $oa = ( $oa !== '' && $oa !== null && $oa !== false ) ? (int) $oa : PHP_INT_MAX;
+                    $ob = ( $ob !== '' && $ob !== null && $ob !== false ) ? (int) $ob : PHP_INT_MAX;
+                    return $oa !== $ob ? $oa - $ob : strcmp( $a['name'], $b['name'] );
+                } );
                 $tapis_par_zone[ $zone ] = $zone_tapis;
             }
         }

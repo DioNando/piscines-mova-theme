@@ -92,6 +92,7 @@ function mova_tapis_catalog_shortcode( $atts ) {
                 if ( ! isset( $tapis_index[ $slug ] ) ) {
                     $swatch_id  = get_field( 'swatch_tapis', 'modele_tapis_' . $term_obj->term_id );
                     $tapis_index[ $slug ] = array(
+                        'term_id'  => $term_obj->term_id,
                         'name'     => html_entity_decode( $term_obj->name ),
                         'slug'     => $slug,
                         'swatch'   => $swatch_id ? wp_get_attachment_image_url( $swatch_id, 'thumbnail' ) : '',
@@ -130,10 +131,14 @@ function mova_tapis_catalog_shortcode( $atts ) {
     }
 
     // -------------------------------------------------------
-    // 3. Trier par nom et appliquer la limite
+    // 3. Trier par ordre d'affichage défini dans le BO, puis par nom
     // -------------------------------------------------------
     uasort( $tapis_index, function ( $a, $b ) {
-        return strcmp( $a['name'], $b['name'] );
+        $oa = get_field( 'ordre', 'modele_tapis_' . $a['term_id'] );
+        $ob = get_field( 'ordre', 'modele_tapis_' . $b['term_id'] );
+        $oa = ( $oa !== '' && $oa !== null && $oa !== false ) ? (int) $oa : PHP_INT_MAX;
+        $ob = ( $ob !== '' && $ob !== null && $ob !== false ) ? (int) $ob : PHP_INT_MAX;
+        return $oa !== $ob ? $oa - $ob : strcmp( $a['name'], $b['name'] );
     } );
 
     $tapis_list = array_values( $tapis_index );
