@@ -190,10 +190,27 @@
   letter-spacing: 0.4px;
 }
 
+.mova-qf-checkbox-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .mova-qf-checkbox-name {
   font-size: 14px;
   font-weight: 600;
   color: #1a4759;
+}
+
+.mova-qf-badge-signature {
+  font-family: "AcuminPro", sans-serif;
+  flex-shrink: 0;
+  font-size: 0.65rem;
+  font-weight: 600 !important;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #9c6d61;
+  line-height: 1.4;
 }
 
 /* --- Consent section --- */

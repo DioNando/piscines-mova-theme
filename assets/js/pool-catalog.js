@@ -89,7 +89,10 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <div class="mova-pc-card-body">
               <div class="mova-pc-card-info">
-                <div class="mova-pc-card-title">${pool.titre}</div>
+                <div class="mova-pc-card-title">
+                  ${pool.titre}
+                  ${pool.gamme === 'signature' ? '<span class="mova-pc-badge-signature">Signature</span>' : ''}
+                </div>
                 <span class="mova-pc-card-subtitle">${(pool.categories || []).join(' · ')}</span>
               </div>
               <span class="mova-pc-card-arrow">

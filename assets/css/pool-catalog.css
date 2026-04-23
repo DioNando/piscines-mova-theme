@@ -169,6 +169,20 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mova-pc-badge-signature {
+  font-family: "AcuminPro", sans-serif;
+  flex-shrink: 0;
+  font-size: 0.65rem;
+  font-weight: 600 !important;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #9c6d61;
+  line-height: 1.4;
 }
 
 .mova-pc-card-subtitle {

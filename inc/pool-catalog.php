@@ -80,12 +80,16 @@ function mova_pool_catalog_ajax()
                 ? wp_get_attachment_image_url($image_carte_id, 'large')
                 : $thumbnail;
 
+            $gamme_terms = wp_get_post_terms( $post_id, 'gamme_piscine', array( 'fields' => 'slugs' ) );
+            $gamme_slug  = ( ! is_wp_error( $gamme_terms ) && ! empty( $gamme_terms ) ) ? $gamme_terms[0] : '';
+
             $pools[] = array(
                 'id'         => $post_id,
                 'titre'      => html_entity_decode(get_the_title()),
                 'permalink'  => get_permalink($post_id),
                 'thumbnail'  => $card_image ?: '',
                 'categories' => $categories,
+                'gamme'      => $gamme_slug,
             );
         }
         wp_reset_postdata();

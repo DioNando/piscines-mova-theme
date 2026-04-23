@@ -62,9 +62,18 @@ function mova_quote_form_shortcode($atts)
         'post_type'      => 'piscine',
         'posts_per_page' => -1,
         'post_status'    => 'publish',
-        'orderby'        => 'title',
-        'order'          => 'ASC',
     ));
+
+    // Tri par ordre de grandeur numérique (ex: 8x10 < 10x20 < 12x34)
+    usort($piscines, function ( $a, $b ) {
+        preg_match('/^(\d+)[x×](\d+)/i', $a->post_title, $ma);
+        preg_match('/^(\d+)[x×](\d+)/i', $b->post_title, $mb);
+        $aw = isset($ma[1]) ? (int) $ma[1] : 0;
+        $al = isset($ma[2]) ? (int) $ma[2] : 0;
+        $bw = isset($mb[1]) ? (int) $mb[1] : 0;
+        $bl = isset($mb[2]) ? (int) $mb[2] : 0;
+        return ( $aw !== $bw ) ? $aw - $bw : $al - $bl;
+    });
 
     // Récupérer les couleurs (taxonomie couleur_piscine) — enfants seulement
     $couleurs = get_terms(array(
@@ -202,15 +211,22 @@ function mova_quote_form_shortcode($atts)
                     <label>Sélectionnez le ou les modèles de piscines qui vous intéressent :</label>
                     <div class="mova-qf-checkboxes" id="mova-qf-modeles">
                         <?php foreach ($piscines as $piscine) :
-                            $slug    = $piscine->post_name;
-                            $checked = ($preselect_model === $slug) ? 'checked' : '';
-                            $cat_terms = wp_get_post_terms( $piscine->ID, 'categorie_piscine', array( 'fields' => 'names' ) );
-                            $cat_name  = ( ! is_wp_error( $cat_terms ) && ! empty( $cat_terms ) ) ? $cat_terms[0] : '';
+                            $slug         = $piscine->post_name;
+                            $checked      = ($preselect_model === $slug) ? 'checked' : '';
+                            $cat_terms    = wp_get_post_terms( $piscine->ID, 'categorie_piscine', array( 'fields' => 'names' ) );
+                            $cat_name     = ( ! is_wp_error( $cat_terms ) && ! empty( $cat_terms ) ) ? $cat_terms[0] : '';
+                            $gamme_terms  = wp_get_post_terms( $piscine->ID, 'gamme_piscine', array( 'fields' => 'slugs' ) );
+                            $is_signature = ( ! is_wp_error( $gamme_terms ) && in_array( 'signature', $gamme_terms, true ) );
                         ?>
                             <label class="mova-qf-checkbox-label">
                                 <input type="checkbox" name="modeles[]" value="<?php echo esc_attr($slug); ?>" <?php echo $checked; ?> />
                                 <span class="mova-qf-checkbox-content">
-                                    <span class="mova-qf-checkbox-name"><?php echo esc_html($piscine->post_title); ?></span>
+                                    <span class="mova-qf-checkbox-name-row">
+                                        <span class="mova-qf-checkbox-name"><?php echo esc_html($piscine->post_title); ?></span>
+                                        <?php if ( $is_signature ) : ?>
+                                            <span class="mova-qf-badge-signature">Signature</span>
+                                        <?php endif; ?>
+                                    </span>
                                     <?php if ( $cat_name ) : ?>
                                         <span class="mova-qf-checkbox-cat"><?php echo esc_html( $cat_name ); ?></span>
                                     <?php endif; ?>
