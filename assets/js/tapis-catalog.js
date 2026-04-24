@@ -56,8 +56,19 @@
             var btn = document.createElement('button');
             btn.className = 'mova-tc-piscine-btn';
             btn.dataset.index = idx;
-            btn.textContent = piscine.title;
             btn.setAttribute('aria-label', piscine.title);
+
+            var titleEl = document.createElement('span');
+            titleEl.className = 'mova-tc-piscine-title';
+            titleEl.textContent = piscine.title;
+            btn.appendChild(titleEl);
+
+            if (piscine.categorie) {
+                var catEl = document.createElement('span');
+                catEl.className = 'mova-tc-piscine-cat';
+                catEl.textContent = piscine.categorie;
+                btn.appendChild(catEl);
+            }
 
             btn.addEventListener('click', function () {
                 selectPiscine(idx);

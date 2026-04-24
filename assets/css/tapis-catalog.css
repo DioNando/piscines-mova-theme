@@ -173,6 +173,9 @@
 }
 
 .mova-tc-piscine-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 7px 16px;
   font-size: 14px;
   font-weight: 500;
@@ -185,6 +188,22 @@
     border-color 0.2s,
     background 0.2s,
     color 0.2s;
+}
+
+.mova-tc-piscine-title {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.mova-tc-piscine-cat {
+  font-size: 11px;
+  font-weight: 400;
+  opacity: 0.7;
+  line-height: 1.2;
+}
+
+.mova-tc-piscine-btn.active .mova-tc-piscine-cat {
+  opacity: 0.85;
 }
 
 .mova-tc-piscine-btn:hover {

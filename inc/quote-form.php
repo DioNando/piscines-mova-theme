@@ -543,6 +543,71 @@ function mova_handle_quote_submission()
     $sent = wp_mail($to, $subject, $body, $headers);
 
     if ($sent) {
+        // Courriel de confirmation au demandeur
+        $confirm_body  = "Bonjour {$prenom},\n\n";
+        $confirm_body .= "Nous avons bien reçu votre demande de devis. Un représentant Mova vous contactera sous peu.\n\n";
+        $confirm_body .= "Voici un résumé de votre demande :\n";
+        $confirm_body .= "================================\n\n";
+
+        // Coordonnées
+        $confirm_body .= "Prénom : {$prenom}\n";
+        $confirm_body .= "Nom : {$nom}\n";
+        $confirm_body .= "Courriel : {$courriel}\n";
+        $confirm_body .= "Téléphone : {$telephone}\n";
+        if ($moment) {
+            $confirm_body .= "Meilleur moment pour vous joindre : {$moment}\n";
+        }
+        if ($moyen_contact) {
+            $confirm_body .= "Moyen de contact préféré : {$moyen_contact}\n";
+        }
+
+        // Adresse
+        if ($adresse || $ville || $province || $code_postal) {
+            $confirm_body .= "\nAdresse :\n";
+            if ($adresse)     $confirm_body .= "  {$adresse}\n";
+            if ($ville)       $confirm_body .= "  {$ville}\n";
+            if ($province)    $confirm_body .= "  {$province}\n";
+            if ($code_postal) $confirm_body .= "  {$code_postal}\n";
+        }
+
+        // Projet
+        $confirm_body .= "\nVotre projet :\n";
+        if ($modeles_list)        $confirm_body .= "  Modèle(s) : {$modeles_list}\n";
+        if ($couleur)             $confirm_body .= "  Couleur : {$couleur}\n";
+        if ($type_installation)   $confirm_body .= "  Type d'installation : {$type_installation}\n";
+        if ($date_projet)         $confirm_body .= "  Où en êtes-vous dans vos démarches : {$date_projet}\n";
+        if ($date_concrete)       $confirm_body .= "  Date souhaitée : {$date_concrete}\n";
+        if ($source)              $confirm_body .= "  Comment avez-vous entendu parler de nous : {$source}\n";
+        if ($commentaires)        $confirm_body .= "  Commentaires : {$commentaires}\n";
+
+        // Tapis AquaCove
+        if (! empty($tapis_selections)) {
+            $zone_labels_confirm = array('marches' => 'Marches', 'bancs' => 'Bancs', 'terrasse' => 'Terrasse');
+            $confirm_body .= "\nSélections AquaCove :\n";
+            foreach ($tapis_selections as $tz_key => $tz_slug) {
+                $tz_label = isset($zone_labels_confirm[$tz_key]) ? $zone_labels_confirm[$tz_key] : $tz_key;
+                $confirm_body .= "  Tapis {$tz_label} : {$tz_slug}\n";
+            }
+        }
+        if ($options_aquacove) {
+            $confirm_body .= "  Options AquaCove : " . str_replace(',', ', ', $options_aquacove) . "\n";
+        }
+
+        $confirm_body .= "\n---\n";
+        $confirm_body .= "Merci de votre intérêt pour les piscines Mova!\n";
+        $confirm_body .= "— L'équipe Piscines Mova\n";
+
+        $confirm_headers = array(
+            'Content-Type: text/plain; charset=UTF-8',
+        );
+
+        wp_mail(
+            $courriel,
+            'Confirmation — Votre demande de devis Mova',
+            $confirm_body,
+            $confirm_headers
+        );
+
         wp_send_json_success(array('message' => 'Merci! Votre demande de devis a été envoyée avec succès. Un représentant Mova vous contactera sous peu.'));
     } else {
         wp_send_json_error(array('message' => 'Une erreur est survenue lors de l\'envoi. Veuillez réessayer ou nous contacter directement.'));

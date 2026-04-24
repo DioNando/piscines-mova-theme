@@ -111,12 +111,15 @@ function mova_tapis_catalog_shortcode( $atts ) {
 
                 if ( $piscine_key === null ) {
                     // Nouvelle piscine pour ce tapis
+                    $cat_terms = wp_get_post_terms( $pid, 'categorie_piscine', array( 'fields' => 'names' ) );
+                    $cat_name  = ( ! is_wp_error( $cat_terms ) && ! empty( $cat_terms ) ) ? $cat_terms[0] : '';
                     $tapis_index[ $slug ]['piscines'][] = array(
-                        'id'            => $pid,
-                        'title'         => html_entity_decode( get_the_title( $pid ) ),
-                        'slug'          => get_post_field( 'post_name', $pid ),
+                        'id'             => $pid,
+                        'title'          => html_entity_decode( get_the_title( $pid ) ),
+                        'slug'           => get_post_field( 'post_name', $pid ),
+                        'categorie'      => $cat_name,
                         'defaultFondUrl' => $default_fond,
-                        'zones'         => array( $zone => $overlay_url ),
+                        'zones'          => array( $zone => $overlay_url ),
                     );
                 } else {
                     // Ajouter la zone à la piscine existante
@@ -140,6 +143,20 @@ function mova_tapis_catalog_shortcode( $atts ) {
         $ob = ( $ob !== '' && $ob !== null && $ob !== false ) ? (int) $ob : PHP_INT_MAX;
         return $oa !== $ob ? $oa - $ob : strcmp( $a['name'], $b['name'] );
     } );
+
+    // Trier les piscines de chaque tapis par dimensions numériques (ex: 8x10 < 10x20 < 12x34)
+    foreach ( $tapis_index as &$tapis_entry ) {
+        usort( $tapis_entry['piscines'], function ( $a, $b ) {
+            preg_match( '/^(\d+)[x×](\d+)/i', $a['title'], $ma );
+            preg_match( '/^(\d+)[x×](\d+)/i', $b['title'], $mb );
+            $aw = isset( $ma[1] ) ? (int) $ma[1] : 0;
+            $al = isset( $ma[2] ) ? (int) $ma[2] : 0;
+            $bw = isset( $mb[1] ) ? (int) $mb[1] : 0;
+            $bl = isset( $mb[2] ) ? (int) $mb[2] : 0;
+            return ( $aw !== $bw ) ? $aw - $bw : $al - $bl;
+        } );
+    }
+    unset( $tapis_entry );
 
     $tapis_list = array_values( $tapis_index );
 
