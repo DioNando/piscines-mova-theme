@@ -23,6 +23,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // --- Génération des initiales (fallback si pas de logo) ---
+  function getInitials(nom) {
+    const words = nom.trim().split(/[\s\-\u2013]+/).filter(Boolean);
+    if (words.length >= 2) {
+      return (words[0][0] + words[1][0]).toUpperCase();
+    }
+    return words[0] ? words[0].slice(0, 2).toUpperCase() : "?";
+  }
+
   // --- Calcul de distance Haversine (en km) ---
   function haversineKm(lat1, lng1, lat2, lng2) {
     const R = 6371;
@@ -129,14 +138,15 @@ document.addEventListener("DOMContentLoaded", function () {
       num++;
       store._num = num;
 
-      const numberedIcon = L.divIcon({
-        className: "custom-div-icon",
-        html: `<div class="mova-marker-pin"><span>${num}</span></div>`,
-        iconSize: [30, 42],
-        iconAnchor: [15, 42],
-        popupAnchor: [0, -42],
-        popupAnchor: [0, -15],
-      });
+      const markerInner = store.logo
+        ? `<div class="mova-marker-logo-pin"><div class="mova-marker-logo-inner"><img src="${store.logo}" alt="" loading="lazy"></div></div>`
+        : `<div class="mova-marker-pin"><span>${getInitials(store.nom)}</span></div>`;
+
+      const numberedIcon = L.divIcon(
+        store.logo
+          ? { className: "custom-div-icon", html: markerInner, iconSize: [38, 38], iconAnchor: [19, 38], popupAnchor: [0, -38] }
+          : { className: "custom-div-icon", html: markerInner, iconSize: [30, 42], iconAnchor: [15, 42], popupAnchor: [0, -42] }
+      );
 
       const popupHTML = `
         <div class="mova-map-popup">
@@ -196,7 +206,9 @@ document.addEventListener("DOMContentLoaded", function () {
       listItem.className = "mova-sl-item";
       listItem.innerHTML = `
         <div class="mova-sl-item-header">
-            <span class="mova-sl-number"><span>${num}</span></span>
+            <div class="mova-sl-logo-badge">
+              ${store.logo ? `<img src="${store.logo}" alt="" class="mova-sl-logo-img" loading="lazy">` : `<span class="mova-sl-initiales">${getInitials(store.nom)}</span>`}
+            </div>
             <h5>${store.nom}</h5>
         </div>
         <p> ${store.adresse}, ${store.ville}</p>

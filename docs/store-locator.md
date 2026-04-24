@@ -91,11 +91,11 @@ Un bouton **« Me localiser »** dans la zone de filtres utilise l'API native `n
 - Si la permission est refusée ou expire : message d'erreur dans la sidebar
 - Si le navigateur ne supporte pas la géolocalisation : le bouton est masqué automatiquement
 
-**Comportement du marqueur utilisateur** : `L.circleMarker` bleu (`#2563eb`) avec contour blanc, distinct des pins numérotés des détaillants.
+**Comportement du marqueur utilisateur** : `L.circleMarker` bleu (`#2563eb`) avec contour blanc, distinct des pins des détaillants.
 
 ### 5. Cartes de détaillant (sidebar)
 Chaque carte affiche :
-- Icône pin numérotée (forme goutte, même style que le marqueur sur la carte)
+- **Logo de l'entreprise** (si renseigné) ou **initiales** en fallback (fond `#1a4759`, 1-2 lettres) dans un badge carré 44×44px
 - Nom du détaillant
 - Adresse et ville
 - Téléphone (si renseigné)
@@ -112,14 +112,20 @@ Cliquer sur une carte dans la sidebar :
 - Sur mobile : scroll automatique vers la carte
 
 ### 7. Marqueurs pin et regroupement (MarkerCluster)
-Les marqueurs sur la carte sont des **icônes pin en forme de goutte** (`border-radius: 50% 50% 50% 0`) avec le numéro à l'intérieur, en couleur primaire `#1a4759`. Quand la carte est dézoomée, les marqueurs proches sont automatiquement regroupés en **clusters circulaires** (`#9C6D61`) avec un effet de halo dégradé (deux anneaux `box-shadow` en opacité décroissante). Un clic sur le cluster zoome pour séparer les points. Au zoom maximum, les points se déploient en « spiderfy ».
+Les marqueurs sur la carte ont deux apparences selon la disponibilité du logo :
+- **Avec logo** : cercle blanc 36×36px avec bordure `#1a4759`, fond blanc, image du logo en `object-fit: contain`
+- **Sans logo** : pin en forme de goutte (`border-radius: 50% 50% 50% 0`, couleur `#1a4759`) affichant les **initiales** de l'entreprise (1-2 lettres générées automatiquement, ex. « PA » pour « Piscines Aqua »)
 
-La distinction visuelle est claire : **pins** = détaillants individuels, **cercles avec halo** = clusters.
+Aucune numérotation n'est affichée sur les marqueurs.
+
+Quand la carte est dézoomée, les marqueurs proches sont automatiquement regroupés en **clusters circulaires** (`#9C6D61`) avec un effet de halo dégradé (deux anneaux `box-shadow` en opacité décroissante). Un clic sur le cluster zoome pour séparer les points. Au zoom maximum, les points se déploient en « spiderfy ».
+
+La distinction visuelle est claire : **pins/cercles logos** = détaillants individuels, **cercles avec halo** = clusters.
 
 Dépendance : `leaflet.markercluster@1.5.3` (CSS + JS chargés depuis unpkg CDN).
 
 ### 8. Synchronisation carte ↔ liste (viewport)
-Chaque zoom ou déplacement de la carte met à jour la liste pour n'afficher que les détaillants **visibles dans le viewport actuel**. La numérotation des magasins reste stable (attribuée au rendu initial). Un flag `skipMoveEnd` empêche les boucles infinies lors des mouvements programmatiques (`fitBounds`, `setView`).
+Chaque zoom ou déplacement de la carte met à jour la liste pour n'afficher que les détaillants **visibles dans le viewport actuel**. Un flag `skipMoveEnd` empêche les boucles infinies lors des mouvements programmatiques (`fitBounds`, `setView`).
 
 ### 9. Filtres sticky
 La zone de filtres (champ de recherche + select province) reste visible en haut de la sidebar lors du scroll grâce à `position: sticky`.

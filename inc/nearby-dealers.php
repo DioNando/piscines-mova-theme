@@ -64,6 +64,7 @@ function mova_nearby_dealers_shortcode( $atts ) {
                 'province'  => $province,
                 'tel'       => get_field( 'telephone' ) ?: '',
                 'permalink' => get_permalink(),
+                'logo'      => esc_url( get_field( 'logo' ) ?: '' ),
                 'distance'  => $distance,
                 'lat'       => $lat,
                 'lng'       => $lng,
@@ -100,7 +101,18 @@ function mova_nearby_dealers_shortcode( $atts ) {
                 <?php foreach ( $dealers as $dealer ) : ?>
                 <a href="<?php echo esc_url( $dealer['permalink'] ); ?>" class="mova-nd-card">
                     <div class="mova-nd-card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z" fill="#1a4759"/></svg>
+                        <?php if ( $dealer['logo'] ) : ?>
+                            <div class="mova-nd-logo-badge">
+                                <img src="<?php echo esc_url( $dealer['logo'] ); ?>" alt="" loading="lazy">
+                            </div>
+                        <?php else :
+                            $words = preg_split( '/[\s\-\x{2013}]+/u', trim( $dealer['nom'] ), -1, PREG_SPLIT_NO_EMPTY );
+                            $initials = count( $words ) >= 2
+                                ? mb_strtoupper( mb_substr( $words[0], 0, 1 ) . mb_substr( $words[1], 0, 1 ) )
+                                : mb_strtoupper( mb_substr( $words[0] ?? '?', 0, 2 ) );
+                        ?>
+                            <div class="mova-nd-initiales-badge"><?php echo esc_html( $initials ); ?></div>
+                        <?php endif; ?>
                     </div>
                     <h4 class="mova-nd-card-name"><?php echo esc_html( $dealer['nom'] ); ?></h4>
                     <p class="mova-nd-card-location"><?php echo esc_html( $dealer['ville'] ); ?><?php if ( $dealer['province'] ) echo ', ' . esc_html( $dealer['province'] ); ?></p>

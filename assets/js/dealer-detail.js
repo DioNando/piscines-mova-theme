@@ -1,7 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
   if (typeof movaDealerData === "undefined" || typeof L === "undefined") return;
 
-  const { lat, lng, nom } = movaDealerData;
+  const { lat, lng, nom, adresse, ville, cp, tel, logo } = movaDealerData;
+
+  function getInitials(n) {
+    return n.split(/[\s\-\u2013]+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('');
+  }
   const mapEl = document.getElementById("mova-dd-map");
   if (!mapEl || !lat || !lng) return;
 
@@ -15,19 +19,34 @@ document.addEventListener("DOMContentLoaded", function () {
   ).addTo(map);
 
   // Marqueur pin
+  const iconHtml = logo
+    ? `<div class="mova-dd-marker-logo-pin"><div class="mova-dd-marker-logo-inner"><img src="${logo}" alt="" /></div></div>`
+    : `<div class="mova-dd-marker-pin"><span>${getInitials(nom)}</span></div>`;
+
+  const iconSize  = logo ? [38, 38] : [30, 30];
+  const iconAnchor = logo ? [19, 19] : [15, 30];
+
   const icon = L.divIcon({
     className: "mova-dd-marker",
-    html: `<div class="mova-dd-marker-pin">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z" fill="#fff"/>
-      </svg>
-    </div>`,
-    iconSize: [36, 48],
-    iconAnchor: [18, 48],
+    html: iconHtml,
+    iconSize,
+    iconAnchor,
+    popupAnchor: [0, logo ? -22 : -32],
   });
+
+  const adresseLine = [adresse, ville && cp ? `${ville}, ${cp}` : (ville || cp)].filter(Boolean).join('<br>');
+
+  const popupHTML = `
+    <div class="mova-map-popup">
+      <h5>${nom}</h5>
+      ${adresseLine ? `<p>${adresseLine}</p>` : ''}
+      ${tel ? `<p style="font-weight:bold; margin-top:-5px;">${tel}</p>` : ''}
+      <a href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}" target="_blank" class="btn-itineraire">Y aller</a>
+    </div>
+  `;
 
   L.marker([lat, lng], { icon })
     .addTo(map)
-    .bindPopup(`<strong>${nom}</strong>`)
+    .bindPopup(popupHTML)
     .openPopup();
 });

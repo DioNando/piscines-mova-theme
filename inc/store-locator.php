@@ -58,6 +58,7 @@ function mova_custom_store_locator_shortcode() {
                     'site'     => get_field('site_web_url') ?: '',
                     'permalink'=> get_permalink(),
                     'province' => $province,
+                    'logo'     => esc_url(get_field('logo') ?: ''),
                     'lat'      => (float) $lat,
                     'lng'      => (float) $lng,
                 );

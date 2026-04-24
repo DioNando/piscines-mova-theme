@@ -30,6 +30,7 @@ function mova_dealer_detail_shortcode( $atts ) {
     $site     = get_field( 'site_web_url', $post_id ) ?: '';
     $lat      = get_field( 'latitude', $post_id );
     $lng      = get_field( 'longitude', $post_id );
+    $logo     = esc_url( get_field( 'logo', $post_id ) ?: '' );
 
     // Province
     $province_terms = wp_get_post_terms( $post_id, 'province' );
@@ -43,9 +44,14 @@ function mova_dealer_detail_shortcode( $atts ) {
 
     // Passer les coordonnées au JS
     wp_localize_script( 'mova-dealer-detail-script', 'movaDealerData', array(
-        'lat'  => (float) $lat,
-        'lng'  => (float) $lng,
-        'nom'  => $nom,
+        'lat'     => (float) $lat,
+        'lng'     => (float) $lng,
+        'nom'     => $nom,
+        'adresse' => $adresse,
+        'ville'   => $ville,
+        'cp'      => $cp,
+        'tel'     => $tel,
+        'logo'    => $logo,
     ) );
 
     // Construire l'adresse complète

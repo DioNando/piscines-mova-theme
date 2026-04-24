@@ -93,6 +93,39 @@
   margin-bottom: 12px;
 }
 
+/* Logo ou initiales dans la card nearby */
+.mova-nd-logo-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  border: 1.5px solid #e0e4e7;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.mova-nd-logo-badge img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+
+.mova-nd-initiales-badge {
+  width: 48px;
+  height: 48px;
+  background: #1a4759;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "AcuminPro", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
 .mova-nd-card-name {
   font-family: "AcuminPro", sans-serif !important;
   font-size: 1rem !important;
@@ -113,7 +146,6 @@
   font-family: "AcuminPro", sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #333;
   margin: 0 0 8px 0;
 }
 

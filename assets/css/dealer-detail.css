@@ -106,22 +106,56 @@
   border: none;
 }
 
+/* Initiales (pin losange) */
 .mova-dd-marker-pin {
   position: relative;
   background: #1a4759;
   color: #fff;
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
 }
 
-.mova-dd-marker-pin svg {
+.mova-dd-marker-pin span {
   transform: rotate(45deg);
+  font-family: "AcuminPro", sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 1;
+}
+
+/* Logo (cercle) */
+.mova-dd-marker-logo-pin {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mova-dd-marker-logo-inner {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2.5px solid #1a4759;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+}
+
+.mova-dd-marker-logo-inner img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
 /* --- Responsive --- */
@@ -138,4 +172,77 @@
   .mova-dd-name {
     font-size: 1.4rem;
   }
+}
+
+/* --- Popup Leaflet (même style que le store locator) --- */
+.leaflet-popup-content-wrapper {
+  border-radius: 0px !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  font-family: "AcuminPro", sans-serif;
+  padding: 1rem 0.5rem;
+  color: #1a4759;
+}
+
+.leaflet-popup-close-button {
+  width: 24px !important;
+  height: 24px !important;
+  font-size: 0 !important;
+  color: transparent !important;
+  top: 6px !important;
+  right: 6px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background: none !important;
+  border: none !important;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+.leaflet-popup-close-button:hover {
+  opacity: 1;
+}
+
+.leaflet-popup-close-button::after {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M12 4L4 12M4 4l8 8' stroke='%231a4759' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+}
+
+.mova-map-popup h5 {
+  margin: 0 0 8px 0;
+  font-family: "AcuminPro", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a4759;
+}
+
+.mova-map-popup p {
+  margin: 0 0 12px 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.mova-map-popup a.btn-itineraire {
+  display: block;
+  text-align: center;
+  background: #ffffff00;
+  border: 1px solid #1a4759;
+  color: #1a4759;
+  padding: 8px 12px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.mova-map-popup a.btn-itineraire:hover {
+  background: #1a4759;
+  color: #fff;
 }

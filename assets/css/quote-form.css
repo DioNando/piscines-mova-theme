@@ -216,6 +216,8 @@
 /* --- Consent section --- */
 .mova-qf-fieldset--consent .mova-qf-checkbox-label {
   margin-bottom: 12px;
+  border: none;
+  padding: 0;
 }
 
 .mova-qf-note {

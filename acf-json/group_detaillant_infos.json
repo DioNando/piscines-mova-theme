@@ -230,6 +230,31 @@
       "placeholder": "",
       "prepend": "",
       "append": ""
+    },
+    {
+      "key": "field_detail_logo",
+      "label": "Logo",
+      "name": "logo",
+      "aria-label": "",
+      "type": "image",
+      "instructions": "Logo de l'entreprise détaillante (PNG ou SVG recommandé, fond transparent). Affiché sur la carte interactive et dans la liste des détaillants.",
+      "required": false,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "return_format": "url",
+      "preview_size": "thumbnail",
+      "library": "all",
+      "min_width": "",
+      "min_height": "",
+      "min_size": "",
+      "max_width": "",
+      "max_height": "",
+      "max_size": "",
+      "mime_types": ""
     }
   ],
   "location": [
@@ -251,5 +276,5 @@
   "description": "Coordonnées, contact et géolocalisation des détaillants autorisés Piscines Mova.",
   "show_in_rest": 0,
   "display_title": "",
-  "modified": 1774609420
+  "modified": 1745438500
 }
