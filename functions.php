@@ -63,7 +63,7 @@ function mova_custom_breadcrumbs_piscines( $links ) {
         // On crée le lien de la page parent à injecter
         $breadcrumb_parent = array(
             array(
-                'url'  => home_url( '/modeles/' ), // L'URL de votre page
+                'url'  => home_url( '/modele-de-piscine/' ), // L'URL de votre page
                 'text' => 'Modèles',           // Le texte affiché dans le fil d'Ariane
             )
         );

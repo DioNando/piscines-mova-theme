@@ -416,7 +416,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     skipMoveEnd = true;
-    map.setView([lat, lng], 9);
+    if (inRadius.length > 0) {
+      const bounds = L.latLngBounds([[lat, lng]]);
+      inRadius.forEach((s) => bounds.extend([s.lat, s.lng]));
+      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 13 });
+    } else {
+      map.setView([lat, lng], 9);
+    }
     setTimeout(() => {
       skipMoveEnd = false;
     }, 400);
