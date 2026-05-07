@@ -111,6 +111,131 @@
   width: 100%;
 }
 
+/* --- Label actif (couleur sélectionnée) --- */
+.mova-tc-active-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a4759;
+  margin: 10px 0 0;
+  min-height: 20px;
+}
+
+/* --- Swatches couleurs de coque --- */
+.mova-tc-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.mova-tc-swatch {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  background: #eee;
+  transition:
+    border-color 0.2s,
+    transform 0.15s;
+}
+
+.mova-tc-swatch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mova-tc-swatch:hover {
+  border-color: #1a4759;
+  background-color: transparent;
+  transform: scale(1.06);
+}
+
+.mova-tc-swatch.is-active {
+  border-color: #1a4759;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 4px #1a4759;
+}
+
+.mova-tc-swatch:focus {
+  background-color: transparent;
+}
+
+.mova-tc-swatch-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 13px;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+}
+
+/* --- Toggles par zone --- */
+.mova-tc-zone-row {
+  margin-bottom: 10px;
+}
+
+.mova-tc-zone-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mova-tc-zone-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a4759;
+}
+
+.mova-tc-zone-toggle {
+  width: 36px;
+  height: 20px;
+  border-radius: 10px !important;
+  border: none;
+  background: #ccc;
+  cursor: pointer;
+  position: relative;
+  padding: 0;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.mova-tc-zone-toggle:focus {
+  background-color: #bbb;
+}
+
+.mova-tc-zone-toggle:hover {
+  background-color: #bbb;
+}
+
+.mova-tc-zone-toggle.is-active {
+  background: #1a4759;
+}
+
+.mova-tc-zone-toggle-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s;
+}
+
+.mova-tc-zone-toggle.is-active .mova-tc-zone-toggle-icon {
+  transform: translateX(16px);
+}
+
 /* --- Preview en layers --- */
 .mova-tc-layers {
   position: relative;

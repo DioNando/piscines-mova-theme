@@ -4,11 +4,18 @@
     var data      = movaTapisCatalog;
     var tapisList = data.tapis;
 
-    var grid         = document.getElementById('mova-tc-grid');
-    var layersWrap   = document.getElementById('mova-tc-layers');
-    var layerFond    = document.getElementById('mova-tc-layer-fond');
-    var tapisNameEl  = document.getElementById('mova-tc-tapis-name');
-    var piscinesWrap = document.getElementById('mova-tc-piscines');
+    var grid            = document.getElementById('mova-tc-grid');
+    var layersWrap      = document.getElementById('mova-tc-layers');
+    var layerFond       = document.getElementById('mova-tc-layer-fond');
+    var tapisNameEl     = document.getElementById('mova-tc-tapis-name');
+    var piscinesWrap    = document.getElementById('mova-tc-piscines');
+    var couleursSection = document.getElementById('mova-tc-section-couleurs');
+    var couleursWrap    = document.getElementById('mova-tc-couleurs');
+    var couleurLabel    = document.getElementById('mova-tc-couleur-label');
+    var zonesSection    = document.getElementById('mova-tc-section-zones');
+    var zonesWrap       = document.getElementById('mova-tc-zones');
+
+    var zoneLabels = { marches: 'Marches', bancs: 'Bancs', terrasse: 'Terrasse' };
 
     if (!grid || !layersWrap || tapisList.length === 0) return;
 
@@ -79,7 +86,7 @@
     }
 
     /* ============================================================
-       Sélection d'une piscine — affiche toutes les zones
+       Sélection d'une piscine — fond + overlays + couleurs + zones
        ============================================================ */
     function selectPiscine(index) {
         var tapis   = tapisList[currentTapisIndex];
@@ -93,15 +100,16 @@
         btns.forEach(function (b) { b.classList.remove('active'); });
         if (btns[index]) btns[index].classList.add('active');
 
-        // Fond
-        layerFond.src = piscine.defaultFondUrl;
+        // Fond (première couleur disponible)
+        var couleurs = piscine.couleurs || [];
+        layerFond.src = couleurs.length > 0 ? couleurs[0].fondUrl : piscine.defaultFondUrl;
         layerFond.alt = piscine.title;
 
         // Supprimer les overlays précédents
         var existing = layersWrap.querySelectorAll('.mova-tc-layer--overlay');
         existing.forEach(function (el) { el.parentNode.removeChild(el); });
 
-        // Créer un overlay par zone (toutes simultanément)
+        // Créer un overlay par zone (avec id + data-zone pour les toggles)
         var zones = Object.keys(piscine.zones);
         zones.forEach(function (zone) {
             var overlayUrl = piscine.zones[zone];
@@ -109,9 +117,126 @@
 
             var img = document.createElement('img');
             img.className = 'mova-tc-layer mova-tc-layer--overlay';
-            img.alt = zone;
+            img.alt = zoneLabels[zone] || zone;
             img.src = overlayUrl;
+            img.dataset.zone = zone;
+            img.id = 'mova-tc-overlay-' + zone;
             layersWrap.appendChild(img);
+        });
+
+        // Construire sélecteur couleurs
+        buildCouleurs(piscine);
+
+        // Construire toggles zones
+        buildZones(piscine);
+    }
+
+    /* ============================================================
+       Sélecteur de couleur de coque
+       ============================================================ */
+    function buildCouleurs(piscine) {
+        if (!couleursWrap) return;
+        couleursWrap.innerHTML = '';
+
+        var couleurs = piscine.couleurs || [];
+
+        if (couleurs.length <= 1) {
+            if (couleursSection) couleursSection.style.display = 'none';
+            return;
+        }
+
+        if (couleursSection) couleursSection.style.display = '';
+
+        couleurs.forEach(function (c, idx) {
+            var btn = document.createElement('button');
+            btn.className = 'mova-tc-swatch' + (idx === 0 ? ' is-active' : '');
+            btn.dataset.slug = c.slug;
+            btn.title = c.name;
+            btn.setAttribute('aria-label', c.name);
+
+            if (c.swatch) {
+                var img = document.createElement('img');
+                img.src = c.swatch;
+                img.alt = c.name;
+                btn.appendChild(img);
+            } else {
+                var span = document.createElement('span');
+                span.className = 'mova-tc-swatch-placeholder';
+                span.textContent = c.name.substring(0, 2).toUpperCase();
+                btn.appendChild(span);
+            }
+
+            btn.addEventListener('click', function () {
+                couleursWrap.querySelectorAll('.mova-tc-swatch').forEach(function (s) {
+                    s.classList.remove('is-active');
+                });
+                btn.classList.add('is-active');
+                if (couleurLabel) couleurLabel.textContent = c.name;
+                layerFond.src = c.fondUrl;
+            });
+
+            couleursWrap.appendChild(btn);
+        });
+
+        if (couleurLabel) couleurLabel.textContent = couleurs[0].name;
+    }
+
+    /* ============================================================
+       Toggles par zone
+       ============================================================ */
+    function buildZones(piscine) {
+        if (!zonesWrap) return;
+        zonesWrap.innerHTML = '';
+
+        var zones = Object.keys(piscine.zones);
+
+        if (zones.length === 0) {
+            if (zonesSection) zonesSection.style.display = 'none';
+            return;
+        }
+
+        if (zonesSection) zonesSection.style.display = '';
+
+        zones.forEach(function (zone) {
+            var label = zoneLabels[zone] || (zone.charAt(0).toUpperCase() + zone.slice(1));
+
+            var row = document.createElement('div');
+            row.className = 'mova-tc-zone-row';
+
+            var header = document.createElement('div');
+            header.className = 'mova-tc-zone-header';
+
+            var titleEl = document.createElement('span');
+            titleEl.className = 'mova-tc-zone-label';
+            titleEl.textContent = label;
+
+            var toggle = document.createElement('button');
+            toggle.className = 'mova-tc-zone-toggle is-active';
+            toggle.dataset.zone = zone;
+            toggle.setAttribute('aria-pressed', 'true');
+            toggle.title = 'Activer/désactiver ' + label;
+
+            var icon = document.createElement('span');
+            icon.className = 'mova-tc-zone-toggle-icon';
+            toggle.appendChild(icon);
+
+            toggle.addEventListener('click', function () {
+                var overlay = document.getElementById('mova-tc-overlay-' + zone);
+                if (toggle.classList.contains('is-active')) {
+                    toggle.classList.remove('is-active');
+                    toggle.setAttribute('aria-pressed', 'false');
+                    if (overlay) overlay.style.opacity = '0';
+                } else {
+                    toggle.classList.add('is-active');
+                    toggle.setAttribute('aria-pressed', 'true');
+                    if (overlay) overlay.style.opacity = '1';
+                }
+            });
+
+            header.appendChild(titleEl);
+            header.appendChild(toggle);
+            row.appendChild(header);
+            zonesWrap.appendChild(row);
         });
     }
 

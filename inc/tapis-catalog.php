@@ -64,20 +64,34 @@ function mova_tapis_catalog_shortcode($atts)
 
         if (empty($zones_cfg) || ! is_array($zones_cfg)) continue;
 
-        // Fond par défaut : première couleur du repeater
-        $couleurs_cfg    = get_field('couleurs_configurateur', $pid);
-        $default_fond    = '';
+        // Fond par défaut + liste de toutes les couleurs disponibles
+        $couleurs_cfg  = get_field('couleurs_configurateur', $pid);
+        $default_fond  = '';
+        $couleurs_data = array();
         if (! empty($couleurs_cfg) && is_array($couleurs_cfg)) {
             foreach ($couleurs_cfg as $row) {
+                $c_term = isset($row['couleur']) ? $row['couleur'] : null;
                 $img_id = isset($row['image_fond']) ? intval($row['image_fond']) : 0;
-                if ($img_id) {
-                    $url = wp_get_attachment_image_url($img_id, 'full');
-                    if ($url) {
-                        $default_fond = $url;
-                        break;
-                    }
-                }
+                if (! $c_term || ! is_object($c_term) || ! $img_id) continue;
+                $url = wp_get_attachment_image_url($img_id, 'full');
+                if (! $url) continue;
+                if (! $default_fond) $default_fond = $url;
+                $swatch_id = get_field('swatch_couleur', 'couleur_piscine_' . $c_term->term_id);
+                $couleurs_data[] = array(
+                    'term_id' => $c_term->term_id,
+                    'slug'    => $c_term->slug,
+                    'name'    => html_entity_decode($c_term->name),
+                    'fondUrl' => $url,
+                    'swatch'  => $swatch_id ? wp_get_attachment_image_url($swatch_id, 'thumbnail') : '',
+                );
             }
+            usort($couleurs_data, function ($a, $b) {
+                $oa = get_field('ordre', 'couleur_piscine_' . $a['term_id']);
+                $ob = get_field('ordre', 'couleur_piscine_' . $b['term_id']);
+                $oa = ($oa !== '' && $oa !== null && $oa !== false) ? (int) $oa : PHP_INT_MAX;
+                $ob = ($ob !== '' && $ob !== null && $ob !== false) ? (int) $ob : PHP_INT_MAX;
+                return $oa !== $ob ? $oa - $ob : strcmp($a['name'], $b['name']);
+            });
         }
 
         if (! $default_fond) continue;
@@ -131,6 +145,7 @@ function mova_tapis_catalog_shortcode($atts)
                         'slug'           => get_post_field('post_name', $pid),
                         'categorie'      => $cat_name,
                         'defaultFondUrl' => $default_fond,
+                        'couleurs'       => $couleurs_data,
                         'zones'          => array($zone => $overlay_url),
                     );
                 } else {
@@ -170,13 +185,13 @@ function mova_tapis_catalog_shortcode($atts)
         'mova-tapis-catalog-style',
         get_stylesheet_directory_uri() . '/assets/css/tapis-catalog.css',
         array(),
-        '2.0.0'
+        '2.1.0'
     );
     wp_enqueue_script(
         'mova-tapis-catalog-script',
         get_stylesheet_directory_uri() . '/assets/js/tapis-catalog.js',
         array(),
-        '2.0.0',
+        '2.1.0',
         true
     );
 
@@ -226,6 +241,17 @@ function mova_tapis_catalog_shortcode($atts)
                     <div class="mova-tc-section">
                         <h4 class="mova-tc-section-title">Aperçu sur le modèle</h4>
                         <div class="mova-tc-piscines" id="mova-tc-piscines"></div>
+                    </div>
+                    <!-- Couleur de la coque -->
+                    <div class="mova-tc-section" id="mova-tc-section-couleurs" style="display:none">
+                        <h4 class="mova-tc-section-title">Couleur de la coque</h4>
+                        <div class="mova-tc-swatches" id="mova-tc-couleurs"></div>
+                        <p class="mova-tc-active-label" id="mova-tc-couleur-label"></p>
+                    </div>
+                    <!-- Zones AquaCove -->
+                    <div class="mova-tc-section" id="mova-tc-section-zones" style="display:none">
+                        <h4 class="mova-tc-section-title">Zones</h4>
+                        <div id="mova-tc-zones"></div>
                     </div>
                 </div>
                 <div class="mova-tc-layers" id="mova-tc-layers">
