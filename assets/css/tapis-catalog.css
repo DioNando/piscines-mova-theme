@@ -18,8 +18,8 @@
 /* --- Colonne pastilles --- */
 .mova-tc-col-swatches {
   /* scrollable si très nombreuses pastilles */
-  max-height: 80vh;
-  overflow-y: auto;
+  /* max-height: 80vh; */
+  /* overflow-y: auto; */
   padding-right: 4px;
 }
 
@@ -163,6 +163,16 @@
   font-weight: 600;
   color: #1a4759;
   margin: 0 0 12px;
+}
+
+.mova-tc-disclaimer {
+  font-size: 12px;
+  font-weight: 400;
+  color: #1a4759;
+  font-style: italic;
+  opacity: 0.7;
+  margin: 0;
+  margin-top: 8px;
 }
 
 /* --- Sélecteur de piscines --- */

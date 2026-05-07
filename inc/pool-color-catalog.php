@@ -183,6 +183,7 @@ function mova_pool_color_catalog_shortcode( $atts ) {
                          id="mova-ccc-preview-img"
                          class="mova-ccc-preview-img" />
                 </div>
+                <p class="mova-ccc-disclaimer">Les couleurs, motifs et positions des tapis affichés sur notre site web sont à titre indicatif. Pour une représentation plus fidèle, nous vous recommandons de vous référer aux échantillons physiques.</p>
 
             </div>
 

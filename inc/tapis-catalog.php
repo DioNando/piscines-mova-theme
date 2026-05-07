@@ -1,6 +1,6 @@
 <?php
 // Empêcher l'accès direct
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
@@ -9,15 +9,16 @@ if ( ! defined( 'ABSPATH' ) ) {
    Catalogue de prévisualisation des tapis AquaCove
    Preview via les configurateurs piscine (index inversé)
    ============================================= */
-function mova_tapis_catalog_shortcode( $atts ) {
-    $atts = shortcode_atts( array(
+function mova_tapis_catalog_shortcode($atts)
+{
+    $atts = shortcode_atts(array(
         'limit' => 0,
-    ), $atts, 'mova_tapis_catalog' );
+    ), $atts, 'mova_tapis_catalog');
 
     // -------------------------------------------------------
     // 1. Requêter toutes les piscines AquaCove activées
     // -------------------------------------------------------
-    $piscines = get_posts( array(
+    $piscines = get_posts(array(
         'post_type'      => 'piscine',
         'posts_per_page' => -1,
         'post_status'    => 'publish',
@@ -29,9 +30,9 @@ function mova_tapis_catalog_shortcode( $atts ) {
                 'value' => '1',
             ),
         ),
-    ) );
+    ));
 
-    if ( empty( $piscines ) ) {
+    if (empty($piscines)) {
         return '';
     }
 
@@ -46,21 +47,21 @@ function mova_tapis_catalog_shortcode( $atts ) {
     // ]
     $tapis_index = array();
 
-    foreach ( $piscines as $piscine ) {
+    foreach ($piscines as $piscine) {
         $pid        = $piscine->ID;
-        $zones_cfg  = get_field( 'zones_configurateur', $pid );
+        $zones_cfg  = get_field('zones_configurateur', $pid);
 
-        if ( empty( $zones_cfg ) || ! is_array( $zones_cfg ) ) continue;
+        if (empty($zones_cfg) || ! is_array($zones_cfg)) continue;
 
         // Fond par défaut : première couleur du repeater
-        $couleurs_cfg    = get_field( 'couleurs_configurateur', $pid );
+        $couleurs_cfg    = get_field('couleurs_configurateur', $pid);
         $default_fond    = '';
-        if ( ! empty( $couleurs_cfg ) && is_array( $couleurs_cfg ) ) {
-            foreach ( $couleurs_cfg as $row ) {
-                $img_id = isset( $row['image_fond'] ) ? intval( $row['image_fond'] ) : 0;
-                if ( $img_id ) {
-                    $url = wp_get_attachment_image_url( $img_id, 'full' );
-                    if ( $url ) {
+        if (! empty($couleurs_cfg) && is_array($couleurs_cfg)) {
+            foreach ($couleurs_cfg as $row) {
+                $img_id = isset($row['image_fond']) ? intval($row['image_fond']) : 0;
+                if ($img_id) {
+                    $url = wp_get_attachment_image_url($img_id, 'full');
+                    if ($url) {
                         $default_fond = $url;
                         break;
                     }
@@ -68,101 +69,101 @@ function mova_tapis_catalog_shortcode( $atts ) {
             }
         }
 
-        if ( ! $default_fond ) continue;
+        if (! $default_fond) continue;
 
         // Parcourir les zones
-        foreach ( $zones_cfg as $zone_row ) {
-            $zone       = isset( $zone_row['zone'] ) ? $zone_row['zone'] : '';
-            $tapis_rows = isset( $zone_row['tapis_zone'] ) ? $zone_row['tapis_zone'] : array();
+        foreach ($zones_cfg as $zone_row) {
+            $zone       = isset($zone_row['zone']) ? $zone_row['zone'] : '';
+            $tapis_rows = isset($zone_row['tapis_zone']) ? $zone_row['tapis_zone'] : array();
 
-            if ( ! $zone || empty( $tapis_rows ) || ! is_array( $tapis_rows ) ) continue;
+            if (! $zone || empty($tapis_rows) || ! is_array($tapis_rows)) continue;
 
-            foreach ( $tapis_rows as $t_row ) {
-                $term_obj   = isset( $t_row['modele_tapis'] ) ? $t_row['modele_tapis'] : null;
-                $overlay_id = isset( $t_row['overlay'] ) ? intval( $t_row['overlay'] ) : 0;
+            foreach ($tapis_rows as $t_row) {
+                $term_obj   = isset($t_row['modele_tapis']) ? $t_row['modele_tapis'] : null;
+                $overlay_id = isset($t_row['overlay']) ? intval($t_row['overlay']) : 0;
 
-                if ( ! $term_obj || ! is_object( $term_obj ) || ! $overlay_id ) continue;
+                if (! $term_obj || ! is_object($term_obj) || ! $overlay_id) continue;
 
-                $overlay_url = wp_get_attachment_image_url( $overlay_id, 'full' );
-                if ( ! $overlay_url ) continue;
+                $overlay_url = wp_get_attachment_image_url($overlay_id, 'full');
+                if (! $overlay_url) continue;
 
                 $slug = $term_obj->slug;
 
                 // Initialiser l'entrée tapis si inexistante
-                if ( ! isset( $tapis_index[ $slug ] ) ) {
-                    $swatch_id  = get_field( 'swatch_tapis', 'modele_tapis_' . $term_obj->term_id );
-                    $tapis_index[ $slug ] = array(
+                if (! isset($tapis_index[$slug])) {
+                    $swatch_id  = get_field('swatch_tapis', 'modele_tapis_' . $term_obj->term_id);
+                    $tapis_index[$slug] = array(
                         'term_id'  => $term_obj->term_id,
-                        'name'     => html_entity_decode( $term_obj->name ),
+                        'name'     => html_entity_decode($term_obj->name),
                         'slug'     => $slug,
-                        'swatch'   => $swatch_id ? wp_get_attachment_image_url( $swatch_id, 'thumbnail' ) : '',
+                        'swatch'   => $swatch_id ? wp_get_attachment_image_url($swatch_id, 'thumbnail') : '',
                         'piscines' => array(),
                     );
                 }
 
                 // Chercher si la piscine est déjà dans la liste de ce tapis
                 $piscine_key = null;
-                foreach ( $tapis_index[ $slug ]['piscines'] as $k => $p ) {
-                    if ( $p['id'] === $pid ) {
+                foreach ($tapis_index[$slug]['piscines'] as $k => $p) {
+                    if ($p['id'] === $pid) {
                         $piscine_key = $k;
                         break;
                     }
                 }
 
-                if ( $piscine_key === null ) {
+                if ($piscine_key === null) {
                     // Nouvelle piscine pour ce tapis
-                    $cat_terms = wp_get_post_terms( $pid, 'categorie_piscine', array( 'fields' => 'names' ) );
-                    $cat_name  = ( ! is_wp_error( $cat_terms ) && ! empty( $cat_terms ) ) ? $cat_terms[0] : '';
-                    $tapis_index[ $slug ]['piscines'][] = array(
+                    $cat_terms = wp_get_post_terms($pid, 'categorie_piscine', array('fields' => 'names'));
+                    $cat_name  = (! is_wp_error($cat_terms) && ! empty($cat_terms)) ? $cat_terms[0] : '';
+                    $tapis_index[$slug]['piscines'][] = array(
                         'id'             => $pid,
-                        'title'          => html_entity_decode( get_the_title( $pid ) ),
-                        'slug'           => get_post_field( 'post_name', $pid ),
+                        'title'          => html_entity_decode(get_the_title($pid)),
+                        'slug'           => get_post_field('post_name', $pid),
                         'categorie'      => $cat_name,
                         'defaultFondUrl' => $default_fond,
-                        'zones'          => array( $zone => $overlay_url ),
+                        'zones'          => array($zone => $overlay_url),
                     );
                 } else {
                     // Ajouter la zone à la piscine existante
-                    $tapis_index[ $slug ]['piscines'][ $piscine_key ]['zones'][ $zone ] = $overlay_url;
+                    $tapis_index[$slug]['piscines'][$piscine_key]['zones'][$zone] = $overlay_url;
                 }
             }
         }
     }
 
-    if ( empty( $tapis_index ) ) {
+    if (empty($tapis_index)) {
         return '';
     }
 
     // -------------------------------------------------------
     // 3. Trier par ordre d'affichage défini dans le BO, puis par nom
     // -------------------------------------------------------
-    uasort( $tapis_index, function ( $a, $b ) {
-        $oa = get_field( 'ordre', 'modele_tapis_' . $a['term_id'] );
-        $ob = get_field( 'ordre', 'modele_tapis_' . $b['term_id'] );
-        $oa = ( $oa !== '' && $oa !== null && $oa !== false ) ? (int) $oa : PHP_INT_MAX;
-        $ob = ( $ob !== '' && $ob !== null && $ob !== false ) ? (int) $ob : PHP_INT_MAX;
-        return $oa !== $ob ? $oa - $ob : strcmp( $a['name'], $b['name'] );
-    } );
+    uasort($tapis_index, function ($a, $b) {
+        $oa = get_field('ordre', 'modele_tapis_' . $a['term_id']);
+        $ob = get_field('ordre', 'modele_tapis_' . $b['term_id']);
+        $oa = ($oa !== '' && $oa !== null && $oa !== false) ? (int) $oa : PHP_INT_MAX;
+        $ob = ($ob !== '' && $ob !== null && $ob !== false) ? (int) $ob : PHP_INT_MAX;
+        return $oa !== $ob ? $oa - $ob : strcmp($a['name'], $b['name']);
+    });
 
     // Trier les piscines de chaque tapis par dimensions numériques (ex: 8x10 < 10x20 < 12x34)
-    foreach ( $tapis_index as &$tapis_entry ) {
-        usort( $tapis_entry['piscines'], function ( $a, $b ) {
-            preg_match( '/^(\d+)[x×](\d+)/i', $a['title'], $ma );
-            preg_match( '/^(\d+)[x×](\d+)/i', $b['title'], $mb );
-            $aw = isset( $ma[1] ) ? (int) $ma[1] : 0;
-            $al = isset( $ma[2] ) ? (int) $ma[2] : 0;
-            $bw = isset( $mb[1] ) ? (int) $mb[1] : 0;
-            $bl = isset( $mb[2] ) ? (int) $mb[2] : 0;
-            return ( $aw !== $bw ) ? $aw - $bw : $al - $bl;
-        } );
+    foreach ($tapis_index as &$tapis_entry) {
+        usort($tapis_entry['piscines'], function ($a, $b) {
+            preg_match('/^(\d+)[x×](\d+)/i', $a['title'], $ma);
+            preg_match('/^(\d+)[x×](\d+)/i', $b['title'], $mb);
+            $aw = isset($ma[1]) ? (int) $ma[1] : 0;
+            $al = isset($ma[2]) ? (int) $ma[2] : 0;
+            $bw = isset($mb[1]) ? (int) $mb[1] : 0;
+            $bl = isset($mb[2]) ? (int) $mb[2] : 0;
+            return ($aw !== $bw) ? $aw - $bw : $al - $bl;
+        });
     }
-    unset( $tapis_entry );
+    unset($tapis_entry);
 
-    $tapis_list = array_values( $tapis_index );
+    $tapis_list = array_values($tapis_index);
 
-    $limit = intval( $atts['limit'] );
-    if ( $limit > 0 ) {
-        $tapis_list = array_slice( $tapis_list, 0, $limit );
+    $limit = intval($atts['limit']);
+    if ($limit > 0) {
+        $tapis_list = array_slice($tapis_list, 0, $limit);
     }
 
     // -------------------------------------------------------
@@ -182,9 +183,9 @@ function mova_tapis_catalog_shortcode( $atts ) {
         true
     );
 
-    wp_localize_script( 'mova-tapis-catalog-script', 'movaTapisCatalog', array(
+    wp_localize_script('mova-tapis-catalog-script', 'movaTapisCatalog', array(
         'tapis' => $tapis_list,
-    ) );
+    ));
 
     // -------------------------------------------------------
     // 5. HTML
@@ -198,24 +199,27 @@ function mova_tapis_catalog_shortcode( $atts ) {
             <div class="mova-tc-col-swatches">
                 <h3 class="mova-tc-swatches-title">Choisissez un tapis</h3>
                 <div class="mova-tc-grid" id="mova-tc-grid">
-                    <?php foreach ( $tapis_list as $index => $tapis ) : ?>
-                    <button class="mova-tc-card"
-                            data-index="<?php echo intval( $index ); ?>"
-                            title="<?php echo esc_attr( $tapis['name'] ); ?>"
-                            aria-label="<?php echo esc_attr( $tapis['name'] ); ?>">
-                        <?php if ( $tapis['swatch'] ) : ?>
-                            <img src="<?php echo esc_url( $tapis['swatch'] ); ?>"
-                                 alt="<?php echo esc_attr( $tapis['name'] ); ?>"
-                                 class="mova-tc-card-swatch" loading="lazy" />
-                        <?php else : ?>
-                            <span class="mova-tc-card-placeholder">
-                                <?php echo esc_html( mb_strtoupper( mb_substr( $tapis['name'], 0, 2 ) ) ); ?>
-                            </span>
-                        <?php endif; ?>
-                        <span class="mova-tc-card-name"><?php echo esc_html( $tapis['name'] ); ?></span>
-                    </button>
+                    <?php foreach ($tapis_list as $index => $tapis) : ?>
+                        <button class="mova-tc-card"
+                            data-index="<?php echo intval($index); ?>"
+                            title="<?php echo esc_attr($tapis['name']); ?>"
+                            aria-label="<?php echo esc_attr($tapis['name']); ?>">
+                            <?php if ($tapis['swatch']) : ?>
+                                <img src="<?php echo esc_url($tapis['swatch']); ?>"
+                                    alt="<?php echo esc_attr($tapis['name']); ?>"
+                                    class="mova-tc-card-swatch" loading="lazy" />
+                            <?php else : ?>
+                                <span class="mova-tc-card-placeholder">
+                                    <?php echo esc_html(mb_strtoupper(mb_substr($tapis['name'], 0, 2))); ?>
+                                </span>
+                            <?php endif; ?>
+                            <span class="mova-tc-card-name"><?php echo esc_html($tapis['name']); ?></span>
+                        </button>
                     <?php endforeach; ?>
                 </div>
+                <p class="mova-tc-disclaimer">
+                    Les couleurs, motifs et positions des tapis affichés sur notre site web sont à titre indicatif. Pour une représentation plus fidèle, nous vous recommandons de vous référer aux échantillons physiques.
+                </p>
             </div>
 
             <!-- Colonne 2 : preview + infos -->
@@ -236,7 +240,7 @@ function mova_tapis_catalog_shortcode( $atts ) {
         </div>
     </div>
 
-    <?php
+<?php
     return ob_get_clean();
 }
-add_shortcode( 'mova_tapis_catalog', 'mova_tapis_catalog_shortcode' );
+add_shortcode('mova_tapis_catalog', 'mova_tapis_catalog_shortcode');

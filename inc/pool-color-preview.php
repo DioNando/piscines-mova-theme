@@ -105,6 +105,7 @@ function mova_pool_color_preview_shortcode( $atts ) {
         <div class="mova-cpv-panel">
 
             <h3 class="mova-cpv-title">Choisissez votre couleur</h3>
+            <p class="mova-cpv-disclaimer">Les couleurs, motifs et positions des tapis affichés sur notre site web sont à titre indicatif. Pour une représentation plus fidèle, nous vous recommandons de vous référer aux échantillons physiques.</p>
 
             <!-- Couleurs -->
             <div class="mova-cpv-section">

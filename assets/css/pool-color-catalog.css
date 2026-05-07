@@ -37,6 +37,8 @@
   line-height: 1.2;
 }
 
+
+
 /* --- Grille modèles --- */
 .mova-ccc-models-grid {
   display: grid;
@@ -228,6 +230,17 @@
   color: #777;
   font-size: 14px;
   margin-bottom: 24px;
+}
+
+/* --- Disclaimer --- */
+.mova-ccc-disclaimer {
+  font-size: 12px;
+  font-weight: 400;
+  color: #1a4759;
+  font-style: italic;
+  opacity: 0.7;
+  margin: 0;
+  margin-top: 8px;
 }
 
 /* --- Lien fiche --- */

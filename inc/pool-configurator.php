@@ -207,6 +207,7 @@ function mova_pool_configurator_shortcode( $atts ) {
         <div class="mova-cfg-panel">
 
             <h3 class="mova-cfg-title">Configurateur AquaCove</h3>
+            <p class="mova-cfg-disclaimer">Les couleurs, motifs et positions des tapis affichés sur notre site web sont à titre indicatif. Pour une représentation plus fidèle, nous vous recommandons de vous référer aux échantillons physiques.</p>
 
             <!-- Couleurs de fond -->
             <div class="mova-cfg-section">
