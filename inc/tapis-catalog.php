@@ -36,6 +36,17 @@ function mova_tapis_catalog_shortcode($atts)
         return '';
     }
 
+    // Trier par ordre de grandeur numérique (ex: 8x10 < 10x20 < 12x34)
+    usort($piscines, function ($a, $b) {
+        preg_match('/^(\d+)[x×](\d+)/i', $a->post_title, $ma);
+        preg_match('/^(\d+)[x×](\d+)/i', $b->post_title, $mb);
+        $aw = isset($ma[1]) ? (int) $ma[1] : 0;
+        $al = isset($ma[2]) ? (int) $ma[2] : 0;
+        $bw = isset($mb[1]) ? (int) $mb[1] : 0;
+        $bl = isset($mb[2]) ? (int) $mb[2] : 0;
+        return ($aw !== $bw) ? $aw - $bw : $al - $bl;
+    });
+
     // -------------------------------------------------------
     // 2. Construire l'index inversé : tapis_slug → données
     // -------------------------------------------------------
@@ -144,20 +155,6 @@ function mova_tapis_catalog_shortcode($atts)
         $ob = ($ob !== '' && $ob !== null && $ob !== false) ? (int) $ob : PHP_INT_MAX;
         return $oa !== $ob ? $oa - $ob : strcmp($a['name'], $b['name']);
     });
-
-    // Trier les piscines de chaque tapis par dimensions numériques (ex: 8x10 < 10x20 < 12x34)
-    foreach ($tapis_index as &$tapis_entry) {
-        usort($tapis_entry['piscines'], function ($a, $b) {
-            preg_match('/^(\d+)[x×](\d+)/i', $a['title'], $ma);
-            preg_match('/^(\d+)[x×](\d+)/i', $b['title'], $mb);
-            $aw = isset($ma[1]) ? (int) $ma[1] : 0;
-            $al = isset($ma[2]) ? (int) $ma[2] : 0;
-            $bw = isset($mb[1]) ? (int) $mb[1] : 0;
-            $bl = isset($mb[2]) ? (int) $mb[2] : 0;
-            return ($aw !== $bw) ? $aw - $bw : $al - $bl;
-        });
-    }
-    unset($tapis_entry);
 
     $tapis_list = array_values($tapis_index);
 

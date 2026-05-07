@@ -185,6 +185,7 @@
 .mova-tc-piscine-btn {
   display: flex;
   flex-direction: column;
+  gap: 4px;
   align-items: flex-start;
   padding: 7px 16px;
   font-size: 14px;
