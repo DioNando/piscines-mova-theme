@@ -1,0 +1,222 @@
+/* =============================================================
+   Login Page (wp-login.php) — Piscines Mova
+   ============================================================= */
+
+/* ── Page ────────────────────────────────────────────────────── */
+body.login {
+  background: #f4f7f8;
+  font-family: "AcuminPro", sans-serif;
+}
+
+/* ── Conteneur principal ─────────────────────────────────────── */
+body.login #login {
+  /* padding: 0; */
+  width: 380px;
+}
+
+/* ── Logo ────────────────────────────────────────────────────── */
+body.login #login h1 a {
+  background-image: var(--mova-logo-url);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-color: transparent;
+  width: 180px;
+  height: 70px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 0;
+  box-shadow: none;
+  mask-image: none;
+  -webkit-mask-image: none;
+  text-indent: -9999px;
+  overflow: hidden;
+}
+
+/* ── Carte formulaire ────────────────────────────────────────── */
+body.login #loginform,
+body.login #lostpasswordform,
+body.login #registerform {
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 28px 28px 24px;
+  margin-top: 20px;
+}
+
+/* ── Labels ──────────────────────────────────────────────────── */
+body.login form label {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 14px;
+  line-height: 2;
+  font-weight: 600;
+  color: #1a4759;
+}
+
+/* ── Inputs ──────────────────────────────────────────────────── */
+body.login form .input,
+body.login form input[type="text"],
+body.login form input[type="password"],
+body.login form input[type="email"] {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 14px;
+  color: #1a4759;
+  background: #fff;
+  border: 1px solid #d0d5dd;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 12px 14px;
+  height: auto;
+  width: 100%;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  box-sizing: border-box;
+}
+
+body.login form .input:focus,
+body.login form input[type="text"]:focus,
+body.login form input[type="password"]:focus,
+body.login form input[type="email"]:focus {
+  border-color: #1a4759;
+  box-shadow: 0 0 0 3px rgba(26, 71, 89, 0.1);
+  outline: none;
+}
+
+body.login form .input::placeholder {
+  color: #999;
+}
+
+/* ── "Se souvenir de moi" ────────────────────────────────────── */
+body.login .forgetmenot {
+  float: none;
+  margin-bottom: 16px;
+}
+
+body.login .forgetmenot input[type="checkbox"] {
+  accent-color: #1a4759;
+  vertical-align: middle;
+}
+
+body.login .forgetmenot label {
+  font-size: 13px;
+  color: #555;
+  font-weight: 400;
+  vertical-align: middle;
+}
+
+/* ── Submit wrap ─────────────────────────────────────────────── */
+body.login .submit {
+  padding: 0;
+  margin-top: 8px;
+}
+
+/* ── Bouton soumettre ────────────────────────────────────────── */
+body.login .button-primary,
+body.login #wp-submit {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: transparent;
+  border: 1px solid #1a4759;
+  border-radius: 0;
+  box-shadow: none;
+  color: #1a4759;
+  padding: 6px 20px;
+  height: auto;
+  text-shadow: none;
+  transition: background 0.2s ease, color 0.2s ease;
+  float: none;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+body.login .button-primary:hover,
+body.login #wp-submit:hover {
+  background: #1a4759;
+  border-color: #1a4759;
+  color: #fff;
+  box-shadow: none;
+}
+
+body.login .button-primary:focus,
+body.login #wp-submit:focus {
+  background: #1a4759;
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(26, 71, 89, 0.2);
+  outline: none;
+}
+
+/* ── Liens (nav / retour au site) ────────────────────────────── */
+body.login #nav,
+body.login #backtoblog {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 10px 0 0;
+  text-align: center;
+}
+
+body.login #nav a,
+body.login #backtoblog a {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 13px;
+  color: #1a4759;
+  text-decoration: none;
+}
+
+body.login #nav a:hover,
+body.login #backtoblog a:hover {
+  color: #15394a;
+  text-decoration: underline;
+}
+
+/* ── Message d'erreur ────────────────────────────────────────── */
+body.login #login_error {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 13px;
+  border: 1px solid #c0392b;
+  border-left: 4px solid #c0392b;
+  background: #fdf0ef;
+  color: #a93226;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+/* ── Message de succès / confirmation ───────────────────────── */
+body.login .message,
+body.login .success {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 13px;
+  border: 1px solid #1a4759;
+  border-left: 4px solid #1a4759;
+  background: #eef4f6;
+  color: #1a4759;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+/* ── Indicateur de force du mot de passe ─────────────────────── */
+body.login .pw-weak  { color: #c0392b; }
+body.login .pw-bad   { color: #e67e22; }
+body.login .pw-good  { color: #f1c40f; }
+body.login .pw-short { color: #e67e22; }
+body.login .pw-strong { color: #1a4759; }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 420px) {
+  body.login #login {
+    width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+  body.login #loginform,
+  body.login #lostpasswordform {
+    padding: 24px 20px 20px;
+  }
+}

@@ -131,3 +131,4 @@ function mova_disable_wpautop_on_password_form() {
 	}
 }
 add_action( 'wp', 'mova_disable_wpautop_on_password_form' );
+

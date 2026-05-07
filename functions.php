@@ -97,3 +97,4 @@ require_once get_stylesheet_directory() . '/inc/carrieres-list.php';
 require_once get_stylesheet_directory() . '/inc/quote-form.php';
 require_once get_stylesheet_directory() . '/inc/similar-pools.php';
 require_once get_stylesheet_directory() . '/inc/password-form.php';
+require_once get_stylesheet_directory() . '/inc/login-page.php';
