@@ -10,143 +10,26 @@
 .mova-ccc-layout {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
-  gap: 40px;
+  gap: 48px;
   align-items: start;
 }
 
-/* --- Colonne modèles --- */
-.mova-ccc-col-models {
-  max-height: 80vh;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-/* --- Colonne preview (sticky) --- */
-.mova-ccc-col-preview {
+/* --- Colonne couleurs (sticky) --- */
+.mova-ccc-col-colors {
   position: sticky;
   top: 120px;
 }
 
-/* --- Titre sélecteur --- */
-.mova-ccc-models-title {
+/* --- Colonne preview --- */
+.mova-ccc-col-preview {
+  /* pas de sticky pour laisser l'image défiler */
+}
+
+/* --- Titres --- */
+.mova-ccc-section-title {
   font-family: "AcuminPro", sans-serif !important;
   font-size: 1.625rem !important;
   font-weight: 600 !important;
-  color: inherit;
-  margin: 0 0 24px;
-  line-height: 1.2;
-}
-
-
-
-/* --- Grille modèles --- */
-.mova-ccc-models-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
-  padding: 0.5rem;
-}
-
-.mova-ccc-model-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #fff;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  overflow: hidden;
-  cursor: pointer;
-  padding: 0;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s,
-    transform 0.15s;
-}
-
-.mova-ccc-model-card:hover {
-  border-color: #1a4759;
-  background: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(26, 71, 89, 0.12);
-}
-
-.mova-ccc-model-card.active {
-  border-color: #1a4759;
-  background-color: white;
-  box-shadow:
-    0 0 0 2px #fff,
-    0 0 0 4px #1a4759;
-}
-
-.mova-ccc-model-thumb {
-  width: 100%;
-  padding: 2px;
-  aspect-ratio: 4 / 3;
-  object-fit: contain;
-  display: block;
-}
-
-.mova-ccc-model-placeholder {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  background: #f5f6f8;
-}
-
-.mova-ccc-model-name,
-.mova-ccc-model-name:hover,
-.mova-ccc-model-name:focus {
-  display: block;
-  padding: 10px 12px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #1a4759;
-  text-align: center;
-  width: 100%;
-}
-
-/* --- Preview --- */
-.mova-ccc-preview-wrap {
-  background: white;
-  overflow: hidden;
-  aspect-ratio: 4 / 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mova-ccc-preview-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transition: opacity 0.3s ease;
-}
-
-.mova-ccc-preview-img.loading {
-  opacity: 0.4;
-}
-
-/* --- Panneau --- */
-.mova-ccc-panel {
-  padding: 16px 0 0;
-}
-
-.mova-ccc-model-title {
-  font-family: "Kaftan", sans-serif !important;
-  font-size: 1.5rem !important;
-  color: #1a4759;
-  margin: 0 0 24px;
-  line-height: 1.2;
-}
-
-/* --- Section --- */
-.mova-ccc-section {
-  margin-bottom: 32px;
-}
-
-.mova-ccc-section-title {
-  font-size: 16px;
-  font-weight: 600;
   color: #1a4759;
   margin: 0 0 4px;
 }
@@ -154,7 +37,17 @@
 .mova-ccc-section-subtitle {
   font-size: 13px;
   color: #777;
-  margin: 0 0 14px;
+  margin: 0 0 20px;
+}
+
+/* --- Collections --- */
+.mova-ccc-collection {
+  margin-bottom: 24px;
+}
+
+.mova-ccc-collection-title {
+  color: #9C6D61 !important;
+  margin: 0 0 10px;
 }
 
 /* --- Swatches --- */
@@ -225,13 +118,6 @@
   transition: opacity 0.2s;
 }
 
-/* --- Pas de couleurs --- */
-.mova-ccc-no-colors {
-  color: #777;
-  font-size: 14px;
-  margin-bottom: 24px;
-}
-
 /* --- Disclaimer --- */
 .mova-ccc-disclaimer {
   font-size: 12px;
@@ -239,55 +125,55 @@
   color: #1a4759;
   font-style: italic;
   opacity: 0.7;
-  margin: 0;
-  margin-top: 8px;
+  margin: 16px 0 0;
 }
 
-/* --- Lien fiche --- */
-.mova-ccc-link {
-  display: inline-block;
-  font-size: 14px;
-  font-weight: 600;
-  color: #1a4759;
-  text-decoration: underline !important;
-  border-bottom: 2px solid transparent;
-  transition: border-color 0.2s;
+/* --- Preview --- */
+.mova-ccc-preview-wrap {
+  background: white;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mova-ccc-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.mova-ccc-preview-img.loading {
+  opacity: 0.4;
 }
 
 /* --- Responsive --- */
 @media (max-width: 1024px) {
   .mova-ccc-layout {
     grid-template-columns: 1fr 1.2fr;
-    gap: 24px;
-  }
-
-  .mova-ccc-models-grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
+    gap: 32px;
   }
 }
 
 @media (max-width: 767px) {
   .mova-ccc-layout {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
 
-  .mova-ccc-col-models {
-    max-height: none;
-    overflow-y: visible;
+  .mova-ccc-col-colors {
+    position: static;
+    order: 2;
   }
 
   .mova-ccc-col-preview {
-    position: static;
+    order: 1;
   }
 
   .mova-ccc-swatch {
     width: 48px;
     height: 48px;
-  }
-
-  .mova-ccc-models-grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
   }
 }

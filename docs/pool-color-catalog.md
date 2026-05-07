@@ -14,15 +14,14 @@
 
 ## Vue d'ensemble
 
-Le shortcode `[mova_pool_color_catalog]` affiche un catalogue de prévisualisation des couleurs pour **tous** les modèles de piscines. Contrairement à `[mova_pool_color_preview]` (qui nécessite d'être placé sur une page single de piscine), ce shortcode peut être utilisé sur **n'importe quelle page** du site.
+Le shortcode `[mova_pool_color_catalog]` affiche le catalogue complet des couleurs de gel-coat disponibles, regroupées par **collection** (termes parents de la taxonomie `couleur_piscine`). Il peut être placé sur **n'importe quelle page** du site.
 
 Il se compose de :
 
-- **Grille de sélection des modèles** : cartes cliquables avec image et nom de chaque piscine
-- **Zone de prévisualisation** : apparaît après sélection d'un modèle, avec image grand format et grille de pastilles (swatches) de couleurs
-- **Lien vers la fiche** : lien direct vers la page single du modèle sélectionné
+- **Colonne gauche** : titre de section, pastilles (swatches) groupées par collection, nom de la couleur sélectionnée, disclaimer
+- **Colonne droite** : image d'ambiance grande taille qui change selon la couleur cliquée
 
-Le composant est entièrement côté client (pas d'AJAX). Toutes les données sont injectées au chargement via `wp_localize_script`.
+Le composant est entièrement côté client (pas d'AJAX). Les swatches sont rendus côté serveur (PHP) ; les données sont également injectées via `wp_localize_script` pour le JS.
 
 ---
 
@@ -30,73 +29,62 @@ Le composant est entièrement côté client (pas d'AJAX). Toutes les données so
 
 | Fichier | Rôle |
 |---|---|
-| `inc/pool-color-catalog.php` | Shortcode WordPress — récupère tous les modèles et leurs couleurs ACF, injecte le HTML et passe les données au JS |
-| `assets/js/pool-color-catalog.js` | Logique JS : sélection de modèle, construction dynamique des swatches, changement d'image |
-| `assets/css/pool-color-catalog.css` | Styles : grille de modèles, layout 2 colonnes preview/panneau, swatches, responsive |
+| `inc/pool-color-catalog.php` | Shortcode WordPress — récupère les collections et leurs couleurs depuis la taxonomie `couleur_piscine`, injecte le HTML et passe les données au JS |
+| `assets/js/pool-color-catalog.js` | Logique JS : clic sur swatch, changement d'image d'ambiance avec préchargement, auto-sélection de la première couleur |
+| `assets/css/pool-color-catalog.css` | Styles : layout 2 colonnes, groupes de collection, swatches, responsive |
 
 ---
 
 ## Prérequis WordPress
 
-Identiques à ceux de `[mova_pool_color_preview]` :
-
-- **CPT `piscine`** avec les champs ACF `galerie` et `couleurs_disponibles`
-- **Taxonomie `couleur_piscine`** avec les champs ACF `swatch_couleur` et `image_ambiance`
+- **Taxonomie `couleur_piscine`** hiérarchique avec :
+  - Des **termes parents** représentant les collections (ex. « Collection Minérale »)
+  - Des **termes enfants** représentant les couleurs individuelles
+- **Champs ACF sur les termes** `couleur_piscine` :
+  - `swatch_couleur` — image de la pastille (taille `thumbnail`)
+  - `image_ambiance` — image de prévisualisation (taille `large`)
+  - `ordre` — entier pour contrôler l'ordre d'affichage
 
 ---
 
 ## Utilisation du shortcode
 
-### Basique (affiche tous les modèles)
+### Basique
 ```
 [mova_pool_color_catalog]
 ```
 
-### Limiter le nombre de modèles
-```
-[mova_pool_color_catalog limit="6"]
-```
-
-### Paramètres
-
-| Paramètre | Type | Défaut | Description |
-|---|---|---|---|
-| `limit` | int | `-1` (tous) | Nombre maximum de modèles à afficher |
+Le shortcode n'accepte aucun paramètre. Il affiche toutes les collections et leurs couleurs.
 
 ### Conditions de non-affichage
 
-Le shortcode retourne une chaîne vide (`''`) si aucune piscine publiée n'existe.
+Le shortcode retourne une chaîne vide (`''`) si :
+- Aucun terme parent (collection) n'existe dans la taxonomie
+- Toutes les collections sont vides (aucun terme enfant)
 
 ---
 
 ## Fonctionnement
 
-### Étape 1 — Sélection du modèle
-1. La page affiche une grille de cartes (image + nom) pour chaque modèle de piscine
-2. L'utilisateur clique sur une carte
-3. La carte reçoit la classe `.active`
-4. La zone de prévisualisation apparaît avec un scroll automatique
+### Au chargement
+1. PHP récupère les termes parents (`parent=0`) triés par champ ACF `ordre`
+2. Pour chaque collection, les termes enfants sont récupérés et triés de la même façon
+3. Le HTML est rendu avec un bloc `.mova-ccc-collection` par collection
+4. La première couleur ayant une image d'ambiance est pré-chargée dans le `src` de l'image preview
+5. Le JS auto-sélectionne la première pastille au chargement
 
-### Étape 2 — Prévisualisation des couleurs
-1. L'image par défaut du modèle s'affiche dans la zone preview
-2. Les pastilles de couleurs disponibles pour ce modèle sont générées dynamiquement
-3. Au clic sur une pastille, l'image d'ambiance remplace l'image par défaut (avec préchargement)
-4. Un second clic désélectionne la couleur et restaure l'image par défaut
-
-### Changement de modèle
-- Cliquer sur un autre modèle dans la grille recharge la zone détail avec les données du nouveau modèle
+### Sélection d'une couleur
+1. L'utilisateur clique sur une pastille
+2. La pastille reçoit la classe `.active`
+3. L'image d'ambiance se charge (avec préchargement pour éviter le flash)
+4. Le nom de la couleur s'affiche sous les swatches
+5. Un second clic sur la même pastille la désélectionne
 
 ---
 
 ## Structure des données
 
-### Attributs HTML sur les cartes de modèles
-
-| Attribut | Contenu |
-|---|---|
-| `data-index` | Index du modèle dans le tableau JS |
-
-### Attributs HTML sur les swatches (générés dynamiquement)
+### Attributs HTML sur les swatches
 
 | Attribut | Contenu |
 |---|---|
@@ -109,29 +97,17 @@ Le shortcode retourne une chaîne vide (`''`) si aucune piscine publiée n'exist
 
 ## Variable JavaScript `movaColorCatalog`
 
-Injectée via `wp_localize_script`, accessible globalement :
+Injectée via `wp_localize_script`, accessible globalement. Contient la liste à plat de toutes les couleurs enfants (dans l'ordre collections → couleurs) :
 
 ```js
 movaColorCatalog = {
-    devisUrl: "https://…/demande-de-devis/",
-    models: [
+    couleurs: [
         {
-            id:           42,
-            title:        "Modèle XYZ",
-            slug:         "modele-xyz",
-            thumb:        "https://…/thumb.jpg",       // medium
-            defaultImage: "https://…/image.jpg",       // large
-            permalink:    "https://…/piscine/modele-xyz/",
-            couleurs: [
-                {
-                    term_id:  10,
-                    name:     "Bleu Océan",
-                    slug:     "bleu-ocean",
-                    swatch:   "https://…/swatch.jpg",
-                    ambiance: "https://…/ambiance.jpg"
-                },
-                // ...
-            ]
+            term_id:  10,
+            name:     "Ciel de minuit",
+            slug:     "ciel-de-minuit",
+            swatch:   "https://…/swatch.jpg",   // thumbnail
+            ambiance: "https://…/ambiance.jpg"  // large
         },
         // ...
     ]
@@ -150,30 +126,27 @@ Toutes les classes utilisent le préfixe `mova-ccc-` (color catalog).
 | Classe | Élément |
 |---|---|
 | `.mova-ccc` | Conteneur racine |
-| `.mova-ccc-models` | Section sélecteur de modèles |
-| `.mova-ccc-models-title` | Titre « Choisissez un modèle » |
-| `.mova-ccc-models-grid` | Grille responsive des cartes |
-| `.mova-ccc-model-card` | Carte modèle (bouton) |
-| `.mova-ccc-model-card.active` | Carte sélectionnée |
-| `.mova-ccc-model-thumb` | Image de la carte |
-| `.mova-ccc-model-name` | Nom du modèle dans la carte |
-| `.mova-ccc-detail` | Zone détail (preview + couleurs) |
-| `.mova-ccc-detail-inner` | Grille 2 colonnes (preview / panneau) |
-| `.mova-ccc-preview` | Zone de prévisualisation (sticky) |
-| `.mova-ccc-preview-img` | Image de prévisualisation |
-| `.mova-ccc-preview-img.loading` | État de chargement (opacité 0.4) |
-| `.mova-ccc-panel` | Panneau de sélection des couleurs |
-| `.mova-ccc-model-title` | Titre du modèle sélectionné |
+| `.mova-ccc-layout` | Grille 2 colonnes (couleurs / preview) |
+| `.mova-ccc-col-colors` | Colonne gauche — swatches (sticky) |
+| `.mova-ccc-col-preview` | Colonne droite — image d'ambiance |
+| `.mova-ccc-section-title` | Titre « Couleurs disponibles » |
+| `.mova-ccc-section-subtitle` | Sous-titre |
+| `.mova-ccc-collection` | Bloc d'une collection |
+| `.mova-ccc-collection-title` | Nom de la collection (label discret) |
 | `.mova-ccc-swatches` | Conteneur flex des pastilles |
 | `.mova-ccc-swatch` | Bouton pastille (72×72px) |
 | `.mova-ccc-swatch.active` | Pastille sélectionnée |
+| `.mova-ccc-swatch-placeholder` | Initiales quand pas de swatch image |
 | `.mova-ccc-color-name` | Nom de la couleur sélectionnée |
-| `.mova-ccc-link` | Lien « Voir la fiche complète » |
+| `.mova-ccc-disclaimer` | Mention légale couleurs |
+| `.mova-ccc-preview-wrap` | Wrapper de l'image (ratio 4/3) |
+| `.mova-ccc-preview-img` | Image d'ambiance |
+| `.mova-ccc-preview-img.loading` | État de chargement (opacité 0.4) |
 
 ### Breakpoints responsive
 
 | Breakpoint | Comportement |
 |---|---|
-| `> 1024px` | Grille modèles auto-fill 200px, détail 2 colonnes, preview sticky |
-| `768px – 1024px` | Grille modèles 160px min, gap réduit |
-| `< 767px` | Grille modèles 140px min, détail 1 colonne, preview non-sticky, swatches 48×48px |
+| `> 1024px` | Layout 2 colonnes (`1fr 1.5fr`), colonne couleurs sticky |
+| `768px – 1024px` | Layout 2 colonnes (`1fr 1.2fr`), gap réduit |
+| `< 767px` | Layout 1 colonne, image au-dessus, swatches en dessous, pastilles 48×48px |

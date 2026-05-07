@@ -6,185 +6,166 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /* =============================================
    Shortcode — [mova_pool_color_catalog]
-   Catalogue de prévisualisation des couleurs
-   pour toutes les piscines (page générale)
+   Catalogue de toutes les couleurs de la
+   taxonomie couleur_piscine
    ============================================= */
 function mova_pool_color_catalog_shortcode( $atts ) {
-    $atts = shortcode_atts( array(
-        'limit' => -1,
-    ), $atts, 'mova_pool_color_catalog' );
+    $atts = shortcode_atts( array(), $atts, 'mova_pool_color_catalog' );
 
-    // Récupérer tous les modèles de piscines publiés
-    $piscines = get_posts( array(
-        'post_type'      => 'piscine',
-        'posts_per_page' => intval( $atts['limit'] ),
-        'post_status'    => 'publish',
-        'orderby'        => 'title',
-        'order'          => 'ASC',
+    // Helper : construire le tableau d'une couleur à partir d'un terme
+    $build_couleur = function ( $term ) {
+        $swatch_id   = get_field( 'swatch_couleur', 'couleur_piscine_' . $term->term_id );
+        $ambiance_id = get_field( 'image_ambiance', 'couleur_piscine_' . $term->term_id );
+        $ordre       = get_field( 'ordre', 'couleur_piscine_' . $term->term_id );
+
+        return array(
+            'term_id'  => $term->term_id,
+            'name'     => $term->name,
+            'slug'     => $term->slug,
+            'ordre'    => ( $ordre !== '' && $ordre !== null && $ordre !== false ) ? (int) $ordre : PHP_INT_MAX,
+            'swatch'   => $swatch_id ? wp_get_attachment_image_url( $swatch_id, 'thumbnail' ) : '',
+            'ambiance' => $ambiance_id ? wp_get_attachment_image_url( $ambiance_id, 'large' ) : '',
+        );
+    };
+
+    $sort_by_ordre = function ( &$arr ) {
+        usort( $arr, function ( $a, $b ) {
+            if ( $a['ordre'] !== $b['ordre'] ) {
+                return $a['ordre'] - $b['ordre'];
+            }
+            return strcmp( $a['name'], $b['name'] );
+        } );
+    };
+
+    // Récupérer les collections (termes parents)
+    $parents = get_terms( array(
+        'taxonomy'   => 'couleur_piscine',
+        'hide_empty' => false,
+        'parent'     => 0,
     ) );
 
-    if ( empty( $piscines ) ) {
+    if ( empty( $parents ) || is_wp_error( $parents ) ) {
         return '';
     }
 
-    // Construire les données de chaque modèle
-    $models = array();
+    // Construire les collections avec leurs couleurs enfants
+    $collections = array();
+    foreach ( $parents as $parent ) {
+        $ordre_parent   = get_field( 'ordre', 'couleur_piscine_' . $parent->term_id );
+        $ordre_parent   = ( $ordre_parent !== '' && $ordre_parent !== null && $ordre_parent !== false ) ? (int) $ordre_parent : PHP_INT_MAX;
+        $children_terms = get_terms( array(
+            'taxonomy'   => 'couleur_piscine',
+            'hide_empty' => false,
+            'parent'     => $parent->term_id,
+        ) );
 
-    foreach ( $piscines as $piscine ) {
-        $pid = $piscine->ID;
-
-        // Image par défaut : image_carte ACF, puis première image de la galerie, puis thumbnail
-        $default_image = '';
-        $image_carte_id = get_field( 'image_carte', $pid );
-        if ( $image_carte_id ) {
-            $default_image = wp_get_attachment_image_url( $image_carte_id, 'large' );
-        }
-        $galerie = get_field( 'galerie', $pid );
-        if ( ! $default_image ) {
-            if ( ! empty( $galerie ) && is_array( $galerie ) ) {
-                $first_id = is_array( $galerie[0] ) ? ( $galerie[0]['ID'] ?? $galerie[0]['id'] ?? 0 ) : intval( $galerie[0] );
-                if ( $first_id ) {
-                    $default_image = wp_get_attachment_image_url( $first_id, 'large' );
-                }
+        $enfants = array();
+        if ( ! empty( $children_terms ) && ! is_wp_error( $children_terms ) ) {
+            foreach ( $children_terms as $child ) {
+                $enfants[] = $build_couleur( $child );
             }
-        }
-        if ( ! $default_image ) {
-            $default_image = get_the_post_thumbnail_url( $pid, 'large' );
+            $sort_by_ordre( $enfants );
         }
 
-        // Thumbnail pour la carte du sélecteur : image_carte ACF, puis galerie, puis thumbnail
-        $thumb = '';
-        if ( $image_carte_id ) {
-            $thumb = wp_get_attachment_image_url( $image_carte_id, 'medium' );
-        }
-        if ( ! $thumb ) {
-            if ( ! empty( $galerie ) && is_array( $galerie ) ) {
-                $first_id = is_array( $galerie[0] ) ? ( $galerie[0]['ID'] ?? $galerie[0]['id'] ?? 0 ) : intval( $galerie[0] );
-                if ( $first_id ) {
-                    $thumb = wp_get_attachment_image_url( $first_id, 'medium' );
-                }
-            }
-        }
-        if ( ! $thumb ) {
-            $thumb = get_the_post_thumbnail_url( $pid, 'medium' );
-        }
-
-        // Couleurs disponibles
-        $couleurs_raw = get_field( 'couleurs_disponibles', $pid );
-        $couleurs = array();
-
-        if ( ! empty( $couleurs_raw ) && is_array( $couleurs_raw ) ) {
-            foreach ( $couleurs_raw as $term ) {
-                $term_id  = is_object( $term ) ? $term->term_id : intval( $term );
-                $term_obj = is_object( $term ) ? $term : get_term( $term_id, 'couleur_piscine' );
-
-                if ( ! $term_obj || is_wp_error( $term_obj ) ) continue;
-
-                $swatch_id   = get_field( 'swatch_couleur', 'couleur_piscine_' . $term_obj->term_id );
-                $ambiance_id = get_field( 'image_ambiance', 'couleur_piscine_' . $term_obj->term_id );
-
-                $couleurs[] = array(
-                    'term_id'  => $term_obj->term_id,
-                    'name'     => $term_obj->name,
-                    'slug'     => $term_obj->slug,
-                    'swatch'   => $swatch_id ? wp_get_attachment_image_url( $swatch_id, 'thumbnail' ) : '',
-                    'ambiance' => $ambiance_id ? wp_get_attachment_image_url( $ambiance_id, 'large' ) : '',
-                );
-            }
-        }
-
-        // Trier par ordre d'affichage défini dans le BO (champ ACF "ordre")
-        if ( ! empty( $couleurs ) ) {
-            usort( $couleurs, function ( $a, $b ) {
-                $oa = get_field( 'ordre', 'couleur_piscine_' . $a['term_id'] );
-                $ob = get_field( 'ordre', 'couleur_piscine_' . $b['term_id'] );
-                $oa = ( $oa !== '' && $oa !== null && $oa !== false ) ? (int) $oa : PHP_INT_MAX;
-                $ob = ( $ob !== '' && $ob !== null && $ob !== false ) ? (int) $ob : PHP_INT_MAX;
-                return $oa !== $ob ? $oa - $ob : strcmp( $a['name'], $b['name'] );
-            } );
-        }
-
-        // On inclut le modèle même sans couleurs (il sera affiché mais sans swatches)
-        $models[] = array(
-            'id'           => $pid,
-            'title'        => html_entity_decode( get_the_title( $pid ) ),
-            'slug'         => get_post_field( 'post_name', $pid ),
-            'thumb'        => $thumb ?: '',
-            'defaultImage' => $default_image ?: '',
-            'permalink'    => get_permalink( $pid ),
-            'couleurs'     => $couleurs,
+        $collections[] = array(
+            'term_id' => $parent->term_id,
+            'name'    => $parent->name,
+            'ordre'   => $ordre_parent,
+            'enfants' => $enfants,
         );
     }
 
-    if ( empty( $models ) ) {
+    usort( $collections, function ( $a, $b ) {
+        if ( $a['ordre'] !== $b['ordre'] ) {
+            return $a['ordre'] - $b['ordre'];
+        }
+        return strcmp( $a['name'], $b['name'] );
+    } );
+
+    // Liste à plat pour le JS
+    $couleurs_js = array();
+    foreach ( $collections as $col ) {
+        foreach ( $col['enfants'] as $c ) {
+            $couleurs_js[] = array(
+                'term_id'  => $c['term_id'],
+                'name'     => $c['name'],
+                'slug'     => $c['slug'],
+                'swatch'   => $c['swatch'],
+                'ambiance' => $c['ambiance'],
+            );
+        }
+    }
+
+    if ( empty( $couleurs_js ) ) {
         return '';
     }
 
     // Assets
-    wp_enqueue_style( 'mova-pool-color-catalog-style', get_stylesheet_directory_uri() . '/assets/css/pool-color-catalog.css', array(), '1.0.0' );
-    wp_enqueue_script( 'mova-pool-color-catalog-script', get_stylesheet_directory_uri() . '/assets/js/pool-color-catalog.js', array(), '1.0.0', true );
+    wp_enqueue_style( 'mova-pool-color-catalog-style', get_stylesheet_directory_uri() . '/assets/css/pool-color-catalog.css', array(), '1.0.2' );
+    wp_enqueue_script( 'mova-pool-color-catalog-script', get_stylesheet_directory_uri() . '/assets/js/pool-color-catalog.js', array(), '1.0.2', true );
 
     wp_localize_script( 'mova-pool-color-catalog-script', 'movaColorCatalog', array(
-        'models'   => $models,
-        'devisUrl' => home_url( '/demande-de-devis/' ),
+        'couleurs' => $couleurs_js,
     ) );
+
+    // Première image d'ambiance pour le pré-chargement initial
+    $first_ambiance = '';
+    foreach ( $couleurs_js as $c ) {
+        if ( ! empty( $c['ambiance'] ) ) {
+            $first_ambiance = $c['ambiance'];
+            break;
+        }
+    }
 
     ob_start(); ?>
 
     <div class="mova-ccc" id="mova-ccc">
         <div class="mova-ccc-layout">
 
-            <!-- Colonne 1 : cartes modèles -->
-            <div class="mova-ccc-col-models">
-                <h3 class="mova-ccc-models-title">Choisissez un modèle</h3>
-                <div class="mova-ccc-models-grid" id="mova-ccc-models-grid">
-                    <?php foreach ( $models as $index => $model ) : ?>
-                    <button class="mova-ccc-model-card"
-                            data-index="<?php echo intval( $index ); ?>"
-                            title="<?php echo esc_attr( $model['title'] ); ?>"
-                            aria-label="<?php echo esc_attr( $model['title'] ); ?>">
-                        <?php if ( $model['thumb'] ) : ?>
-                            <img src="<?php echo esc_url( $model['thumb'] ); ?>"
-                                 alt="<?php echo esc_attr( $model['title'] ); ?>"
-                                 class="mova-ccc-model-thumb" loading="lazy" />
-                        <?php else : ?>
-                            <span class="mova-ccc-model-placeholder"></span>
+            <!-- Colonne gauche : swatches groupées par collection -->
+            <div class="mova-ccc-col-colors">
+                <h3 class="mova-ccc-section-title">Couleurs disponibles</h3>
+                <p class="mova-ccc-section-subtitle">Sélectionnez une couleur de piscine</p>
+                <div id="mova-ccc-swatches">
+                    <?php foreach ( $collections as $collection ) : ?>
+                        <?php if ( ! empty( $collection['enfants'] ) ) : ?>
+                        <div class="mova-ccc-collection">
+                            <h4 class="mova-ccc-collection-title"><?php echo esc_html( $collection['name'] ); ?></h4>
+                            <div class="mova-ccc-swatches">
+                                <?php foreach ( $collection['enfants'] as $couleur ) : ?>
+                                <button class="mova-ccc-swatch"
+                                        data-slug="<?php echo esc_attr( $couleur['slug'] ); ?>"
+                                        data-ambiance="<?php echo esc_url( $couleur['ambiance'] ); ?>"
+                                        title="<?php echo esc_attr( $couleur['name'] ); ?>"
+                                        aria-label="<?php echo esc_attr( $couleur['name'] ); ?>">
+                                    <?php if ( $couleur['swatch'] ) : ?>
+                                        <img src="<?php echo esc_url( $couleur['swatch'] ); ?>"
+                                             alt="<?php echo esc_attr( $couleur['name'] ); ?>"
+                                             loading="lazy" />
+                                    <?php else : ?>
+                                        <span class="mova-ccc-swatch-placeholder">
+                                            <?php echo esc_html( mb_substr( $couleur['name'], 0, 2 ) ); ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </button>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
                         <?php endif; ?>
-                        <span class="mova-ccc-model-name"><?php echo esc_html( $model['title'] ); ?></span>
-                    </button>
                     <?php endforeach; ?>
                 </div>
+                <p class="mova-ccc-color-name" id="mova-ccc-color-name"></p>
+                <p class="mova-ccc-disclaimer">Les couleurs, motifs et positions des tapis affichés sur notre site web sont à titre indicatif. Pour une représentation plus fidèle, nous vous recommandons de vous référer aux échantillons physiques.</p>
             </div>
 
-            <!-- Colonne 2 : preview + couleurs -->
+            <!-- Colonne droite : image d'ambiance -->
             <div class="mova-ccc-col-preview">
-
-                <div class="mova-ccc-panel">
-                    <h3 class="mova-ccc-model-title" id="mova-ccc-model-title"></h3>
-
-                    <div class="mova-ccc-section" id="mova-ccc-colors-section">
-                        <h4 class="mova-ccc-section-title">Couleurs disponibles</h4>
-                        <p class="mova-ccc-section-subtitle">Sélectionnez une couleur de piscine</p>
-                        <div class="mova-ccc-swatches" id="mova-ccc-swatches"></div>
-                        <p class="mova-ccc-color-name" id="mova-ccc-color-name"></p>
-                    </div>
-
-                    <div class="mova-ccc-no-colors" id="mova-ccc-no-colors" style="display:none;">
-                        <p>Aucune couleur disponible pour ce modèle.</p>
-                    </div>
-
-                    <a href="#" class="mova-ccc-link" id="mova-ccc-link-detail" target="_blank" rel="noopener">
-                        Voir la fiche complète
-                    </a>
-                </div>
-
                 <div class="mova-ccc-preview-wrap">
-                    <img src="" alt=""
+                    <img src="<?php echo esc_url( $first_ambiance ); ?>"
+                         alt=""
                          id="mova-ccc-preview-img"
                          class="mova-ccc-preview-img" />
                 </div>
-                <p class="mova-ccc-disclaimer">Les couleurs, motifs et positions des tapis affichés sur notre site web sont à titre indicatif. Pour une représentation plus fidèle, nous vous recommandons de vous référer aux échantillons physiques.</p>
-
             </div>
 
         </div>
