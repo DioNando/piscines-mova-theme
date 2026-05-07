@@ -249,6 +249,54 @@
       ]
     },
     {
+      "key": "field_tab_espace_detaillant",
+      "label": "Espace Détaillant",
+      "name": "",
+      "type": "tab",
+      "placement": "top"
+    },
+    {
+      "key": "field_piscine_detaillant_fichiers",
+      "label": "Fichiers détaillant (PDF, ZIP, images)",
+      "name": "detaillant_fichiers",
+      "type": "repeater",
+      "instructions": "Fichiers téléchargeables dans l'espace détaillant : fiches techniques, dessins ZIP, images angle/vue de haut.",
+      "layout": "table",
+      "button_label": "Ajouter un fichier",
+      "sub_fields": [
+        {
+          "key": "field_detaillant_fichier_label",
+          "label": "Libellé",
+          "name": "label",
+          "type": "text",
+          "instructions": "Ex: Mova 12x34 - Français / Dessins techniques (ZIP) / Vue de haut",
+          "wrapper": { "width": "40" }
+        },
+        {
+          "key": "field_detaillant_fichier_file",
+          "label": "Fichier",
+          "name": "fichier",
+          "type": "file",
+          "return_format": "url",
+          "mime_types": "",
+          "wrapper": { "width": "40" }
+        },
+        {
+          "key": "field_detaillant_fichier_type",
+          "label": "Type",
+          "name": "type",
+          "type": "select",
+          "choices": {
+            "pdf": "PDF",
+            "zip": "ZIP",
+            "image": "Image"
+          },
+          "default_value": "pdf",
+          "wrapper": { "width": "20" }
+        }
+      ]
+    },
+    {
       "key": "field_tab_contenus",
       "label": "Contenus des Onglets (Textes)",
       "name": "",
@@ -328,5 +376,5 @@
   ],
   "active": true,
   "description": "Spécifications techniques, options de configuration, documents PDF et contenus éditoriaux pour chaque modèle de piscine.",
-  "modified": 1776643200
+  "modified": 1776643300
 }

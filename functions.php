@@ -98,3 +98,19 @@ require_once get_stylesheet_directory() . '/inc/quote-form.php';
 require_once get_stylesheet_directory() . '/inc/similar-pools.php';
 require_once get_stylesheet_directory() . '/inc/password-form.php';
 require_once get_stylesheet_directory() . '/inc/login-page.php';
+require_once get_stylesheet_directory() . '/inc/dealer-space-filter.php';
+require_once get_stylesheet_directory() . '/inc/dealer-files.php';
+
+// Page d'options ACF — Espace Détaillant
+if ( function_exists( 'acf_add_options_page' ) ) {
+    acf_add_options_page( array(
+        'page_title'  => 'Espace Détaillant — Ressources',
+        'menu_title'  => 'Espace Détaillant',
+        'menu_slug'   => 'espace-detaillant-options',
+        'capability'  => 'edit_posts',
+        'parent_slug' => '',
+        'position'    => 30,
+        'icon_url'    => 'dashicons-download',
+        'redirect'    => false,
+    ) );
+}

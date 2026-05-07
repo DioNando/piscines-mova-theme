@@ -1,0 +1,248 @@
+{
+  "key": "group_espace_detaillant_options",
+  "title": "Espace Détaillant — Ressources",
+  "fields": [
+
+    {
+      "key": "field_ed_tab_formulaires",
+      "label": "Formulaires",
+      "name": "",
+      "type": "tab",
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_ed_formulaires",
+      "label": "Liens — Formulaires",
+      "name": "ed_formulaires",
+      "type": "repeater",
+      "instructions": "Liens vers les formulaires en ligne (Microsoft Forms, Google Forms, etc.).",
+      "layout": "table",
+      "button_label": "Ajouter un formulaire",
+      "sub_fields": [
+        {
+          "key": "field_ed_formulaires_label",
+          "label": "Libellé",
+          "name": "label",
+          "type": "text",
+          "instructions": "Ex: Formulaire de demande détaillant / Bon de commande",
+          "wrapper": { "width": "50" }
+        },
+        {
+          "key": "field_ed_formulaires_url",
+          "label": "URL du formulaire",
+          "name": "url",
+          "type": "url",
+          "instructions": "Lien externe vers le formulaire (Microsoft Forms, Google Forms…).",
+          "wrapper": { "width": "50" }
+        }
+      ]
+    },
+
+    {
+      "key": "field_ed_tab_garanties",
+      "label": "Garanties",
+      "name": "",
+      "type": "tab",
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_ed_garanties",
+      "label": "Fichiers — Garanties",
+      "name": "ed_garanties",
+      "type": "repeater",
+      "instructions": "Documents de garantie téléchargeables (PDF).",
+      "layout": "table",
+      "button_label": "Ajouter un fichier",
+      "sub_fields": [
+        {
+          "key": "field_ed_garanties_label",
+          "label": "Libellé",
+          "name": "label",
+          "type": "text",
+          "instructions": "Ex: Garanties du fabricant",
+          "wrapper": { "width": "50" }
+        },
+        {
+          "key": "field_ed_garanties_fichier",
+          "label": "Fichier",
+          "name": "fichier",
+          "type": "file",
+          "return_format": "url",
+          "mime_types": "pdf",
+          "wrapper": { "width": "50" }
+        }
+      ]
+    },
+
+    {
+      "key": "field_ed_tab_manuels",
+      "label": "Manuels et procédures",
+      "name": "",
+      "type": "tab",
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_ed_manuels",
+      "label": "Fichiers — Manuels et procédures",
+      "name": "ed_manuels",
+      "type": "repeater",
+      "instructions": "Manuels d'installation, procédures et guides techniques (PDF).",
+      "layout": "table",
+      "button_label": "Ajouter un fichier",
+      "sub_fields": [
+        {
+          "key": "field_ed_manuels_label",
+          "label": "Libellé",
+          "name": "label",
+          "type": "text",
+          "instructions": "Ex: Manuel d'installation",
+          "wrapper": { "width": "50" }
+        },
+        {
+          "key": "field_ed_manuels_fichier",
+          "label": "Fichier",
+          "name": "fichier",
+          "type": "file",
+          "return_format": "url",
+          "mime_types": "pdf",
+          "wrapper": { "width": "50" }
+        }
+      ]
+    },
+
+    {
+      "key": "field_ed_tab_logos",
+      "label": "Logos",
+      "name": "",
+      "type": "tab",
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_ed_logos",
+      "label": "Fichiers — Logos",
+      "name": "ed_logos",
+      "type": "repeater",
+      "instructions": "Logos et sigles Mova (ZIP, SVG, PNG).",
+      "layout": "table",
+      "button_label": "Ajouter un fichier",
+      "sub_fields": [
+        {
+          "key": "field_ed_logos_label",
+          "label": "Libellé",
+          "name": "label",
+          "type": "text",
+          "instructions": "Ex: Logo Mova - Français",
+          "wrapper": { "width": "50" }
+        },
+        {
+          "key": "field_ed_logos_fichier",
+          "label": "Fichier",
+          "name": "fichier",
+          "type": "file",
+          "return_format": "url",
+          "mime_types": "",
+          "wrapper": { "width": "50" }
+        }
+      ]
+    },
+
+    {
+      "key": "field_ed_tab_images",
+      "label": "Images",
+      "name": "",
+      "type": "tab",
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_ed_images",
+      "label": "Fichiers — Images",
+      "name": "ed_images",
+      "type": "repeater",
+      "instructions": "Photos des piscines à télécharger (JPG, WEBP, PNG).",
+      "layout": "table",
+      "button_label": "Ajouter une image",
+      "sub_fields": [
+        {
+          "key": "field_ed_images_label",
+          "label": "Libellé",
+          "name": "label",
+          "type": "text",
+          "instructions": "Ex: Spa 8x10 - Jour",
+          "wrapper": { "width": "50" }
+        },
+        {
+          "key": "field_ed_images_fichier",
+          "label": "Fichier",
+          "name": "fichier",
+          "type": "file",
+          "return_format": "url",
+          "mime_types": "jpg,jpeg,png,webp",
+          "wrapper": { "width": "50" }
+        }
+      ]
+    },
+
+    {
+      "key": "field_ed_tab_videos",
+      "label": "Vidéos",
+      "name": "",
+      "type": "tab",
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_ed_videos",
+      "label": "Fichiers — Vidéos",
+      "name": "ed_videos",
+      "type": "repeater",
+      "instructions": "Vidéos promotionnelles (MP4) ou liens externes.",
+      "layout": "table",
+      "button_label": "Ajouter une vidéo",
+      "sub_fields": [
+        {
+          "key": "field_ed_videos_label",
+          "label": "Libellé",
+          "name": "label",
+          "type": "text",
+          "instructions": "Ex: Avant-après / Vidéo 1",
+          "wrapper": { "width": "40" }
+        },
+        {
+          "key": "field_ed_videos_fichier",
+          "label": "Fichier MP4 (optionnel)",
+          "name": "fichier",
+          "type": "file",
+          "return_format": "url",
+          "mime_types": "mp4",
+          "wrapper": { "width": "40" }
+        },
+        {
+          "key": "field_ed_videos_url",
+          "label": "URL externe (optionnel)",
+          "name": "url_externe",
+          "type": "url",
+          "instructions": "URL YouTube / Vimeo si hébergé ailleurs.",
+          "wrapper": { "width": "20" }
+        }
+      ]
+    }
+
+  ],
+  "location": [
+    [
+      {
+        "param": "options_page",
+        "operator": "==",
+        "value": "espace-detaillant-options"
+      }
+    ]
+  ],
+  "active": true,
+  "description": "Ressources téléchargeables de l'espace détaillant : garanties, manuels, logos, images et vidéos.",
+  "modified": 1746662400
+}
