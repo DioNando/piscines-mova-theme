@@ -136,7 +136,7 @@
           "name": "label",
           "type": "text",
           "instructions": "Ex: Logo Mova - Français",
-          "wrapper": { "width": "50" }
+          "wrapper": { "width": "35" }
         },
         {
           "key": "field_ed_logos_fichier",
@@ -145,7 +145,18 @@
           "type": "file",
           "return_format": "url",
           "mime_types": "",
-          "wrapper": { "width": "50" }
+          "wrapper": { "width": "35" }
+        },
+        {
+          "key": "field_ed_logos_apercu",
+          "label": "Aperçu",
+          "name": "apercu",
+          "type": "image",
+          "instructions": "Image d'aperçu affichée dans le portail détaillant (PNG, JPG, SVG).",
+          "return_format": "url",
+          "preview_size": "thumbnail",
+          "mime_types": "jpg,jpeg,png,webp,svg+xml",
+          "wrapper": { "width": "30" }
         }
       ]
     },
@@ -180,7 +191,7 @@
           "label": "Fichier",
           "name": "fichier",
           "type": "file",
-          "return_format": "url",
+          "return_format": "array",
           "mime_types": "jpg,jpeg,png,webp",
           "wrapper": { "width": "50" }
         }
@@ -210,7 +221,7 @@
           "name": "label",
           "type": "text",
           "instructions": "Ex: Avant-après / Vidéo 1",
-          "wrapper": { "width": "40" }
+          "wrapper": { "width": "30" }
         },
         {
           "key": "field_ed_videos_fichier",
@@ -219,7 +230,18 @@
           "type": "file",
           "return_format": "url",
           "mime_types": "mp4",
-          "wrapper": { "width": "40" }
+          "wrapper": { "width": "30" }
+        },
+        {
+          "key": "field_ed_videos_apercu",
+          "label": "Aperçu (miniature)",
+          "name": "apercu",
+          "type": "image",
+          "instructions": "Image miniature affichée dans la galerie (JPG, PNG, WEBP).",
+          "return_format": "url",
+          "preview_size": "thumbnail",
+          "mime_types": "jpg,jpeg,png,webp",
+          "wrapper": { "width": "20" }
         },
         {
           "key": "field_ed_videos_url",

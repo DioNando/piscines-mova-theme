@@ -104,10 +104,13 @@ function mova_dealer_files_shortcode( $atts ) {
                     </span>
                     <ul class="mova-df-list">
                         <?php foreach ( $pdfs as $fichier ) :
-                            if ( empty( $fichier['fichier'] ) ) continue; ?>
+                            if ( empty( $fichier['fichier'] ) ) continue;
+                            $f_url = esc_url( $fichier['fichier']['url'] );
+                            $f_label = esc_html( $fichier['label'] ?: $fichier['fichier']['filename'] );
+                            ?>
                         <li>
-                            <a href="<?php echo esc_url( $fichier['fichier'] ); ?>" target="_blank" rel="noopener" class="mova-df-link mova-df-link--pdf">
-                                <?php echo esc_html( $fichier['label'] ?: basename( $fichier['fichier'] ) ); ?>
+                            <a href="<?php echo $f_url; ?>" target="_blank" rel="noopener" class="mova-df-link mova-df-link--pdf">
+                                <?php echo $f_label; ?>
                             </a>
                         </li>
                         <?php endforeach; ?>
@@ -123,10 +126,13 @@ function mova_dealer_files_shortcode( $atts ) {
                     </span>
                     <ul class="mova-df-list">
                         <?php foreach ( $zips as $fichier ) :
-                            if ( empty( $fichier['fichier'] ) ) continue; ?>
+                            if ( empty( $fichier['fichier'] ) ) continue;
+                            $f_url = esc_url( $fichier['fichier']['url'] );
+                            $f_label = esc_html( $fichier['label'] ?: $fichier['fichier']['filename'] );
+                            ?>
                         <li>
-                            <a href="<?php echo esc_url( $fichier['fichier'] ); ?>" download class="mova-df-link mova-df-link--zip">
-                                <?php echo esc_html( $fichier['label'] ?: basename( $fichier['fichier'] ) ); ?>
+                            <a href="<?php echo $f_url; ?>" download class="mova-df-link mova-df-link--zip">
+                                <?php echo $f_label; ?>
                             </a>
                         </li>
                         <?php endforeach; ?>
@@ -142,10 +148,15 @@ function mova_dealer_files_shortcode( $atts ) {
                     </span>
                     <ul class="mova-df-list">
                         <?php foreach ( $images as $fichier ) :
-                            if ( empty( $fichier['fichier'] ) ) continue; ?>
+                            if ( empty( $fichier['fichier'] ) ) continue;
+                            $f_id    = $fichier['fichier']['id'];
+                            $f_url   = esc_url( wp_get_original_image_url( $f_id ) ?: $fichier['fichier']['url'] );
+                            $f_name  = esc_attr( basename( wp_get_original_image_path( $f_id ) ?: $fichier['fichier']['url'] ) );
+                            $f_label = esc_html( $fichier['label'] ?: $fichier['fichier']['filename'] );
+                            ?>
                         <li>
-                            <a href="<?php echo esc_url( $fichier['fichier'] ); ?>" target="_blank" rel="noopener" class="mova-df-link mova-df-link--image">
-                                <?php echo esc_html( $fichier['label'] ?: basename( $fichier['fichier'] ) ); ?>
+                            <a href="<?php echo $f_url; ?>" download="<?php echo $f_name; ?>" class="mova-df-link mova-df-link--image">
+                                <?php echo $f_label; ?>
                             </a>
                         </li>
                         <?php endforeach; ?>

@@ -1,0 +1,324 @@
+/* ===========================
+   Dealer Resources — Espace Détaillant
+   Shortcodes : [mova_dealer_formulaires]
+                [mova_dealer_garanties]
+                [mova_dealer_manuels]
+                [mova_dealer_logos]
+                [mova_dealer_images]
+                [mova_dealer_videos]
+   =========================== */
+
+/* --- Grille commune --- */
+.mova-dr-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  max-width: 1200px;
+}
+
+.mova-dr-grid > .mova-dr-card {
+  flex: 1 1 160px;
+  max-width: 240px;
+}
+
+/* --- Carte fichier (garanties, manuels, formulaires, images, vidéos) --- */
+.mova-dr-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #f5f6f7;
+  padding: 16px 16px 16px 18px;
+  min-height: 130px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.mova-dr-card:hover {
+  background: #edf0f2;
+}
+
+.mova-dr-card-label {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #1a4759;
+  line-height: 1.45;
+  flex: 1;
+}
+
+.mova-dr-card-dl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  flex-shrink: 0;
+  background: #1a4759;
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  margin-top: 16px;
+  transition: background 0.2s ease;
+}
+
+.mova-dr-card:hover .mova-dr-card-dl {
+  background: #9c6d61;
+}
+
+/* --- Grille logos --- */
+.mova-dr-grid--logos {
+  max-width: 1200px;
+}
+
+.mova-dr-grid--logos > .mova-dr-logo-card {
+  flex: 1 1 350px;
+  max-width: 350px;
+}
+
+/* --- Carte logo (image + footer) --- */
+.mova-dr-logo-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d0d5dd;
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.mova-dr-logo-card:hover {
+  border-color: #1a4759;
+}
+
+.mova-dr-logo-card-img {
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.mova-dr-logo-card-img--empty {
+  background: #f5f6f7;
+}
+
+.mova-dr-logo-card-img img {
+  width: 100%;
+  height: 120px;
+  object-fit: contain;
+  display: block;
+}
+
+.mova-dr-logo-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid #e8eef1;
+  background: #ffffff;
+  font-family: "AcuminPro", sans-serif;
+  font-size: 13px;
+  color: #1a4759;
+  line-height: 1.4;
+  transition: color 0.2s ease;
+}
+
+.mova-dr-logo-card-footer svg {
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.mova-dr-logo-card:hover .mova-dr-logo-card-footer {
+  color: #9c6d61;
+}
+
+.mova-dr-logo-card:hover .mova-dr-logo-card-footer svg {
+  opacity: 1;
+}
+
+/* --- Grille photos (images) --- */
+.mova-dr-photo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 20px;
+  margin: 0;
+  padding: 0;
+  max-width: 1200px;
+}
+
+.mova-dr-photo-item {
+  flex: 1 1 calc(30% - 14px);
+  min-width: 350px;
+  max-width: calc(30% - 14px);
+}
+
+.mova-dr-photo-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.mova-dr-photo-img {
+  overflow: hidden;
+  background: #f5f6f7;
+  line-height: 0;
+  display: block;
+  cursor: pointer;
+}
+
+.mova-dr-photo-img-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.mova-dr-photo-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+.mova-dr-photo-item:hover .mova-dr-photo-img-wrap img {
+  opacity: 0.9;
+}
+
+.mova-dr-photo-dl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "AcuminPro", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #1a4759;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  line-height: 1.4;
+}
+
+.mova-dr-photo-dl svg {
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.mova-dr-photo-dl:hover {
+  color: #9c6d61 !important;
+}
+
+.mova-dr-photo-dl:hover svg {
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+  .mova-dr-photo-item {
+    flex: 1 1 calc(50% - 10px);
+    max-width: calc(50% - 10px);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 479px) {
+  .mova-dr-photo-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+.mova-dr-photo-img--video {
+  background: #e8eef1;
+}
+
+.mova-dr-video-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  color: #1a4759;
+  opacity: 0.4;
+}
+
+/* --- Liste formulaires --- */
+.mova-dr-form-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mova-dr-form-item {
+  background: #f5f6f7;
+}
+
+.mova-dr-form-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  font-family: "AcuminPro", sans-serif;
+  font-size: 16px;
+  font-weight: 600 !important;
+  color: #1a4759;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.mova-dr-form-link:hover {
+  background: #edf0f2;
+  color: #9c6d61 !important;
+}
+
+.mova-dr-form-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.mova-dr-form-link:hover .mova-dr-form-icon {
+  opacity: 1;
+}
+
+/* --- État vide --- */
+.mova-dr-empty {
+  font-family: "AcuminPro", sans-serif;
+  font-size: 14px;
+  color: #999;
+  margin: 0;
+  padding: 8px 0;
+}
+
+/* --- Responsive grilles communes --- */
+@media (max-width: 767px) {
+  .mova-dr-grid > .mova-dr-card {
+    flex: 1 1 140px;
+    max-width: 200px;
+  }
+
+  .mova-dr-grid--logos > .mova-dr-logo-card {
+    flex: 1 1 200px;
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 479px) {
+  .mova-dr-grid > .mova-dr-card {
+    flex: 1 1 calc(50% - 6px);
+    max-width: calc(50% - 6px);
+  }
+
+  .mova-dr-grid--logos > .mova-dr-logo-card {
+    flex: 1 1 calc(50% - 6px);
+    max-width: calc(50% - 6px);
+  }
+}
+

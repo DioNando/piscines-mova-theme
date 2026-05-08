@@ -277,7 +277,7 @@
           "label": "Fichier",
           "name": "fichier",
           "type": "file",
-          "return_format": "url",
+          "return_format": "array",
           "mime_types": "",
           "wrapper": { "width": "40" }
         },
