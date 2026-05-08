@@ -4,15 +4,12 @@
 
 /* --- Grille des modèles --- */
 .mova-df-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  max-width: 1200px;
 }
 
 .mova-df-card {
-  flex: 1 1 480px;
-  max-width: 480px;
   border: 1px solid #d0d5dd;
   background: #fff;
   display: flex;
@@ -143,11 +140,13 @@
 /* --- Responsive --- */
 @media (max-width: 767px) {
   .mova-df-grid {
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
+}
 
-  .mova-df-card {
-    flex: 1 1 100%;
-    max-width: 100%;
+@media (max-width: 479px) {
+  .mova-df-grid {
+    grid-template-columns: 1fr;
   }
 }

@@ -47,20 +47,32 @@ function mova_dealer_files_shortcode( $atts ) {
         );
     }
 
-    $piscines = new WP_Query( $query_args );
+    $piscines_query = new WP_Query( $query_args );
 
-    if ( ! $piscines->have_posts() ) {
+    if ( ! $piscines_query->have_posts() ) {
         return '<p class="mova-df-empty">Aucun modèle disponible.</p>';
     }
+
+    $piscines = $piscines_query->posts;
+
+    usort( $piscines, function ( $a, $b ) {
+        preg_match( '/^(\d+)[x×](\d+)/i', $a->post_title, $ma );
+        preg_match( '/^(\d+)[x×](\d+)/i', $b->post_title, $mb );
+        $aw = isset( $ma[1] ) ? (int) $ma[1] : 0;
+        $al = isset( $ma[2] ) ? (int) $ma[2] : 0;
+        $bw = isset( $mb[1] ) ? (int) $mb[1] : 0;
+        $bl = isset( $mb[2] ) ? (int) $mb[2] : 0;
+        return ( $aw !== $bw ) ? $aw - $bw : $al - $bl;
+    } );
 
     ob_start();
     ?>
     <div class="mova-df-grid">
     <?php
-    while ( $piscines->have_posts() ) :
-        $piscines->the_post();
-        $post_id  = get_the_ID();
-        $titre    = get_the_title();
+    foreach ( $piscines as $post ) :
+        setup_postdata( $post );
+        $post_id  = $post->ID;
+        $titre    = $post->post_title;
         $lien     = get_permalink();
         $fichiers = get_field( 'detaillant_fichiers', $post_id );
 
@@ -167,7 +179,7 @@ function mova_dealer_files_shortcode( $atts ) {
             </div><!-- .mova-df-card-body -->
         </div><!-- .mova-df-card -->
         <?php
-    endwhile;
+    endforeach;
     wp_reset_postdata();
     ?>
     </div><!-- .mova-df-grid -->
