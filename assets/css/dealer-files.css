@@ -23,10 +23,11 @@
 
 /* --- Image --- */
 .mova-df-card-img {
-  width: 100%;
-  aspect-ratio: 16 / 7;
-  overflow: hidden;
-  background: #f4f7f8;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #f4f7f8;
+    padding: 2rem;
 }
 
 .mova-df-card-img img {
