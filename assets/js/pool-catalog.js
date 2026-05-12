@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           card.innerHTML = `
             <div class="mova-pc-card-img">
-              ${pool.thumbnail ? `<img src="${pool.thumbnail}" alt="${pool.titre}" loading="lazy">` : '<div class="mova-pc-card-placeholder"></div>'}
+              ${pool.thumbnail ? `<img src="${pool.thumbnail}" class="catalog-img" alt="${pool.titre}" loading="lazy">` : '<div class="mova-pc-card-placeholder"></div>'}
             </div>
             <div class="mova-pc-card-body">
               <div class="mova-pc-card-info">

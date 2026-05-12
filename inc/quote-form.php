@@ -339,12 +339,14 @@ function mova_quote_form_shortcode($atts)
                     <label for="mova_qf_source">Comment avez-vous entendu parler de nous?</label>
                     <select id="mova_qf_source" name="source">
                         <option value="">— Sélectionner —</option>
-                        <option value="Recherche Internet">Recherche Internet</option>
+                        <option value="Radio">Radio</option>
+                        <option value="Télévision">Télévision</option>
+                        <option value="J'ai vu le produit chez quelqu'un">J'ai vu le produit chez quelqu'un</option>
+                        <option value="J'ai visité un magasin spécialisé">J'ai visité un magasin spécialisé</option>
+                        <option value="Publication d'un influenceur">Publication d'un influenceur</option>
+                        <option value="Google">Google</option>
                         <option value="Réseaux sociaux">Réseaux sociaux</option>
-                        <option value="Recommandation">Recommandation</option>
-                        <option value="Salon / Exposition">Salon / Exposition</option>
-                        <option value="Publicité">Publicité</option>
-                        <option value="Autre">Autre</option>
+                        <option value="Journal">Journal</option>
                     </select>
                 </div>
 
