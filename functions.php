@@ -57,8 +57,8 @@ function custom_yoast_breadcrumb_separator( $separator ) {
 add_filter( 'wpseo_breadcrumb_links', 'mova_custom_breadcrumbs_piscines' );
 
 function mova_custom_breadcrumbs_piscines( $links ) {
-    // On cible uniquement les fiches individuelles du CPT 'piscine'
-    if ( is_singular( 'piscine' ) ) {
+    // On cible les fiches individuelles du CPT 'piscine' et les pages de taxonomie 'categorie_piscine'
+    if ( is_singular( 'piscine' ) || is_tax( 'categorie_piscine' ) ) {
         
         // On crée le lien de la page parent à injecter
         $breadcrumb_parent = array(

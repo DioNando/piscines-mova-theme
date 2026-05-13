@@ -174,7 +174,7 @@ function mova_inspirations_shortcode( $atts ) {
                     <?php endif; ?>
                     <div class="mova-insp-overlay">
                         <?php if ( $legende ) : ?>
-                            <h4 class="mova-insp-legende"><?php echo esc_html( $legende ); ?></h4>
+                            <h3 class="mova-insp-legende"><?php echo esc_html( $legende ); ?></h3>
                         <?php endif; ?>
                         <?php if ( $credit ) : ?>
                             <p class="mova-insp-credit"><?php echo esc_html( $credit ); ?></p>
