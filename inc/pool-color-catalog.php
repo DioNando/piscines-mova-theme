@@ -162,7 +162,7 @@ function mova_pool_color_catalog_shortcode( $atts ) {
             <div class="mova-ccc-col-preview">
                 <div class="mova-ccc-preview-wrap">
                     <img src="<?php echo esc_url( $first_ambiance ); ?>"
-                         alt=""
+                         alt="Aperçu d'ambiance"
                          id="mova-ccc-preview-img"
                          class="mova-ccc-preview-img" />
                 </div>

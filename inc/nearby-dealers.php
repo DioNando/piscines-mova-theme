@@ -103,7 +103,7 @@ function mova_nearby_dealers_shortcode( $atts ) {
                     <div class="mova-nd-card-icon">
                         <?php if ( $dealer['logo'] ) : ?>
                             <div class="mova-nd-logo-badge">
-                                <img src="<?php echo esc_url( $dealer['logo'] ); ?>" alt="" loading="lazy">
+                                <img src="<?php echo esc_url( $dealer['logo'] ); ?>" alt="Logo <?php echo esc_attr( $dealer['nom'] ); ?>" loading="lazy">
                             </div>
                         <?php else :
                             $words = preg_split( '/[\s\-\x{2013}]+/u', trim( $dealer['nom'] ), -1, PREG_SPLIT_NO_EMPTY );

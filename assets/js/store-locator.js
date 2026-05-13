@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
       store._num = num;
 
       const markerInner = store.logo
-        ? `<div class="mova-marker-logo-pin"><div class="mova-marker-logo-inner"><img src="${store.logo}" alt="" loading="lazy"></div></div>`
+        ? `<div class="mova-marker-logo-pin"><div class="mova-marker-logo-inner"><img src="${store.logo}" alt="Logo ${store.nom}" loading="lazy"></div></div>`
         : `<div class="mova-marker-pin"><span>${getInitials(store.nom)}</span></div>`;
 
       const numberedIcon = L.divIcon(
@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
       listItem.innerHTML = `
         <div class="mova-sl-item-header">
             <div class="mova-sl-logo-badge">
-              ${store.logo ? `<img src="${store.logo}" alt="" class="mova-sl-logo-img" loading="lazy">` : `<span class="mova-sl-initiales">${getInitials(store.nom)}</span>`}
+              ${store.logo ? `<img src="${store.logo}" alt="Logo ${store.nom}" class="mova-sl-logo-img" loading="lazy">` : `<span class="mova-sl-initiales">${getInitials(store.nom)}</span>`}
             </div>
             <h5>${store.nom}</h5>
         </div>

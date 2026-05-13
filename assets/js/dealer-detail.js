@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Marqueur pin
   const iconHtml = logo
-    ? `<div class="mova-dd-marker-logo-pin"><div class="mova-dd-marker-logo-inner"><img src="${logo}" alt="" /></div></div>`
+    ? `<div class="mova-dd-marker-logo-pin"><div class="mova-dd-marker-logo-inner"><img src="${logo}" alt="Logo ${nom}" /></div></div>`
     : `<div class="mova-dd-marker-pin"><span>${getInitials(nom)}</span></div>`;
 
   const iconSize  = logo ? [38, 38] : [30, 30];
