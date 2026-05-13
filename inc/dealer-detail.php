@@ -17,7 +17,7 @@ function mova_dealer_detail_shortcode( $atts ) {
     $post_id = intval( $atts['id'] ) ?: get_the_ID();
 
     if ( ! $post_id || get_post_type( $post_id ) !== 'detaillant' ) {
-        return '<p>Détaillant introuvable.</p>';
+        return '<p>' . esc_html__( 'Détaillant introuvable.', 'piscines-mova' ) . '</p>';
     }
 
     // Récupérer les champs ACF
@@ -108,7 +108,7 @@ function mova_dealer_detail_shortcode( $atts ) {
             <div class="mova-dd-actions">
                 <?php if ( $lat && $lng ) : ?>
                 <a href="https://www.google.com/maps/dir/?api=1&destination=<?php echo esc_attr( $lat ); ?>,<?php echo esc_attr( $lng ); ?>" target="_blank" class="mova-dd-btn mova-dd-btn-primary">
-                    Y aller
+                    <?php esc_html_e( 'Y aller', 'piscines-mova' ); ?>
                 </a>
                 <?php endif; ?>
             </div>

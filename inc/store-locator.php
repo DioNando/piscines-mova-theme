@@ -83,13 +83,13 @@ function mova_custom_store_locator_shortcode() {
     <div class="mova-sl-container">
         <div class="mova-sl-sidebar">
             <div class="mova-sl-filters">
-                <h3>Trouver un détaillant</h3>
+                <h3><?php esc_html_e( 'Trouver un détaillant', 'piscines-mova' ); ?></h3>
                 <div class="mova-sl-input-group">
-                    <input type="text" id="mova-sl-search" placeholder="Rechercher une ville, un nom ou code postal...">
+                    <input type="text" id="mova-sl-search" placeholder="<?php esc_attr_e( 'Rechercher une ville, un nom ou code postal...', 'piscines-mova' ); ?>">
                 </div>
                 <div class="mova-sl-input-group">
                     <select id="mova-sl-province">
-                        <option value="">Toutes les provinces</option>
+                        <option value=""><?php esc_html_e( 'Toutes les provinces', 'piscines-mova' ); ?></option>
                         <?php foreach($provinces_list as $prov): ?>
                             <option value="<?php echo esc_attr($prov); ?>"><?php echo esc_html($prov); ?></option>
                         <?php endforeach; ?>
@@ -97,16 +97,16 @@ function mova_custom_store_locator_shortcode() {
                 </div>
                 <div class="mova-sl-input-group mova-sl-radius-group" style="display:none;">
                     <select id="mova-sl-radius">
-                        <option value="25">Dans un rayon de 25 km</option>
-                        <option value="50">Dans un rayon de 50 km</option>
-                        <option value="100" selected>Dans un rayon de 100 km</option>
-                        <option value="200">Dans un rayon de 200 km</option>
+                        <option value="25"><?php echo esc_html( sprintf( __( 'Dans un rayon de %d km', 'piscines-mova' ), 25 ) ); ?></option>
+                        <option value="50"><?php echo esc_html( sprintf( __( 'Dans un rayon de %d km', 'piscines-mova' ), 50 ) ); ?></option>
+                        <option value="100" selected><?php echo esc_html( sprintf( __( 'Dans un rayon de %d km', 'piscines-mova' ), 100 ) ); ?></option>
+                        <option value="200"><?php echo esc_html( sprintf( __( 'Dans un rayon de %d km', 'piscines-mova' ), 200 ) ); ?></option>
                     </select>
                 </div>
                 <div class="mova-sl-input-group">
                     <button id="mova-sl-geolocate" type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="10" stroke-opacity=".3"/></svg>
-                        <span class="mova-sl-geolocate-label">Me localiser</span>
+                        <span class="mova-sl-geolocate-label"><?php esc_html_e( 'Me localiser', 'piscines-mova' ); ?></span>
                     </button>
                 </div>
             </div>

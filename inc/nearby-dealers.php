@@ -90,10 +90,10 @@ function mova_nearby_dealers_shortcode( $atts ) {
     ob_start(); ?>
 
     <div class="mova-nd-container">
-        <h3 class="mova-nd-title">Détaillants à proximité</h3>
+        <h3 class="mova-nd-title"><?php esc_html_e( 'Détaillants à proximité', 'piscines-mova' ); ?></h3>
 
         <div class="mova-nd-carousel-wrap">
-            <button class="mova-nd-arrow mova-nd-arrow-prev" aria-label="Précédent">
+            <button class="mova-nd-arrow mova-nd-arrow-prev" aria-label="<?php esc_attr_e( 'Précédent', 'piscines-mova' ); ?>">
                 <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
 
@@ -121,13 +121,13 @@ function mova_nearby_dealers_shortcode( $atts ) {
                     <?php endif; ?>
                     <span class="mova-nd-card-distance"><?php echo number_format( $dealer['distance'], 1 ); ?> km</span>
                     <span class="mova-nd-card-cta">
-                        Voir la fiche
+                        <?php esc_html_e( 'Voir la fiche', 'piscines-mova' ); ?>
                     </span>
                 </a>
                 <?php endforeach; ?>
             </div>
 
-            <button class="mova-nd-arrow mova-nd-arrow-next" aria-label="Suivant">
+            <button class="mova-nd-arrow mova-nd-arrow-next" aria-label="<?php esc_attr_e( 'Suivant', 'piscines-mova' ); ?>">
                 <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
         </div>

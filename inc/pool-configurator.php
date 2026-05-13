@@ -141,10 +141,10 @@ function mova_pool_configurator_shortcode( $atts ) {
     // --- Options compatibles ---
     $options = array();
     if ( get_field( 'opt_jets', $post_id ) ) {
-        $options[] = array( 'slug' => 'jets', 'label' => 'Jets de massage' );
+        $options[] = array( 'slug' => 'jets', 'label' => __( 'Jets de massage', 'piscines-mova' ) );
     }
     if ( get_field( 'opt_badujet', $post_id ) ) {
-        $options[] = array( 'slug' => 'badujet', 'label' => 'BaduJet Turbo' );
+        $options[] = array( 'slug' => 'badujet', 'label' => __( 'BaduJet Turbo', 'piscines-mova' ) );
     }
 
     // Image fond par défaut
@@ -182,7 +182,7 @@ function mova_pool_configurator_shortcode( $atts ) {
 
         <!-- Preview avec layers -->
         <div class="mova-cfg-preview">
-            <button class="mova-cfg-zoom" id="mova-cfg-zoom" aria-label="Agrandir">
+            <button class="mova-cfg-zoom" id="mova-cfg-zoom" aria-label="<?php esc_attr_e( 'Agrandir', 'piscines-mova' ); ?>">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
             </button>
             <div class="mova-cfg-layers" id="mova-cfg-layers">
@@ -206,12 +206,12 @@ function mova_pool_configurator_shortcode( $atts ) {
         <!-- Panneau de configuration -->
         <div class="mova-cfg-panel">
 
-            <h3 class="mova-cfg-title">Configurateur AquaCove</h3>
-            <p class="mova-cfg-disclaimer">Les couleurs, motifs et positions des tapis affichés sur notre site web sont à titre indicatif. Pour une représentation plus fidèle, nous vous recommandons de vous référer aux échantillons physiques.</p>
+            <h3 class="mova-cfg-title"><?php esc_html_e( 'Configurateur AquaCove', 'piscines-mova' ); ?></h3>
+            <p class="mova-cfg-disclaimer"><?php esc_html_e( 'Les couleurs, motifs et positions des tapis affichés sur notre site web sont à titre indicatif. Pour une représentation plus fidèle, nous vous recommandons de vous référer aux échantillons physiques.', 'piscines-mova' ); ?></p>
 
             <!-- Couleurs de fond -->
             <div class="mova-cfg-section">
-                <h4 class="mova-cfg-section-title">Couleur de la coque</h4>
+                <h4 class="mova-cfg-section-title"><?php esc_html_e( 'Couleur de la coque', 'piscines-mova' ); ?></h4>
                 <div class="mova-cfg-swatches" id="mova-cfg-couleurs">
                     <?php foreach ( $couleurs as $couleur ) : ?>
                     <button class="mova-cfg-swatch mova-cfg-swatch--couleur<?php echo $couleur['slug'] === $default_couleur ? ' is-active' : ''; ?>"
@@ -234,12 +234,16 @@ function mova_pool_configurator_shortcode( $atts ) {
             <?php foreach ( $zones_effectives as $zone ) :
                 $zone_tapis   = $tapis_par_zone[ $zone ];
                 $default_slug = $defaults_tapis[ $zone ];
-                $zone_labels  = array( 'marches' => 'Marches', 'bancs' => 'Bancs', 'terrasse' => 'Terrasse' );
+                $zone_labels  = array(
+                    'marches'  => __( 'Marches', 'piscines-mova' ),
+                    'bancs'    => __( 'Bancs', 'piscines-mova' ),
+                    'terrasse' => __( 'Terrasse', 'piscines-mova' ),
+                );
                 $zone_label   = isset( $zone_labels[ $zone ] ) ? $zone_labels[ $zone ] : ucfirst( $zone );
             ?>
             <div class="mova-cfg-section mova-cfg-section--zone" data-zone="<?php echo esc_attr( $zone ); ?>">
                 <div class="mova-cfg-zone-header">
-                    <h4 class="mova-cfg-section-title">Tapis — <?php echo esc_html( $zone_label ); ?></h4>
+                    <h4 class="mova-cfg-section-title"><?php printf( '%s — %s', esc_html__( 'Tapis', 'piscines-mova' ), esc_html( $zone_label ) ); ?></h4>
                     <button class="mova-cfg-zone-toggle is-active"
                             data-zone="<?php echo esc_attr( $zone ); ?>"
                             aria-pressed="true"
@@ -270,7 +274,7 @@ function mova_pool_configurator_shortcode( $atts ) {
             <!-- Options -->
             <?php if ( ! empty( $options ) ) : ?>
             <div class="mova-cfg-section">
-                <h4 class="mova-cfg-section-title">Options</h4>
+                <h4 class="mova-cfg-section-title"><?php esc_html_e( 'Options', 'piscines-mova' ); ?></h4>
                 <div class="mova-cfg-options" id="mova-cfg-options">
                     <?php foreach ( $options as $opt ) : ?>
                     <label class="mova-cfg-option">
@@ -285,7 +289,7 @@ function mova_pool_configurator_shortcode( $atts ) {
             <!-- Bouton devis -->
             <div class="mova-cfg-section mova-cfg-section--cta">
                 <a href="#" class="mova-cfg-devis-btn" id="mova-cfg-devis-btn">
-                    Obtenir un devis
+                    <?php esc_html_e( 'Obtenir un devis', 'piscines-mova' ); ?>
                 </a>
             </div>
 
@@ -295,7 +299,7 @@ function mova_pool_configurator_shortcode( $atts ) {
 
     <!-- Lightbox -->
     <div class="mova-cfg-lightbox" id="mova-cfg-lightbox">
-        <button class="mova-cfg-lb-close" id="mova-cfg-lb-close" aria-label="Fermer">
+        <button class="mova-cfg-lb-close" id="mova-cfg-lb-close" aria-label="<?php esc_attr_e( 'Fermer', 'piscines-mova' ); ?>">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
         <div class="mova-cfg-lb-content" id="mova-cfg-lb-content"></div>

@@ -24,9 +24,9 @@ function mova_quote_form_shortcode($atts)
 
     // Pré-remplissage tapis AquaCove par zone (depuis le configurateur)
     $zone_labels = array(
-        'marches'  => 'Marches',
-        'bancs'    => 'Bancs',
-        'terrasse' => 'Terrasse',
+        'marches'  => __( 'Marches', 'piscines-mova' ),
+        'bancs'    => __( 'Bancs', 'piscines-mova' ),
+        'terrasse' => __( 'Terrasse', 'piscines-mova' ),
     );
     $preselect_tapis = array();
     foreach ($zone_labels as $zone_key => $zone_label) {
@@ -128,53 +128,53 @@ function mova_quote_form_shortcode($atts)
 
             <!-- Honeypot anti-spam -->
             <div style="position:absolute;left:-9999px;" aria-hidden="true">
-                <label for="mova_qf_website">Ne pas remplir</label>
+                <label for="mova_qf_website"><?php esc_html_e( 'Ne pas remplir', 'piscines-mova' ); ?></label>
                 <input type="text" name="website" id="mova_qf_website" tabindex="-1" autocomplete="off" />
             </div>
 
             <!-- ====== Section : Coordonnées ====== -->
             <fieldset class="mova-qf-fieldset">
-                <legend class="mova-qf-legend">Vos coordonnées</legend>
+                <legend class="mova-qf-legend"><?php esc_html_e( 'Vos coordonnées', 'piscines-mova' ); ?></legend>
 
                 <div class="mova-qf-row">
                     <div class="mova-qf-field">
-                        <label for="mova_qf_prenom">Prénom <span class="mova-qf-req">*</span></label>
+                        <label for="mova_qf_prenom"><?php esc_html_e( 'Prénom', 'piscines-mova' ); ?> <span class="mova-qf-req">*</span></label>
                         <input type="text" id="mova_qf_prenom" name="prenom" required />
                     </div>
                     <div class="mova-qf-field">
-                        <label for="mova_qf_nom">Nom <span class="mova-qf-req">*</span></label>
+                        <label for="mova_qf_nom"><?php esc_html_e( 'Nom', 'piscines-mova' ); ?> <span class="mova-qf-req">*</span></label>
                         <input type="text" id="mova_qf_nom" name="nom" required />
                     </div>
                 </div>
 
                 <div class="mova-qf-row">
                     <div class="mova-qf-field">
-                        <label for="mova_qf_courriel">Courriel <span class="mova-qf-req">*</span></label>
+                        <label for="mova_qf_courriel"><?php esc_html_e( 'Courriel', 'piscines-mova' ); ?> <span class="mova-qf-req">*</span></label>
                         <input type="email" id="mova_qf_courriel" name="courriel" required />
                     </div>
                     <div class="mova-qf-field">
-                        <label for="mova_qf_telephone">Téléphone <span class="mova-qf-req">*</span></label>
+                        <label for="mova_qf_telephone"><?php esc_html_e( 'Téléphone', 'piscines-mova' ); ?> <span class="mova-qf-req">*</span></label>
                         <input type="tel" id="mova_qf_telephone" name="telephone" required />
                     </div>
                 </div>
 
                 <div class="mova-qf-row">
                     <div class="mova-qf-field">
-                        <label for="mova_qf_moment">Meilleur moment pour vous rejoindre</label>
+                        <label for="mova_qf_moment"><?php esc_html_e( 'Meilleur moment pour vous rejoindre', 'piscines-mova' ); ?></label>
                         <select id="mova_qf_moment" name="moment">
-                            <option value="">— Sélectionner —</option>
-                            <option value="Avant-midi">Avant-midi</option>
-                            <option value="Après-midi">Après-midi</option>
-                            <option value="En soirée">En soirée</option>
+                            <option value=""><?php esc_html_e( '— Sélectionner —', 'piscines-mova' ); ?></option>
+                            <option value="Avant-midi"><?php esc_html_e( 'Avant-midi', 'piscines-mova' ); ?></option>
+                            <option value="Après-midi"><?php esc_html_e( 'Après-midi', 'piscines-mova' ); ?></option>
+                            <option value="En soirée"><?php esc_html_e( 'En soirée', 'piscines-mova' ); ?></option>
                         </select>
                     </div>
                     <div class="mova-qf-field">
-                        <label for="mova_qf_moyen">Meilleure façon de vous rejoindre</label>
+                        <label for="mova_qf_moyen"><?php esc_html_e( 'Meilleure façon de vous rejoindre', 'piscines-mova' ); ?></label>
                         <select id="mova_qf_moyen" name="moyen_contact">
-                            <option value="">— Sélectionner —</option>
-                            <option value="Courriel">Courriel</option>
-                            <option value="Téléphone">Téléphone</option>
-                            <option value="Texto">Texto</option>
+                            <option value=""><?php esc_html_e( '— Sélectionner —', 'piscines-mova' ); ?></option>
+                            <option value="Courriel"><?php esc_html_e( 'Courriel', 'piscines-mova' ); ?></option>
+                            <option value="Téléphone"><?php esc_html_e( 'Téléphone', 'piscines-mova' ); ?></option>
+                            <option value="Texto"><?php esc_html_e( 'Texto', 'piscines-mova' ); ?></option>
                         </select>
                     </div>
                 </div>
@@ -182,29 +182,29 @@ function mova_quote_form_shortcode($atts)
 
             <!-- ====== Section : Adresse ====== -->
             <fieldset class="mova-qf-fieldset">
-                <legend class="mova-qf-legend">Votre adresse</legend>
+                <legend class="mova-qf-legend"><?php esc_html_e( 'Votre adresse', 'piscines-mova' ); ?></legend>
 
                 <div class="mova-qf-field mova-qf-field--full">
-                    <label for="mova_qf_adresse">Adresse</label>
+                    <label for="mova_qf_adresse"><?php esc_html_e( 'Adresse', 'piscines-mova' ); ?></label>
                     <input type="text" id="mova_qf_adresse" name="adresse" />
                 </div>
 
                 <div class="mova-qf-row mova-qf-row--3">
                     <div class="mova-qf-field">
-                        <label for="mova_qf_ville">Ville</label>
+                        <label for="mova_qf_ville"><?php esc_html_e( 'Ville', 'piscines-mova' ); ?></label>
                         <input type="text" id="mova_qf_ville" name="ville" />
                     </div>
                     <div class="mova-qf-field">
-                        <label for="mova_qf_province">Province</label>
+                        <label for="mova_qf_province"><?php esc_html_e( 'Province', 'piscines-mova' ); ?></label>
                         <select id="mova_qf_province" name="province">
-                            <option value="">— Sélectionner —</option>
+                            <option value=""><?php esc_html_e( '— Sélectionner —', 'piscines-mova' ); ?></option>
                             <?php foreach ($provinces as $prov) : ?>
                                 <option value="<?php echo esc_attr($prov->name); ?>"><?php echo esc_html($prov->name); ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="mova-qf-field">
-                        <label for="mova_qf_cp">Code postal</label>
+                        <label for="mova_qf_cp"><?php esc_html_e( 'Code postal', 'piscines-mova' ); ?></label>
                         <input type="text" id="mova_qf_cp" name="code_postal" />
                     </div>
                 </div>
@@ -212,11 +212,11 @@ function mova_quote_form_shortcode($atts)
 
             <!-- ====== Section : Projet ====== -->
             <fieldset class="mova-qf-fieldset">
-                <legend class="mova-qf-legend">Votre projet</legend>
+                <legend class="mova-qf-legend"><?php esc_html_e( 'Votre projet', 'piscines-mova' ); ?></legend>
 
                 <!-- Modèles (checkboxes) -->
                 <div class="mova-qf-field mova-qf-field--full">
-                    <label>Sélectionnez le ou les modèles de piscines qui vous intéressent :</label>
+                    <label><?php esc_html_e( 'Sélectionnez le ou les modèles de piscines qui vous intéressent :', 'piscines-mova' ); ?></label>
                     <div class="mova-qf-checkboxes" id="mova-qf-modeles">
                         <?php foreach ($piscines as $piscine) :
                             $slug         = $piscine->post_name;
@@ -232,7 +232,7 @@ function mova_quote_form_shortcode($atts)
                                     <span class="mova-qf-checkbox-name-row">
                                         <span class="mova-qf-checkbox-name"><?php echo esc_html($piscine->post_title); ?></span>
                                         <?php if ( $is_signature ) : ?>
-                                            <span class="mova-qf-badge-signature">Signature</span>
+                                            <span class="mova-qf-badge-signature"><?php esc_html_e( 'Signature', 'piscines-mova' ); ?></span>
                                         <?php endif; ?>
                                     </span>
                                     <?php if ( $cat_name ) : ?>
@@ -246,8 +246,8 @@ function mova_quote_form_shortcode($atts)
 
                 <!-- Couleur (pastilles) -->
                 <div class="mova-qf-field mova-qf-field--full">
-                    <label>Couleur de la piscine</label>
-                    <div class="mova-qf-swatches" id="mova-qf-swatches-couleur" role="radiogroup" aria-label="Couleur de la piscine">
+                    <label><?php esc_html_e( 'Couleur de la piscine', 'piscines-mova' ); ?></label>
+                    <div class="mova-qf-swatches" id="mova-qf-swatches-couleur" role="radiogroup" aria-label="<?php esc_attr_e( 'Couleur de la piscine', 'piscines-mova' ); ?>">
                         <?php foreach ($couleurs as $couleur) :
                             $swatch_id  = get_field('swatch_couleur', $couleur);
                             $swatch_url = $swatch_id ? wp_get_attachment_image_url($swatch_id, 'thumbnail') : '';
@@ -271,11 +271,11 @@ function mova_quote_form_shortcode($atts)
                 <!-- Type d'installation -->
                 <div class="mova-qf-row">
                     <div class="mova-qf-field">
-                        <label for="mova_qf_installation">Type d'installation</label>
+                        <label for="mova_qf_installation"><?php esc_html_e( "Type d'installation", 'piscines-mova' ); ?></label>
                         <select id="mova_qf_installation" name="type_installation">
-                            <option value="">— Sélectionner —</option>
-                            <option value="Clé en main">Clé en main</option>
-                            <option value="Auto-installation">Auto-installation</option>
+                            <option value=""><?php esc_html_e( '— Sélectionner —', 'piscines-mova' ); ?></option>
+                            <option value="Clé en main"><?php esc_html_e( 'Clé en main', 'piscines-mova' ); ?></option>
+                            <option value="Auto-installation"><?php esc_html_e( 'Auto-installation', 'piscines-mova' ); ?></option>
                         </select>
                     </div>
                 </div>
@@ -283,7 +283,7 @@ function mova_quote_form_shortcode($atts)
                 <?php if (! empty($preselect_tapis) || $preselect_options) : ?>
                     <!-- ====== Sélections AquaCove (depuis le configurateur) ====== -->
                     <div class="mova-qf-aquacove-summary">
-                        <p class="mova-qf-aquacove-title">Sélections AquaCove</p>
+                        <p class="mova-qf-aquacove-title"><?php esc_html_e( 'Sélections AquaCove', 'piscines-mova' ); ?></p>
 
                         <?php if (! empty($preselect_tapis)) : ?>
                             <div class="mova-qf-aquacove-items">
@@ -308,7 +308,7 @@ function mova_quote_form_shortcode($atts)
                         <?php if ($preselect_options) : ?>
                             <div class="mova-qf-aquacove-items">
                                 <div class="mova-qf-aquacove-item">
-                                    <span class="mova-qf-aquacove-zone">Options :</span>
+                                    <span class="mova-qf-aquacove-zone"><?php esc_html_e( 'Options', 'piscines-mova' ); ?> :</span>
                                     <span class="mova-qf-aquacove-value"><?php echo esc_html(str_replace(',', ', ', $preselect_options)); ?></span>
                                     <input type="hidden" name="options_aquacove" value="<?php echo esc_attr($preselect_options); ?>" />
                                 </div>
@@ -319,39 +319,39 @@ function mova_quote_form_shortcode($atts)
 
                 <div class="mova-qf-row mova-qf-row--2">
                     <div class="mova-qf-field">
-                        <label for="mova_qf_date">Où en êtes-vous dans vos démarches?</label>
+                        <label for="mova_qf_date"><?php esc_html_e( 'Où en êtes-vous dans vos démarches?', 'piscines-mova' ); ?></label>
                         <select id="mova_qf_date" name="date_projet">
-                            <option value="">— Sélectionner —</option>
-                            <option value="Je suis curieux / j'explore les options">Je suis curieux / j'explore les options</option>
-                            <option value="J'aimerais me baigner cet été">J'aimerais me baigner cet été</option>
-                            <option value="J'ai un projet concret pour cette année">J'ai un projet concret pour cette année</option>
-                            <option value="Je planifie pour l'an prochain">Je planifie pour l'an prochain</option>
-                            <option value="Je suis prêt à acheter">Je suis prêt à acheter</option>
+                            <option value=""><?php esc_html_e( '— Sélectionner —', 'piscines-mova' ); ?></option>
+                            <option value="Je suis curieux / j'explore les options"><?php esc_html_e( "Je suis curieux / j'explore les options", 'piscines-mova' ); ?></option>
+                            <option value="J'aimerais me baigner cet été"><?php esc_html_e( "J'aimerais me baigner cet été", 'piscines-mova' ); ?></option>
+                            <option value="J'ai un projet concret pour cette année"><?php esc_html_e( "J'ai un projet concret pour cette année", 'piscines-mova' ); ?></option>
+                            <option value="Je planifie pour l'an prochain"><?php esc_html_e( "Je planifie pour l'an prochain", 'piscines-mova' ); ?></option>
+                            <option value="Je suis prêt à acheter"><?php esc_html_e( 'Je suis prêt à acheter', 'piscines-mova' ); ?></option>
                         </select>
                     </div>
                     <div class="mova-qf-field">
-                        <label for="mova_qf_date_concrete">Date souhaitée <span class="mova-qf-optional">(optionnel)</span></label>
+                        <label for="mova_qf_date_concrete"><?php esc_html_e( 'Date souhaitée', 'piscines-mova' ); ?> <span class="mova-qf-optional"><?php esc_html_e( '(optionnel)', 'piscines-mova' ); ?></span></label>
                         <input type="date" id="mova_qf_date_concrete" name="date_concrete" />
                     </div>
                 </div>
 
                 <div class="mova-qf-field mova-qf-field--full">
-                    <label for="mova_qf_source">Comment avez-vous entendu parler de nous?</label>
+                    <label for="mova_qf_source"><?php esc_html_e( 'Comment avez-vous entendu parler de nous?', 'piscines-mova' ); ?></label>
                     <select id="mova_qf_source" name="source">
-                        <option value="">— Sélectionner —</option>
-                        <option value="Radio">Radio</option>
-                        <option value="Télévision">Télévision</option>
-                        <option value="J'ai vu le produit chez quelqu'un">J'ai vu le produit chez quelqu'un</option>
-                        <option value="J'ai visité un magasin spécialisé">J'ai visité un magasin spécialisé</option>
-                        <option value="Publication d'un influenceur">Publication d'un influenceur</option>
-                        <option value="Google">Google</option>
-                        <option value="Réseaux sociaux">Réseaux sociaux</option>
-                        <option value="Journal">Journal</option>
+                        <option value=""><?php esc_html_e( '— Sélectionner —', 'piscines-mova' ); ?></option>
+                        <option value="Radio"><?php esc_html_e( 'Radio', 'piscines-mova' ); ?></option>
+                        <option value="Télévision"><?php esc_html_e( 'Télévision', 'piscines-mova' ); ?></option>
+                        <option value="J'ai vu le produit chez quelqu'un"><?php esc_html_e( "J'ai vu le produit chez quelqu'un", 'piscines-mova' ); ?></option>
+                        <option value="J'ai visité un magasin spécialisé"><?php esc_html_e( "J'ai visité un magasin spécialisé", 'piscines-mova' ); ?></option>
+                        <option value="Publication d'un influenceur"><?php esc_html_e( "Publication d'un influenceur", 'piscines-mova' ); ?></option>
+                        <option value="Google"><?php esc_html_e( 'Google', 'piscines-mova' ); ?></option>
+                        <option value="Réseaux sociaux"><?php esc_html_e( 'Réseaux sociaux', 'piscines-mova' ); ?></option>
+                        <option value="Journal"><?php esc_html_e( 'Journal', 'piscines-mova' ); ?></option>
                     </select>
                 </div>
 
                 <div class="mova-qf-field mova-qf-field--full">
-                    <label for="mova_qf_commentaires">Demandes additionnelles et/ou commentaires</label>
+                    <label for="mova_qf_commentaires"><?php esc_html_e( 'Demandes additionnelles et/ou commentaires', 'piscines-mova' ); ?></label>
                     <textarea id="mova_qf_commentaires" name="commentaires" rows="4"></textarea>
                 </div>
             </fieldset>
@@ -360,18 +360,18 @@ function mova_quote_form_shortcode($atts)
             <fieldset class="mova-qf-fieldset mova-qf-fieldset--consent">
                 <label class="mova-qf-checkbox-label">
                     <input type="checkbox" name="accord_coordonnees" value="1" required />
-                    <span>J'accepte que mes coordonnées soient remises au détaillant le plus près de mon domicile et à ses partenaires <span class="mova-qf-req">*</span></span>
+                    <span><?php esc_html_e( "J'accepte que mes coordonnées soient remises au détaillant le plus près de mon domicile et à ses partenaires", 'piscines-mova' ); ?> <span class="mova-qf-req">*</span></span>
                 </label>
                 <label class="mova-qf-checkbox-label">
                     <input type="checkbox" name="infolettre" value="1" />
-                    <span>J'accepte de recevoir des courriers électroniques promotionnels.</span>
+                    <span><?php esc_html_e( "J'accepte de recevoir des courriers électroniques promotionnels.", 'piscines-mova' ); ?></span>
                 </label>
-                <p class="mova-qf-note">* Les champs marqués d'un astérisque sont obligatoires.</p>
+                <p class="mova-qf-note"><?php esc_html_e( "* Les champs marqués d'un astérisque sont obligatoires.", 'piscines-mova' ); ?></p>
             </fieldset>
 
             <!-- ====== Submit ====== -->
             <div class="mova-qf-submit-wrap">
-                <button type="submit" class="mova-qf-submit" id="mova-qf-submit">Envoyer</button>
+                <button type="submit" class="mova-qf-submit" id="mova-qf-submit"><?php esc_html_e( 'Envoyer', 'piscines-mova' ); ?></button>
             </div>
 
             <!-- Messages -->
@@ -394,12 +394,12 @@ function mova_handle_quote_submission()
 {
     // Vérifier le nonce
     if (! isset($_POST['nonce']) || ! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'mova_quote_form_nonce')) {
-        wp_send_json_error(array('message' => 'Erreur de sécurité. Veuillez rafraîchir la page et réessayer.'));
+        wp_send_json_error(array('message' => __( 'Erreur de sécurité. Veuillez rafraîchir la page et réessayer.', 'piscines-mova' )));
     }
 
     // Honeypot
     if (! empty($_POST['website'])) {
-        wp_send_json_success(array('message' => 'Merci! Votre demande a été envoyée.'));
+        wp_send_json_success(array('message' => __( 'Merci! Votre demande a été envoyée.', 'piscines-mova' )));
     }
 
     // Sanitisation
@@ -441,11 +441,11 @@ function mova_handle_quote_submission()
 
     // Validation
     $errors = array();
-    if (empty($prenom))   $errors[] = 'Le prénom est requis.';
-    if (empty($nom))      $errors[] = 'Le nom est requis.';
-    if (! is_email($courriel)) $errors[] = 'Veuillez entrer une adresse courriel valide.';
-    if (empty($telephone)) $errors[] = 'Le téléphone est requis.';
-    if (! $accord)          $errors[] = 'Vous devez accepter le partage de vos coordonnées.';
+    if (empty($prenom))   $errors[] = __( 'Le prénom est requis.', 'piscines-mova' );
+    if (empty($nom))      $errors[] = __( 'Le nom est requis.', 'piscines-mova' );
+    if (! is_email($courriel)) $errors[] = __( 'Veuillez entrer une adresse courriel valide.', 'piscines-mova' );
+    if (empty($telephone)) $errors[] = __( 'Le téléphone est requis.', 'piscines-mova' );
+    if (! $accord)          $errors[] = __( 'Vous devez accepter le partage de vos coordonnées.', 'piscines-mova' );
 
     if (! empty($errors)) {
         wp_send_json_error(array('message' => implode('<br>', $errors)));
@@ -610,9 +610,9 @@ function mova_handle_quote_submission()
             $confirm_headers
         );
 
-        wp_send_json_success(array('message' => 'Merci! Votre demande de devis a été envoyée avec succès. Un représentant Mova vous contactera sous peu.'));
+        wp_send_json_success(array('message' => __( 'Merci! Votre demande de devis a été envoyée avec succès. Un représentant Mova vous contactera sous peu.', 'piscines-mova' )));
     } else {
-        wp_send_json_error(array('message' => 'Une erreur est survenue lors de l\'envoi. Veuillez réessayer ou nous contacter directement.'));
+        wp_send_json_error(array('message' => __( "Une erreur est survenue lors de l'envoi. Veuillez réessayer ou nous contacter directement.", 'piscines-mova' )));
     }
 }
 add_action('wp_ajax_mova_submit_quote', 'mova_handle_quote_submission');
@@ -627,10 +627,10 @@ function mova_devis_admin_columns($columns)
     $new = array();
     $new['cb']        = $columns['cb'];
     $new['title']     = $columns['title'];
-    $new['courriel']  = 'Courriel';
-    $new['telephone'] = 'Téléphone';
-    $new['modeles']   = 'Modèle(s)';
-    $new['statut']    = 'Statut';
+    $new['courriel']  = __( 'Courriel', 'piscines-mova' );
+    $new['telephone'] = __( 'Téléphone', 'piscines-mova' );
+    $new['modeles']   = __( 'Modèle(s)', 'piscines-mova' );
+    $new['statut']    = __( 'Statut', 'piscines-mova' );
     $new['date']      = $columns['date'];
     return $new;
 }
@@ -654,10 +654,10 @@ function mova_devis_admin_column_content($column, $post_id)
         case 'statut':
             $val = get_field('statut', $post_id);
             $labels = array(
-                'nouveau'  => 'Nouveau',
-                'en_cours' => 'En cours',
-                'traite'   => 'Traité',
-                'archive'  => 'Archivé',
+                'nouveau'  => __( 'Nouveau', 'piscines-mova' ),
+                'en_cours' => __( 'En cours', 'piscines-mova' ),
+                'traite'   => __( 'Traité', 'piscines-mova' ),
+                'archive'  => __( 'Archivé', 'piscines-mova' ),
             );
             $colors = array(
                 'nouveau'  => '#2271b1',
@@ -701,14 +701,14 @@ function mova_devis_admin_filter_dropdown()
 
     $current = isset($_GET['devis_statut']) ? sanitize_text_field($_GET['devis_statut']) : '';
     $statuts = array(
-        'nouveau'  => 'Nouveau',
-        'en_cours' => 'En cours',
-        'traite'   => 'Traité',
-        'archive'  => 'Archivé',
+        'nouveau'  => __( 'Nouveau', 'piscines-mova' ),
+        'en_cours' => __( 'En cours', 'piscines-mova' ),
+        'traite'   => __( 'Traité', 'piscines-mova' ),
+        'archive'  => __( 'Archivé', 'piscines-mova' ),
     );
 
     echo '<select name="devis_statut">';
-    echo '<option value="">Tous les statuts</option>';
+    echo '<option value="">' . esc_html__( 'Tous les statuts', 'piscines-mova' ) . '</option>';
     foreach ($statuts as $value => $label) {
         printf(
             '<option value="%s" %s>%s</option>',

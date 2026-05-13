@@ -104,13 +104,13 @@ function mova_pool_color_preview_shortcode( $atts ) {
         <!-- Panneau couleurs -->
         <div class="mova-cpv-panel">
 
-            <h3 class="mova-cpv-title">Choisissez votre couleur</h3>
-            <p class="mova-cpv-disclaimer">Les couleurs, motifs et positions des tapis affichés sur notre site web sont à titre indicatif. Pour une représentation plus fidèle, nous vous recommandons de vous référer aux échantillons physiques.</p>
+            <h3 class="mova-cpv-title"><?php esc_html_e( 'Choisissez votre couleur', 'piscines-mova' ); ?></h3>
+            <p class="mova-cpv-disclaimer"><?php esc_html_e( 'Les couleurs, motifs et positions des tapis affichés sur notre site web sont à titre indicatif. Pour une représentation plus fidèle, nous vous recommandons de vous référer aux échantillons physiques.', 'piscines-mova' ); ?></p>
 
             <!-- Couleurs -->
             <div class="mova-cpv-section">
-                <h4 class="mova-cpv-section-title">Couleurs</h4>
-                <p class="mova-cpv-section-subtitle">Sélectionnez une couleur de piscine</p>
+                <h4 class="mova-cpv-section-title"><?php esc_html_e( 'Couleurs', 'piscines-mova' ); ?></h4>
+                <p class="mova-cpv-section-subtitle"><?php esc_html_e( 'Sélectionnez une couleur de piscine', 'piscines-mova' ); ?></p>
 
                 <div class="mova-cpv-swatches" id="mova-cpv-couleurs">
                     <?php foreach ( $couleurs as $couleur ) : ?>

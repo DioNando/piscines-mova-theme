@@ -23,7 +23,7 @@ function mova_carrieres_list_shortcode( $atts ) {
     );
     $carrieres = get_posts( $args );
     if ( empty( $carrieres ) ) {
-        return '<p>Aucune offre de carrière disponible pour le moment.</p>';
+        return '<p>' . esc_html__( 'Aucune offre de carrière disponible pour le moment.', 'piscines-mova' ) . '</p>';
     }
     ob_start();
     ?>
@@ -50,9 +50,9 @@ function mova_carrieres_list_shortcode( $atts ) {
                 <div class="mova-carriere-content">
                     <h2 class="mova-carriere-title"> <?php echo esc_html(get_the_title($carriere->ID)); ?> </h2>
                     <ul class="mova-carriere-infos">
-                        <?php if ($salaire): ?><li><strong>Salaire</strong> <span><?php echo esc_html($salaire); ?></span></li><?php endif; ?>
-                        <?php if ($type_poste): ?><li><strong>Type de poste</strong> <span><?php echo esc_html($type_poste); ?></span></li><?php endif; ?>
-                        <?php if ($horaire): ?><li><strong>Horaire</strong> <span><?php echo esc_html($horaire); ?></span></li><?php endif; ?>
+                        <?php if ($salaire): ?><li><strong><?php esc_html_e( 'Salaire', 'piscines-mova' ); ?></strong> <span><?php echo esc_html($salaire); ?></span></li><?php endif; ?>
+                        <?php if ($type_poste): ?><li><strong><?php esc_html_e( 'Type de poste', 'piscines-mova' ); ?></strong> <span><?php echo esc_html($type_poste); ?></span></li><?php endif; ?>
+                        <?php if ($horaire): ?><li><strong><?php esc_html_e( 'Horaire', 'piscines-mova' ); ?></strong> <span><?php echo esc_html($horaire); ?></span></li><?php endif; ?>
                     </ul>
                     <?php if ($description): ?>
                         <div class="mova-carriere-description">
@@ -60,7 +60,7 @@ function mova_carrieres_list_shortcode( $atts ) {
                         </div>
                     <?php endif; ?>
                     <?php if ($lien_formulaire): ?>
-                        <a href="<?php echo esc_url($lien_formulaire); ?>" class="mova-carriere-btn" target="_blank" rel="noopener">Voir les détails</a>
+                        <a href="<?php echo esc_url($lien_formulaire); ?>" class="mova-carriere-btn" target="_blank" rel="noopener"><?php esc_html_e( 'Voir les détails', 'piscines-mova' ); ?></a>
                     <?php endif; ?>
                 </div>
                 <?php if (!$is_even): ?>

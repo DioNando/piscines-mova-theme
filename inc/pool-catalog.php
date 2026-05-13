@@ -148,18 +148,18 @@ function mova_pool_catalog_shortcode($atts)
     <div class="mova-pc-container">
         <aside class="mova-pc-sidebar">
             <button class="mova-pc-filter-toggle" id="mova-pc-filter-toggle">
-                <span>Filtres</span>
+                <span><?php esc_html_e( 'Filtres', 'piscines-mova' ); ?></span>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </button>
             <div class="mova-pc-sidebar-content" id="mova-pc-sidebar-content">
-                <div class="mova-pc-sidebar-title">Catégories de piscine</div>
+                <div class="mova-pc-sidebar-title"><?php esc_html_e( 'Catégories de piscine', 'piscines-mova' ); ?></div>
 
                 <div class="mova-pc-filter-group" data-filter="categorie">
                     <label class="mova-pc-checkbox">
                         <input type="checkbox" value="" checked>
-                        <span>Tous les modèles</span>
+                        <span><?php esc_html_e( 'Tous les modèles', 'piscines-mova' ); ?></span>
                     </label>
                     <?php if (! is_wp_error($filter_categories)) : ?>
                         <?php foreach ($filter_categories as $cat) : ?>
@@ -171,7 +171,7 @@ function mova_pool_catalog_shortcode($atts)
                     <?php endif; ?>
                 </div>
 
-                <div class="mova-pc-sidebar-title">Dimensions</div>
+                <div class="mova-pc-sidebar-title"><?php esc_html_e( 'Dimensions', 'piscines-mova' ); ?></div>
 
                 <div class="mova-pc-filter-group" data-filter="dimension">
                     <?php if (! is_wp_error($filter_dimensions)) : ?>
@@ -185,7 +185,7 @@ function mova_pool_catalog_shortcode($atts)
                 </div>
 
                 <?php if (! is_wp_error($filter_besoins) && ! empty($filter_besoins)) : ?>
-                <div class="mova-pc-sidebar-title">Quel est votre besoin ?</div>
+                <div class="mova-pc-sidebar-title"><?php esc_html_e( 'Quel est votre besoin ?', 'piscines-mova' ); ?></div>
 
                 <div class="mova-pc-filter-group" data-filter="besoin">
                     <?php foreach ($filter_besoins as $besoin) : ?>
@@ -204,7 +204,7 @@ function mova_pool_catalog_shortcode($atts)
             <div class="mova-pc-grid" id="mova-pc-grid"></div>
             <div class="mova-pc-load-more-wrap">
                 <button class="mova-pc-load-more" id="mova-pc-load-more" style="display:none;">
-                    Charger plus
+                    <?php esc_html_e( 'Charger plus', 'piscines-mova' ); ?>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                     </svg>

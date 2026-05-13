@@ -75,10 +75,10 @@ function mova_pool_gallery_shortcode( $atts ) {
         <!-- Viewer principal -->
         <div class="mova-pg-viewer">
             <?php if ( count( $medias ) > 1 ) : ?>
-            <button class="mova-pg-arrow mova-pg-arrow-prev" aria-label="Précédent">
+            <button class="mova-pg-arrow mova-pg-arrow-prev" aria-label="<?php esc_attr_e( 'Précédent', 'piscines-mova' ); ?>">
                 <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-            <button class="mova-pg-arrow mova-pg-arrow-next" aria-label="Suivant">
+            <button class="mova-pg-arrow mova-pg-arrow-next" aria-label="<?php esc_attr_e( 'Suivant', 'piscines-mova' ); ?>">
                 <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
             <?php endif; ?>
@@ -107,7 +107,7 @@ function mova_pool_gallery_shortcode( $atts ) {
                 <?php foreach ( $medias as $i => $media ) : ?>
                 <button class="mova-pg-thumb<?php echo $i === 0 ? ' active' : ''; ?>"
                         data-index="<?php echo $i; ?>"
-                        aria-label="Média <?php echo $i + 1; ?>">
+                        aria-label="<?php echo esc_attr( sprintf( __( 'Média %d', 'piscines-mova' ), $i + 1 ) ); ?>">
                     <?php if ( $media['type'] === 'video' ) : ?>
                         <span class="mova-pg-thumb-play">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
@@ -126,14 +126,14 @@ function mova_pool_gallery_shortcode( $atts ) {
 
     <!-- Lightbox -->
     <div class="mova-pg-lightbox" id="<?php echo esc_attr( $gallery_id ); ?>-lightbox">
-        <button class="mova-pg-lb-close" aria-label="Fermer">
+        <button class="mova-pg-lb-close" aria-label="<?php esc_attr_e( 'Fermer', 'piscines-mova' ); ?>">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
         <?php if ( count( $medias ) > 1 ) : ?>
-        <button class="mova-pg-lb-nav mova-pg-lb-prev" aria-label="Précédent">
+        <button class="mova-pg-lb-nav mova-pg-lb-prev" aria-label="<?php esc_attr_e( 'Précédent', 'piscines-mova' ); ?>">
             <svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <button class="mova-pg-lb-nav mova-pg-lb-next" aria-label="Suivant">
+        <button class="mova-pg-lb-nav mova-pg-lb-next" aria-label="<?php esc_attr_e( 'Suivant', 'piscines-mova' ); ?>">
             <svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <?php endif; ?>

@@ -34,7 +34,7 @@ function mova_dr_download_icon( $size = 14 ) {
    ----------------------------------------------- */
 function mova_dr_render_file_list( $items, $download = false ) {
     if ( empty( $items ) ) {
-        return '<p class="mova-dr-empty">Aucun fichier disponible.</p>';
+        return '<p class="mova-dr-empty">' . esc_html__( 'Aucun fichier disponible.', 'piscines-mova' ) . '</p>';
     }
 
     $html = '<ul class="mova-dr-list">';
@@ -64,7 +64,7 @@ function mova_dr_render_file_list( $items, $download = false ) {
    ----------------------------------------------- */
 function mova_dr_render_card_grid( $items, $download = false ) {
     if ( empty( $items ) ) {
-        return '<p class="mova-dr-empty">Aucun fichier disponible.</p>';
+        return '<p class="mova-dr-empty">' . esc_html__( 'Aucun fichier disponible.', 'piscines-mova' ) . '</p>';
     }
 
     $html = '<div class="mova-dr-grid">';
@@ -108,7 +108,7 @@ function mova_dealer_formulaires_shortcode( $atts ) {
     $items = get_field( 'ed_formulaires', 'option' );
 
     if ( empty( $items ) ) {
-        return '<p class="mova-dr-empty">Aucun formulaire disponible.</p>';
+        return '<p class="mova-dr-empty">' . esc_html__( 'Aucun formulaire disponible.', 'piscines-mova' ) . '</p>';
     }
 
     $form_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>';
@@ -168,7 +168,7 @@ function mova_dealer_logos_shortcode( $atts ) {
     $items = get_field( 'ed_logos', 'option' );
 
     if ( empty( $items ) ) {
-        return '<p class="mova-dr-empty">Aucun logo disponible.</p>';
+        return '<p class="mova-dr-empty">' . esc_html__( 'Aucun logo disponible.', 'piscines-mova' ) . '</p>';
     }
 
     $html = '<div class="mova-dr-grid mova-dr-grid--logos">';
@@ -211,7 +211,7 @@ function mova_dealer_images_shortcode( $atts ) {
     $items = get_field( 'ed_images', 'option' );
 
     if ( empty( $items ) ) {
-        return '<p class="mova-dr-empty">Aucune image disponible.</p>';
+        return '<p class="mova-dr-empty">' . esc_html__( 'Aucune image disponible.', 'piscines-mova' ) . '</p>';
     }
 
     $html = '<div class="mova-dr-photo-grid">';
@@ -256,7 +256,7 @@ function mova_dealer_videos_shortcode( $atts ) {
     $items = get_field( 'ed_videos', 'option' );
 
     if ( empty( $items ) ) {
-        return '<p class="mova-dr-empty">Aucune vidéo disponible.</p>';
+        return '<p class="mova-dr-empty">' . esc_html__( 'Aucune vidéo disponible.', 'piscines-mova' ) . '</p>';
     }
 
     $html = '<div class="mova-dr-photo-grid">';

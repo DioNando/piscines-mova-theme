@@ -209,7 +209,7 @@ function mova_tapis_catalog_shortcode($atts)
 
             <!-- Colonne 1 : grille pastilles -->
             <div class="mova-tc-col-swatches">
-                <h3 class="mova-tc-swatches-title">Choisissez un tapis</h3>
+                <h3 class="mova-tc-swatches-title"><?php esc_html_e( 'Choisissez un tapis', 'piscines-mova' ); ?></h3>
                 <div class="mova-tc-grid" id="mova-tc-grid">
                     <?php foreach ($tapis_list as $index => $tapis) : ?>
                         <button class="mova-tc-card"
@@ -230,7 +230,7 @@ function mova_tapis_catalog_shortcode($atts)
                     <?php endforeach; ?>
                 </div>
                 <p class="mova-tc-disclaimer">
-                    Les couleurs, motifs et positions des tapis affichés sur notre site web sont à titre indicatif. Pour une représentation plus fidèle, nous vous recommandons de vous référer aux échantillons physiques.
+                    <?php esc_html_e( 'Les couleurs, motifs et positions des tapis affichés sur notre site web sont à titre indicatif. Pour une représentation plus fidèle, nous vous recommandons de vous référer aux échantillons physiques.', 'piscines-mova' ); ?>
                 </p>
             </div>
 
@@ -239,18 +239,18 @@ function mova_tapis_catalog_shortcode($atts)
                 <div class="mova-tc-panel">
                     <h3 class="mova-tc-tapis-name" id="mova-tc-tapis-name"></h3>
                     <div class="mova-tc-section">
-                        <h4 class="mova-tc-section-title">Aperçu sur le modèle</h4>
+                        <h4 class="mova-tc-section-title"><?php esc_html_e( 'Aperçu sur le modèle', 'piscines-mova' ); ?></h4>
                         <div class="mova-tc-piscines" id="mova-tc-piscines"></div>
                     </div>
                     <!-- Couleur de la coque -->
                     <div class="mova-tc-section" id="mova-tc-section-couleurs" style="display:none">
-                        <h4 class="mova-tc-section-title">Couleur de la coque</h4>
+                        <h4 class="mova-tc-section-title"><?php esc_html_e( 'Couleur de la coque', 'piscines-mova' ); ?></h4>
                         <div class="mova-tc-swatches" id="mova-tc-couleurs"></div>
                         <p class="mova-tc-active-label" id="mova-tc-couleur-label"></p>
                     </div>
                     <!-- Zones AquaCove -->
                     <div class="mova-tc-section" id="mova-tc-section-zones" style="display:none">
-                        <h4 class="mova-tc-section-title">Zones</h4>
+                        <h4 class="mova-tc-section-title"><?php esc_html_e( 'Zones', 'piscines-mova' ); ?></h4>
                         <div id="mova-tc-zones"></div>
                     </div>
                 </div>

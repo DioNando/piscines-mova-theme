@@ -19,8 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
    ============================================= */
 function mova_section_filter_shortcode( $atts ) {
     $atts = shortcode_atts( array(
-        'options' => 'Tout afficher:all',
-        'label'   => 'Filtrer les sections',
+        'options' => __( 'Tout afficher', 'piscines-mova' ) . ':all',
+        'label'   => __( 'Filtrer les sections', 'piscines-mova' ),
         'class'   => '',
     ), $atts, 'mova_section_filter' );
 

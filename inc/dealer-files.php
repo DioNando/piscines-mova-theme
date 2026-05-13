@@ -50,7 +50,7 @@ function mova_dealer_files_shortcode( $atts ) {
     $piscines_query = new WP_Query( $query_args );
 
     if ( ! $piscines_query->have_posts() ) {
-        return '<p class="mova-df-empty">Aucun modèle disponible.</p>';
+        return '<p class="mova-df-empty">' . esc_html__( 'Aucun modèle disponible.', 'piscines-mova' ) . '</p>';
     }
 
     $piscines = $piscines_query->posts;
@@ -112,7 +112,7 @@ function mova_dealer_files_shortcode( $atts ) {
                 <div class="mova-df-group">
                     <span class="mova-df-group-label">
                         <?php echo mova_df_icon( 'pdf' ); ?>
-                        PDF
+                        <?php esc_html_e( 'PDF', 'piscines-mova' ); ?>
                     </span>
                     <ul class="mova-df-list">
                         <?php foreach ( $pdfs as $fichier ) :
@@ -134,7 +134,7 @@ function mova_dealer_files_shortcode( $atts ) {
                 <div class="mova-df-group">
                     <span class="mova-df-group-label">
                         <?php echo mova_df_icon( 'zip' ); ?>
-                        ZIP
+                        <?php esc_html_e( 'ZIP', 'piscines-mova' ); ?>
                     </span>
                     <ul class="mova-df-list">
                         <?php foreach ( $zips as $fichier ) :
@@ -156,7 +156,7 @@ function mova_dealer_files_shortcode( $atts ) {
                 <div class="mova-df-group">
                     <span class="mova-df-group-label">
                         <?php echo mova_df_icon( 'image' ); ?>
-                        Images
+                        <?php esc_html_e( 'Images', 'piscines-mova' ); ?>
                     </span>
                     <ul class="mova-df-list">
                         <?php foreach ( $images as $fichier ) :

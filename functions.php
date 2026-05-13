@@ -16,6 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'HELLO_ELEMENTOR_CHILD_VERSION', '2.0.0' );
 
+add_action( 'after_setup_theme', function () {
+	load_theme_textdomain( 'piscines-mova', get_stylesheet_directory() . '/languages' );
+} );
+
 /**
  * Load child theme scripts & styles.
  *
@@ -64,7 +68,7 @@ function mova_custom_breadcrumbs_piscines( $links ) {
         $breadcrumb_parent = array(
             array(
                 'url'  => home_url( '/modele-de-piscine/' ), // L'URL de votre page
-                'text' => 'Modèles',           // Le texte affiché dans le fil d'Ariane
+                'text' => __( 'Modèles', 'piscines-mova' ),
             )
         );
 

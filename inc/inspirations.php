@@ -135,7 +135,7 @@ function mova_inspirations_shortcode( $atts ) {
 
         <?php if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) : ?>
         <div class="mova-insp-filters">
-            <button class="mova-insp-filter active" data-slug="">Toutes</button>
+            <button class="mova-insp-filter active" data-slug=""><?php esc_html_e( 'Toutes', 'piscines-mova' ); ?></button>
             <?php foreach ( $categories as $cat ) : ?>
                 <button class="mova-insp-filter" data-slug="<?php echo esc_attr( $cat->slug ); ?>">
                     <?php echo esc_html( $cat->name ); ?>
@@ -168,8 +168,8 @@ function mova_inspirations_shortcode( $atts ) {
                          alt="<?php echo esc_attr( $legende ); ?>"
                          loading="lazy" />
                     <?php if ( $piscine_link ) : ?>
-                        <a href="<?php echo esc_url( $piscine_link ); ?>" class="mova-insp-link" aria-label="Voir le modèle <?php echo esc_attr( $piscine_name ); ?>">
-                            Voir le modèle
+                        <a href="<?php echo esc_url( $piscine_link ); ?>" class="mova-insp-link" aria-label="<?php echo esc_attr( sprintf( __( 'Voir le modèle %s', 'piscines-mova' ), $piscine_name ) ); ?>">
+                            <?php esc_html_e( 'Voir le modèle', 'piscines-mova' ); ?>
                         </a>
                     <?php endif; ?>
                     <div class="mova-insp-overlay">
@@ -188,7 +188,7 @@ function mova_inspirations_shortcode( $atts ) {
         <?php if ( $has_more ) : ?>
         <div class="mova-insp-loadmore-wrap">
             <button class="mova-insp-loadmore" id="mova-insp-loadmore">
-                Voir plus d'inspirations
+                <?php esc_html_e( "Voir plus d'inspirations", 'piscines-mova' ); ?>
             </button>
         </div>
         <?php endif; ?>
@@ -197,13 +197,13 @@ function mova_inspirations_shortcode( $atts ) {
 
     <!-- Lightbox -->
     <div class="mova-insp-lightbox" id="mova-insp-lightbox">
-        <button class="mova-insp-lightbox-close" aria-label="Fermer">
+        <button class="mova-insp-lightbox-close" aria-label="<?php esc_attr_e( 'Fermer', 'piscines-mova' ); ?>">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
-        <button class="mova-insp-lightbox-nav mova-insp-lightbox-prev" aria-label="Précédent">
+        <button class="mova-insp-lightbox-nav mova-insp-lightbox-prev" aria-label="<?php esc_attr_e( 'Précédent', 'piscines-mova' ); ?>">
             <svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <button class="mova-insp-lightbox-nav mova-insp-lightbox-next" aria-label="Suivant">
+        <button class="mova-insp-lightbox-nav mova-insp-lightbox-next" aria-label="<?php esc_attr_e( 'Suivant', 'piscines-mova' ); ?>">
             <svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="mova-insp-lightbox-content">

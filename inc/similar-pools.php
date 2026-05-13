@@ -36,7 +36,7 @@ function mova_similar_pools_shortcode( $atts ) {
 
     <section class="mova-sp">
         <div class="mova-sp-carousel-wrap">
-            <button class="mova-sp-arrow mova-sp-arrow-prev" aria-label="Précédent">
+            <button class="mova-sp-arrow mova-sp-arrow-prev" aria-label="<?php esc_attr_e( 'Précédent', 'piscines-mova' ); ?>">
                 <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
 
@@ -83,7 +83,7 @@ function mova_similar_pools_shortcode( $atts ) {
                 <?php endforeach; ?>
             </div>
 
-            <button class="mova-sp-arrow mova-sp-arrow-next" aria-label="Suivant">
+            <button class="mova-sp-arrow mova-sp-arrow-next" aria-label="<?php esc_attr_e( 'Suivant', 'piscines-mova' ); ?>">
                 <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
         </div>

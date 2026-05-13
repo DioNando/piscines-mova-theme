@@ -124,8 +124,8 @@ function mova_pool_color_catalog_shortcode( $atts ) {
 
             <!-- Colonne gauche : swatches groupées par collection -->
             <div class="mova-ccc-col-colors">
-                <h3 class="mova-ccc-section-title">Couleurs disponibles</h3>
-                <p class="mova-ccc-section-subtitle">Sélectionnez une couleur de piscine</p>
+                <h3 class="mova-ccc-section-title"><?php esc_html_e( 'Couleurs disponibles', 'piscines-mova' ); ?></h3>
+                <p class="mova-ccc-section-subtitle"><?php esc_html_e( 'Sélectionnez une couleur de piscine', 'piscines-mova' ); ?></p>
                 <div id="mova-ccc-swatches">
                     <?php foreach ( $collections as $collection ) : ?>
                         <?php if ( ! empty( $collection['enfants'] ) ) : ?>
@@ -155,14 +155,14 @@ function mova_pool_color_catalog_shortcode( $atts ) {
                     <?php endforeach; ?>
                 </div>
                 <p class="mova-ccc-color-name" id="mova-ccc-color-name"></p>
-                <p class="mova-ccc-disclaimer">Les couleurs, motifs et positions des tapis affichés sur notre site web sont à titre indicatif. Pour une représentation plus fidèle, nous vous recommandons de vous référer aux échantillons physiques.</p>
+                <p class="mova-ccc-disclaimer"><?php esc_html_e( 'Les couleurs, motifs et positions des tapis affichés sur notre site web sont à titre indicatif. Pour une représentation plus fidèle, nous vous recommandons de vous référer aux échantillons physiques.', 'piscines-mova' ); ?></p>
             </div>
 
             <!-- Colonne droite : image d'ambiance -->
             <div class="mova-ccc-col-preview">
                 <div class="mova-ccc-preview-wrap">
                     <img src="<?php echo esc_url( $first_ambiance ); ?>"
-                         alt="Aperçu d'ambiance"
+                         alt="<?php esc_attr_e( "Aperçu d'ambiance", 'piscines-mova' ); ?>"
                          id="mova-ccc-preview-img"
                          class="mova-ccc-preview-img" />
                 </div>
