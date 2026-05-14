@@ -197,6 +197,14 @@ function mova_tapis_catalog_shortcode($atts)
 
     wp_localize_script('mova-tapis-catalog-script', 'movaTapisCatalog', array(
         'tapis' => $tapis_list,
+        'i18n'  => array(
+            'zoneLabels' => array(
+                'marches'  => __( 'Marches', 'piscines-mova' ),
+                'bancs'    => __( 'Bancs', 'piscines-mova' ),
+                'terrasse' => __( 'Terrasse', 'piscines-mova' ),
+            ),
+            'toggleZone' => __( 'Activer/désactiver {zone}', 'piscines-mova' ),
+        ),
     ));
 
     // -------------------------------------------------------

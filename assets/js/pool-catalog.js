@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
         hasMore = more;
 
         // Compteur
-        countElement.textContent = `${total} modèle${total > 1 ? "s" : ""}`;
+        countElement.textContent = `${total} ${total > 1 ? movaPoolData.i18n.models : movaPoolData.i18n.model}`;
 
         // Grille
         if (!append) gridElement.innerHTML = "";
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch((err) => {
         console.error("Pool catalog AJAX error:", err);
-        if (!append) gridElement.innerHTML = '<p class="mova-pc-error">Erreur de chargement.</p>';
+        if (!append) gridElement.innerHTML = '<p class="mova-pc-error">' + movaPoolData.i18n.loadError + '</p>';
       })
       .finally(() => {
         isLoading = false;

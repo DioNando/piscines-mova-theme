@@ -42,7 +42,7 @@
     function fetchItems(replace) {
         if (loadBtn) {
             loadBtn.classList.add('loading');
-            loadBtn.textContent = 'Chargement…';
+            loadBtn.textContent = movaInspirations.i18n.loading;
         }
 
         var data = new FormData();
@@ -76,7 +76,7 @@
             if (loadBtn) {
                 if (res.data.hasMore) {
                     loadBtn.classList.remove('loading');
-                    loadBtn.textContent = 'Voir plus d\'inspirations';
+                    loadBtn.textContent = movaInspirations.i18n.loadMore;
                     loadBtn.style.display = '';
                 } else {
                     loadBtn.style.display = 'none';
@@ -94,7 +94,7 @@
         var linkHtml = '';
         if (item.piscine_link) {
             linkHtml = '<a href="' + escHtml(item.piscine_link) + '" class="mova-insp-link">' +
-                'Voir le modèle ' +
+                movaInspirations.i18n.viewModel + ' ' +
                 '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
                 '</a>';
         }

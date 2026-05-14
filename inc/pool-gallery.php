@@ -66,6 +66,12 @@ function mova_pool_gallery_shortcode( $atts ) {
     wp_enqueue_style( 'mova-pool-gallery-style', get_stylesheet_directory_uri() . '/assets/css/pool-gallery.css', array(), '1.0.0' );
     wp_enqueue_script( 'mova-pool-gallery-script', get_stylesheet_directory_uri() . '/assets/js/pool-gallery.js', array(), '1.0.0', true );
 
+    wp_localize_script( 'mova-pool-gallery-script', 'movaPoolGallery', array(
+        'i18n' => array(
+            'enlarge' => __( 'Agrandir', 'piscines-mova' ),
+        ),
+    ) );
+
     $gallery_id = 'mova-pg-' . $post_id;
 
     ob_start(); ?>

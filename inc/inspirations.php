@@ -127,6 +127,11 @@ function mova_inspirations_shortcode( $atts ) {
         'ajaxUrl' => admin_url( 'admin-ajax.php' ),
         'nonce'   => wp_create_nonce( 'mova_inspirations_nonce' ),
         'perPage' => $per_page,
+        'i18n'    => array(
+            'loading'   => __( 'Chargement…', 'piscines-mova' ),
+            'loadMore'  => __( "Voir plus d'inspirations", 'piscines-mova' ),
+            'viewModel' => __( 'Voir le modèle', 'piscines-mova' ),
+        ),
     ) );
 
     ob_start(); ?>

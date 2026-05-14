@@ -75,6 +75,22 @@ function mova_custom_store_locator_shortcode() {
     wp_localize_script( 'mova-store-locator-script', 'movaStoreData', array(
         'stores'    => $detaillants_data,
         'provinces' => $provinces_list,
+        'i18n'      => array(
+            'noDealer'        => __( 'Aucun détaillant trouvé.', 'piscines-mova' ),
+            'noDealerInZone'  => __( 'Aucun détaillant dans cette zone. Dézoomez pour en voir plus.', 'piscines-mova' ),
+            'viewProfile'     => __( 'Voir la fiche', 'piscines-mova' ),
+            'other'           => __( 'Autre', 'piscines-mova' ),
+            'locating'        => __( 'Localisation…', 'piscines-mova' ),
+            'locateMe'        => __( 'Me localiser', 'piscines-mova' ),
+            'locationError'   => __( "Impossible d'obtenir votre position.", 'piscines-mova' ),
+            'locationDenied'  => __( 'Permission de géolocalisation refusée.', 'piscines-mova' ),
+            'locationTimeout' => __( 'Délai de géolocalisation dépassé.', 'piscines-mova' ),
+            'youAreHere'      => __( 'Vous êtes ici', 'piscines-mova' ),
+            'goThere'         => __( 'Y aller', 'piscines-mova' ),
+            'directions'      => __( 'Direction', 'piscines-mova' ),
+            'website'         => __( 'Site web', 'piscines-mova' ),
+            'noNearby'        => __( 'Aucun détaillant dans un rayon de {radius} km. Augmentez le rayon de recherche.', 'piscines-mova' ),
+        ),
     ));
 
     // 5. Structure HTML affichée sur la page

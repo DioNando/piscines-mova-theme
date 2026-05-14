@@ -140,6 +140,11 @@ function mova_pool_catalog_shortcode($atts)
         'ajaxUrl' => admin_url('admin-ajax.php'),
         'nonce'   => wp_create_nonce('mova_pool_catalog_nonce'),
         'perPage' => $per_page,
+        'i18n'    => array(
+            'model'     => __( 'modèle', 'piscines-mova' ),
+            'models'    => __( 'modèles', 'piscines-mova' ),
+            'loadError' => __( 'Erreur de chargement.', 'piscines-mova' ),
+        ),
     ));
 
     // 4. HTML

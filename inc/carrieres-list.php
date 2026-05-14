@@ -15,6 +15,7 @@ function mova_carrieres_list_shortcode( $atts ) {
         'meta_key'       => 'ordre_affichage',
         'orderby'        => array('meta_value_num' => 'ASC', 'date' => 'DESC'),
         'order'          => 'ASC',
+        'suppress_filters' => false,
         'meta_query'     => array([
             'key'     => 'poste_actif',
             'value'   => '1',

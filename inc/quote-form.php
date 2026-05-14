@@ -116,6 +116,16 @@ function mova_quote_form_shortcode($atts)
     wp_localize_script('mova-quote-form-script', 'movaQuoteForm', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
         'nonce'   => wp_create_nonce('mova_quote_form_nonce'),
+        'i18n'    => array(
+            'genericError'    => __( 'Une erreur est survenue.', 'piscines-mova' ),
+            'retryError'      => __( 'Une erreur est survenue. Veuillez réessayer.', 'piscines-mova' ),
+            'connectionError' => __( 'Erreur de connexion. Veuillez vérifier votre connexion Internet.', 'piscines-mova' ),
+            'prenomRequired'  => __( 'Le prénom est requis.', 'piscines-mova' ),
+            'nomRequired'     => __( 'Le nom est requis.', 'piscines-mova' ),
+            'emailInvalid'    => __( 'Veuillez entrer une adresse courriel valide.', 'piscines-mova' ),
+            'telRequired'     => __( 'Le téléphone est requis.', 'piscines-mova' ),
+            'accordRequired'  => __( 'Vous devez accepter le partage de vos coordonnées.', 'piscines-mova' ),
+        ),
     ));
 
     ob_start(); ?>

@@ -15,7 +15,7 @@
     var zonesSection    = document.getElementById('mova-tc-section-zones');
     var zonesWrap       = document.getElementById('mova-tc-zones');
 
-    var zoneLabels = { marches: 'Marches', bancs: 'Bancs', terrasse: 'Terrasse' };
+    var zoneLabels = movaTapisCatalog.i18n.zoneLabels;
 
     if (!grid || !layersWrap || tapisList.length === 0) return;
 
@@ -214,7 +214,7 @@
             toggle.className = 'mova-tc-zone-toggle is-active';
             toggle.dataset.zone = zone;
             toggle.setAttribute('aria-pressed', 'true');
-            toggle.title = 'Activer/désactiver ' + label;
+            toggle.title = movaTapisCatalog.i18n.toggleZone.replace('{zone}', label);
 
             var icon = document.createElement('span');
             icon.className = 'mova-tc-zone-toggle-icon';

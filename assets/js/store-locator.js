@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (storesToRender.length === 0) {
       listElement.innerHTML =
-        '<div style="padding:20px; text-align:center; color:#666;">Aucun détaillant trouvé.</div>';
+        '<div style="padding:20px; text-align:center; color:#666;">' + movaStoreData.i18n.noDealer + '</div>';
       return;
     }
 
@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <h5>${store.nom}</h5>
             <p>${store.adresse}<br>${store.ville}, ${store.cp}</p>
             ${store.tel ? `<p style="font-weight:bold; margin-top:-5px;">${store.tel}</p>` : ""}
-            <a href="https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}" target="_blank" class="btn-itineraire">Y aller</a>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}" target="_blank" class="btn-itineraire">${movaStoreData.i18n.goThere}</a>
         </div>
       `;
 
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (visibleStores.length === 0) {
       const empty = document.createElement("div");
       empty.style.cssText = "padding:20px; text-align:center; color:#666;";
-      empty.textContent = "Aucun détaillant dans cette zone. Dézoomez pour en voir plus.";
+      empty.textContent = movaStoreData.i18n.noDealerInZone;
       fragment.appendChild(empty);
       listElement.replaceChildren(fragment);
       return;
@@ -214,10 +214,10 @@ document.addEventListener("DOMContentLoaded", function () {
         <p> ${store.adresse}, ${store.ville}</p>
         ${store.tel ? `<p class="store-tel"> ${store.tel}</p>` : ""}
         ${store.email ? `<p class="store-email"><a href="mailto:${store.email}">${store.email}</a></p>` : ""}
-        <p class="store-direction"><a href="https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}" target="_blank">Direction</a></p>
-        ${store.site ? `<p class="store-site"><a href="${store.site}" target="_blank">Site web</a></p>` : ""}
+        <p class="store-direction"><a href="https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}" target="_blank">${movaStoreData.i18n.directions}</a></p>
+        ${store.site ? `<p class="store-site"><a href="${store.site}" target="_blank">${movaStoreData.i18n.website}</a></p>` : ""}
         ${store.distance != null ? `<p class="store-distance">${store.distance.toFixed(1)} km</p>` : ""}
-        ${store.permalink ? `<a href="${store.permalink}" class="store-detail-btn" onclick="event.stopPropagation();">Voir la fiche <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>` : ""}
+        ${store.permalink ? `<a href="${store.permalink}" class="store-detail-btn" onclick="event.stopPropagation();">${movaStoreData.i18n.viewProfile} <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>` : ""}
       `;
 
       listItem.addEventListener("click", () => {
@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       const grouped = {};
       visibleStores.forEach((store) => {
-        const prov = store.province || "Autre";
+        const prov = store.province || movaStoreData.i18n.other;
         if (!grouped[prov]) grouped[prov] = [];
         grouped[prov].push(store);
       });
@@ -402,7 +402,7 @@ document.addEventListener("DOMContentLoaded", function () {
       weight: 3,
     })
       .addTo(map)
-      .bindPopup("<strong>Vous êtes ici</strong>");
+      .bindPopup("<strong>" + movaStoreData.i18n.youAreHere + "</strong>");
 
     // Afficher les résultats ou un message si aucun résultat dans le rayon
     if (inRadius.length > 0) {
@@ -412,7 +412,7 @@ document.addEventListener("DOMContentLoaded", function () {
       currentMarkers = [];
       storeMarkerMap.clear();
       lastFilteredStores = [];
-      listElement.innerHTML = `<div style="padding:20px; text-align:center; color:#666;">Aucun détaillant dans un rayon de ${radius} km. Augmentez le rayon de recherche.</div>`;
+      listElement.innerHTML = `<div style="padding:20px; text-align:center; color:#666;">${movaStoreData.i18n.noNearby.replace('{radius}', radius)}</div>`;
     }
 
     skipMoveEnd = true;
@@ -437,7 +437,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const label = geoBtn.querySelector(".mova-sl-geolocate-label");
         geoBtn.disabled = true;
         geoBtn.classList.add("loading");
-        if (label) label.textContent = "Localisation…";
+        if (label) label.textContent = movaStoreData.i18n.locating;
 
         navigator.geolocation.getCurrentPosition(
           (pos) => {
@@ -452,18 +452,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
             geoBtn.disabled = false;
             geoBtn.classList.remove("loading");
-            if (label) label.textContent = "Me localiser";
+            if (label) label.textContent = movaStoreData.i18n.locateMe;
           },
           (err) => {
-            let msg = "Impossible d'obtenir votre position.";
-            if (err.code === 1) msg = "Permission de géolocalisation refusée.";
-            else if (err.code === 3) msg = "Délai de géolocalisation dépassé.";
+            let msg = movaStoreData.i18n.locationError;
+            if (err.code === 1) msg = movaStoreData.i18n.locationDenied;
+            else if (err.code === 3) msg = movaStoreData.i18n.locationTimeout;
 
             listElement.innerHTML = `<div style="padding:20px; text-align:center; color:#c0392b;">${msg}</div>`;
 
             geoBtn.disabled = false;
             geoBtn.classList.remove("loading");
-            if (label) label.textContent = "Me localiser";
+            if (label) label.textContent = movaStoreData.i18n.locateMe;
           },
           { timeout: 10000, maximumAge: 60000 }
         );

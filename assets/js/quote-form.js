@@ -40,17 +40,17 @@
                     showMessage('success', res.data.message);
                     form.reset();
                 } else {
-                    showMessage('error', res.data.message || 'Une erreur est survenue.');
+                    showMessage('error', res.data.message || movaQuoteForm.i18n.genericError);
                 }
             } catch (err) {
-                showMessage('error', 'Une erreur est survenue. Veuillez réessayer.');
+                showMessage('error', movaQuoteForm.i18n.retryError);
             }
         };
 
         xhr.onerror = function () {
             btn.disabled = false;
             btn.classList.remove('mova-qf-loading');
-            showMessage('error', 'Erreur de connexion. Veuillez vérifier votre connexion Internet.');
+            showMessage('error', movaQuoteForm.i18n.connectionError);
         };
 
         xhr.send(data);
@@ -69,23 +69,23 @@
         var accord   = form.querySelector('[name="accord_coordonnees"]');
 
         if (!prenom.value.trim()) {
-            errors.push('Le prénom est requis.');
+            errors.push(movaQuoteForm.i18n.prenomRequired);
             prenom.classList.add('mova-qf-error');
         }
         if (!nom.value.trim()) {
-            errors.push('Le nom est requis.');
+            errors.push(movaQuoteForm.i18n.nomRequired);
             nom.classList.add('mova-qf-error');
         }
         if (!courriel.value.trim() || !isValidEmail(courriel.value.trim())) {
-            errors.push('Veuillez entrer une adresse courriel valide.');
+            errors.push(movaQuoteForm.i18n.emailInvalid);
             courriel.classList.add('mova-qf-error');
         }
         if (!tel.value.trim()) {
-            errors.push('Le téléphone est requis.');
+            errors.push(movaQuoteForm.i18n.telRequired);
             tel.classList.add('mova-qf-error');
         }
         if (!accord.checked) {
-            errors.push('Vous devez accepter le partage de vos coordonnées.');
+            errors.push(movaQuoteForm.i18n.accordRequired);
         }
 
         return errors;
