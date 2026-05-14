@@ -1,0 +1,51 @@
+/* =========================================================
+   Language Switcher — Mova
+   Affiche uniquement la langue inactive (bascule vers l'autre)
+   ========================================================= */
+
+/* Masquer la langue active : seule l'autre langue reste visible */
+.mova-lang-switcher--list .mova-lang-switcher__item--active {
+  display: none;
+}
+
+/* Conteneur */
+.mova-lang-switcher--list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Lien */
+.mova-lang-switcher--list .mova-lang-switcher__item a {
+  font-family: "AcuminPro", sans-serif !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: white;
+  transition: opacity 0.2s ease;
+}
+
+.mova-lang-switcher--list .mova-lang-switcher__item a:hover {
+  opacity: 0.7;
+  color: white;
+}
+
+/* Dropdown — masquer l'option active */
+.mova-lang-switcher--dropdown select {
+  border: 1px solid white;
+  background: transparent;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  cursor: pointer;
+}

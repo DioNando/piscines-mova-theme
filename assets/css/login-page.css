@@ -4,6 +4,8 @@
 
 /* ── Page ────────────────────────────────────────────────────── */
 body.login {
+  /* background: url("../images/piscines-mova-cover.webp") no-repeat center center fixed;
+  background-size: cover; */
   background: #f4f7f8;
   font-family: "AcuminPro", sans-serif;
 }

@@ -105,6 +105,7 @@ require_once get_stylesheet_directory() . '/inc/login-page.php';
 require_once get_stylesheet_directory() . '/inc/dealer-space-filter.php';
 require_once get_stylesheet_directory() . '/inc/dealer-files.php';
 require_once get_stylesheet_directory() . '/inc/dealer-resources.php';
+require_once get_stylesheet_directory() . '/inc/language-switcher.php';
 
 // Page d'options ACF — Espace Détaillant
 if ( function_exists( 'acf_add_options_page' ) ) {
